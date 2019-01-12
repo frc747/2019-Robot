@@ -44,11 +44,14 @@ public class DriveCommand extends Command {
     right = -OI.driverController.getRawAxis(5);
 
 
-    if(Math.abs(left) < .1) {
-      left = 0;
-    }
+    //added controller threshhold as variable so we don't get different threshholds per joystick
+    double controllerThreshhold = 0.1;
     
-    if(Math.abs(right) < .1) {
+    if(Math.abs(left) < controllerThreshhold) {
+       left = 0;
+    }
+       
+    if(Math.abs(right) < controllerThreshhold) {
       right = 0;
     }
 
