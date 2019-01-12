@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
   
+  int GEAR_RATIO = 1;
+  int TICKS_PER_REV = 4096;
 
   // Front is the follow motor, and it is based on following the primary motor of its side.
   public CANSparkMax leftDrivePrimary = new CANSparkMax(1, MotorType.kBrushless),
@@ -39,4 +41,15 @@ public class DriveSubsystem extends Subsystem {
     rightDrivePrimary.set(right);
   }
 
+  public double getLeftTicks() {
+    return leftDrivePrimary.getEncoder().getPosition();
+  }
+
+  public double getRightTicks() {
+    return rightDrivePrimary.getEncoder().getPosition();
+  }
+
+  public double inchesToTicks(int INCHES) {
+    return TICKS_PER_REV*INCHES*GEAR_RATIO;
+  }
 }
