@@ -26,7 +26,7 @@ public class DriveSubsystem extends Subsystem {
                      rightDriveFront = new CANSparkMax(9, MotorType.kBrushless),
                      rightDrivePrimary = new CANSparkMax(10, MotorType.kBrushless);
 
-
+  
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new DriveCommand());    

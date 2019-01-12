@@ -46,7 +46,7 @@ public class DriveCommand extends Command {
 
     if(Math.abs(left) < .1) {
       left = 0;
-    }
+    } 
     
     if(Math.abs(right) < .1) {
       right = 0;
