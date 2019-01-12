@@ -20,6 +20,8 @@ public class OI {
   public OI() {
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
+
+   // Button B_BUTTON = new JoystickButton;
   }
 
   // Anything to be updated should be done in here
