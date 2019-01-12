@@ -20,7 +20,18 @@ public class RobotMap {
   }
   public static enum Controller {
     DRIVER_CONTROLLER(0),
-    OPERATOR_CONTROLLER(1);
+    OPERATOR_CONTROLLER(1),
+    BUTTON_A(1),
+    BUTTON_B(2),
+    BUTTON_X(3),
+    BUTTON_Y(4),
+    BUTTON_LB(5),
+    BUTTON_RB(6),
+    BUTTON_BACK(7),
+    BUTTON_START(8),
+    STICK_LEFT(9),
+    STICK_RIGHT(10);
+    
 
     private int value;
 
