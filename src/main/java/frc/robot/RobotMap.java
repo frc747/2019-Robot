@@ -20,10 +20,6 @@ public class RobotMap {
   }
   public static enum Controller {
     DRIVER_CONTROLLER(0),
-<<<<<<< HEAD
-    OPERATOR_CONTROLLER(1);
-
-=======
     OPERATOR_CONTROLLER(1),
     BUTTON_A(1),
     BUTTON_B(2),
@@ -36,7 +32,6 @@ public class RobotMap {
     STICK_LEFT(9),
     STICK_RIGHT(10);
     
->>>>>>> parent of 7bc598d... Revert "K0.1.2.1 Minor Fixes"
     private int value;
 
     private Controller(int value) {
