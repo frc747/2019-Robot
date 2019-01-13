@@ -32,6 +32,7 @@ public class RobotMap {
     STICK_LEFT(9),
     STICK_RIGHT(10);
     
+
     private int value;
 
     private Controller(int value) {
