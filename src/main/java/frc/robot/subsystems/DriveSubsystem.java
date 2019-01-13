@@ -9,6 +9,9 @@ package frc.robot.subsystems;
 
 import frc.robot.commands.DriveCommand;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANPIDController;
+
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,6 +25,8 @@ public class DriveSubsystem extends Subsystem {
   int GEAR_RATIO = 1;
   int TICKS_PER_REV = 4096;
 
+  int timeoutMs = 10;
+
   // Front is the follow motor, and it is based on following the primary motor of its side.
   public CANSparkMax leftDrivePrimary = new CANSparkMax(1, MotorType.kBrushless),
                      leftDriveFront = new CANSparkMax(2, MotorType.kBrushless),
@@ -29,11 +34,21 @@ public class DriveSubsystem extends Subsystem {
                      rightDrivePrimary = new CANSparkMax(10, MotorType.kBrushless);
 
   
+  public CANPIDController leftPID = new CANPIDController(leftDrivePrimary);
+  public CANPIDController rightPID = new CANPIDController(rightDrivePrimary);
+
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new DriveCommand());    
+    setDefaultCommand(new DriveCommand());
+
     leftDriveFront.follow(leftDrivePrimary);
     rightDriveFront.follow(rightDrivePrimary);
+  
+    leftDrivePrimary.setCANTimeout(timeoutMs);
+    rightDrivePrimary.setCANTimeout(timeoutMs);
+    leftDrivePrimary.setMotorType(MotorType.kBrushless);
+    rightDrivePrimary.setMotorType(MotorType.kBrushless);
+
   }
 
   public void set(double left, double right) {
@@ -49,7 +64,19 @@ public class DriveSubsystem extends Subsystem {
     return rightDrivePrimary.getEncoder().getPosition();
   }
 
-  public double inchesToTicks(int INCHES) {
+  public double inchesToTicks(double INCHES) {
     return TICKS_PER_REV*INCHES*GEAR_RATIO;
+  }
+
+
+  // Takes an input of ticks
+  public void setPID(double left, double right) {
+    leftPID.setReference(left, ControlType.kPosition);
+    rightPID.setReference(right, ControlType.kPosition);
+  }
+
+  public void stop() {
+    leftDrivePrimary.set(0);
+    rightDrivePrimary.set(0);
   }
 }
