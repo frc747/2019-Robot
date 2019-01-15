@@ -43,12 +43,14 @@ public class DriveCommand extends Command {
     left = OI.driverController.getRawAxis(1);
     right = -OI.driverController.getRawAxis(5);
 
+    //Threeshhold for the controllers. Set as a variable to make sure they are consistent
+    double controllerThreshold = 0.1;
 
-    if(Math.abs(left) < .1) {
+    if(Math.abs(left) < controllerThreshold) {
       left = 0;
     } 
     
-    if(Math.abs(right) < .1) {
+    if(Math.abs(right) < controllerThreshold) {
       right = 0;
     }
 
