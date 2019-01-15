@@ -11,6 +11,7 @@ import frc.robot.commands.DriveCommand;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANPIDController;
+import com.revrobotics.CANEncoder;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -22,8 +23,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
   
-  int GEAR_RATIO = 1;
-  int TICKS_PER_REV = 4096;
+  double INCHES_PER_REV = 2.8676;
+  double GEAR_RATIO = 6.57;
+  double circumfrence = 18.84;
 
   int timeoutMs = 10;
 
@@ -36,6 +38,10 @@ public class DriveSubsystem extends Subsystem {
   
   public CANPIDController leftPID = new CANPIDController(leftDrivePrimary);
   public CANPIDController rightPID = new CANPIDController(rightDrivePrimary);
+
+  public CANEncoder leftEncoder = new CANEncoder(leftDrivePrimary);
+  public CANEncoder rightEncoder = new CANEncoder(rightDrivePrimary);
+
 
   @Override
   public void initDefaultCommand() {
@@ -56,18 +62,17 @@ public class DriveSubsystem extends Subsystem {
     rightDrivePrimary.set(right);
   }
 
-  public double getLeftTicks() {
-    return leftDrivePrimary.getEncoder().getPosition();
+  public double getLeftRevs() {
+    return leftEncoder.getPosition();
   }
 
-  public double getRightTicks() {
-    return rightDrivePrimary.getEncoder().getPosition();
+  public double getRightRevs() {
+    return rightEncoder.getPosition();
   }
 
-  public double inchesToTicks(double INCHES) {
-    return TICKS_PER_REV*INCHES*GEAR_RATIO;
+  public double inchesToRevs(double INCHES) {
+    return INCHES/INCHES_PER_REV;
   }
-
 
   // Takes an input of ticks
   public void setPID(double left, double right) {
