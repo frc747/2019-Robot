@@ -23,9 +23,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
   
-  double INCHES_PER_REV = 2.8676;
-  double GEAR_RATIO = 6.57;
+  double GEAR_RATIO = 4.821;//6.57992
   double circumfrence = 18.84;
+  double INCHES_PER_REV = circumfrence/GEAR_RATIO;
 
   int timeoutMs = 10;
 
