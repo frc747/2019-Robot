@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PIDDriveInches extends Command {
 
-  private static final double p = 0.5;
-  private static final double i = 0.0;
-  private static final double d = 0.0;
+  private static final double p = 0.5; // .5
+  private static final double i = 0.0; // .0
+  private static final double d = 0.0; // .0
 
   double inch_goal;
   double leftGoal, rightGoal;
@@ -24,7 +24,7 @@ public class PIDDriveInches extends Command {
   double nominalMin = -1;
   double nominalMax = 1;
 
-  double stop_threshold_inches = 0;
+  double stop_threshold_inches = 2;
   double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.inchesToRevs(stop_threshold_inches);
   double count_threshold = 5;
 

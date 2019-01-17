@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,8 +36,31 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+
+  private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
+    
+  public static double getNavXAngle() {
+    return NAV_X.getYaw();
+  }
+  
+  public static double getNavXAngleRadians() {
+    return Math.toRadians(getNavXAngle());
+  }
+  
+  public static void resetNavXAngle() {
+    NAV_X.zeroYaw();
+    try {
+          Thread.sleep(100);
+      } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
+  }
+
   @Override
   public void robotInit() {
+    UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
+    ucamera.setResolution(180, 240);
     if(m_oi == null) {
       m_oi = new OI();
     }
