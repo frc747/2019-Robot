@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
   
-  double GEAR_RATIO = 4.821;//6.57992
+  double GEAR_RATIO = 4.75;//4.821;//6.57992
   double circumfrence = 18.84;
   double INCHES_PER_REV = circumfrence/GEAR_RATIO;
 

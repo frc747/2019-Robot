@@ -11,6 +11,7 @@ import java.lang.SuppressWarnings;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.autonomous.SnakeMove;
 import frc.robot.commands.PIDDriveInches;
 import frc.robot.commands.PIDDriveRotate;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,7 +31,7 @@ public class OI {
 
     A_BUTTON.toggleWhenPressed(new PIDDriveRotate(90));
     B_BUTTON.toggleWhenPressed(new PIDDriveInches(50));
-    Y_BUTTON.toggleWhenPressed(new PIDDriveRotate(-90));
+    Y_BUTTON.toggleWhenPressed(new SnakeMove());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
   }
