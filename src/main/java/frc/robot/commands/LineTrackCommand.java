@@ -11,9 +11,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.OI;
+
 public class LineTrackCommand extends Command {
 
 int timeoutMs = 10;
+
+double speed = 0.25;
+
+double leftValue = 0;
+double rightValue = 0;
 
   public LineTrackCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
@@ -27,12 +34,18 @@ int timeoutMs = 10;
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-    
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+
+    leftValue = (speed) + (OI.x/33);
+    rightValue = -((speed) + (OI.x/33));
+
+    Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
