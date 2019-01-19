@@ -27,6 +27,9 @@ public class DriveSubsystem extends Subsystem {
   double circumfrence = 18.84;
   double INCHES_PER_REV = circumfrence/GEAR_RATIO;
 
+  public boolean isDone1 = true;
+  public boolean isClimbed = false;
+
   int timeoutMs = 10;
 
   // Front is the follow motor, and it is based on following the primary motor of its side.
@@ -35,12 +38,15 @@ public class DriveSubsystem extends Subsystem {
                      rightDriveFront = new CANSparkMax(9, MotorType.kBrushless),
                      rightDrivePrimary = new CANSparkMax(10, MotorType.kBrushless);
 
+  public CANSparkMax climb = new CANSparkMax(20, MotorType.kBrushless);
   
   public CANPIDController leftPID = new CANPIDController(leftDrivePrimary);
   public CANPIDController rightPID = new CANPIDController(rightDrivePrimary);
+  public CANPIDController climbPID = new CANPIDController(climb);
 
   public CANEncoder leftEncoder = new CANEncoder(leftDrivePrimary);
   public CANEncoder rightEncoder = new CANEncoder(rightDrivePrimary);
+  public CANEncoder climbEncoder = new CANEncoder(climb);
 
 
   @Override
@@ -70,6 +76,9 @@ public class DriveSubsystem extends Subsystem {
     return rightEncoder.getPosition();
   }
 
+  public double getClimbRevs() {
+    return climbEncoder.getPosition();
+  }
   public double inchesToRevs(double INCHES) {
     return INCHES/INCHES_PER_REV;
   }
@@ -80,6 +89,9 @@ public class DriveSubsystem extends Subsystem {
     rightPID.setReference(right, ControlType.kPosition);
   }
 
+  public void setClimbPID(double goal) {
+    climbPID.setReference(goal, ControlType.kPosition);
+  }
   public void stop() {
     leftDrivePrimary.set(0);
     rightDrivePrimary.set(0);

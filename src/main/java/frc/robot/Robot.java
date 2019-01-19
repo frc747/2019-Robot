@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.AutomatedClimb;
+import frc.robot.commands.AutomatedClimb2;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
@@ -30,6 +32,9 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
 
   Command m_autonomousCommand;
+  Command climbUp = new AutomatedClimb(128);
+  Command climbDown = new AutomatedClimb2(-128);
+
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
@@ -148,6 +153,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    // if(DRIVE_SUBSYSTEM.isClimbed && DRIVE_SUBSYSTEM.isDone1) {
+    //   if(climbUp.isRunning()) {
+    //     climbUp.cancel();
+    //   }
+    //   climbDown.start();
+    // } else if(DRIVE_SUBSYSTEM.isDone1 && !DRIVE_SUBSYSTEM.isClimbed){
+    //   if(climbDown.isRunning()) {
+    //     climbDown.cancel();
+    //   }
+    //   climbUp.start();
+    // }
   }
 
   /**

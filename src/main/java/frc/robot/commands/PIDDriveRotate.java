@@ -39,7 +39,7 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
         
       // resets the navX angle back to 0, used at initialization of command.
         Robot.resetNavXAngle();
-        
+
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
         Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
