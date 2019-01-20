@@ -42,8 +42,8 @@ double rightValue = 0;
   protected void execute() {
 
 
-    leftValue = (speed) + (OI.x/33);
-    rightValue = -((speed) + (OI.x/33));
+    leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/11);
+    rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/11));
 
     Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }
