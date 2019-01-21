@@ -68,6 +68,10 @@ public class DriveSubsystem extends Subsystem {
     rightDrivePrimary.set(right);
   }
 
+  public void setClimb(double left) {
+    climb.set(left);
+  }
+
   public double getLeftRevs() {
     return leftEncoder.getPosition();
   }

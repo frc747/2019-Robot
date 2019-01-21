@@ -153,17 +153,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    // if(DRIVE_SUBSYSTEM.isClimbed && DRIVE_SUBSYSTEM.isDone1) {
-    //   if(climbUp.isRunning()) {
+    //  if(DRIVE_SUBSYSTEM.isClimbed && DRIVE_SUBSYSTEM.isDone1) {
+    //    if(climbUp.isRunning()) {
     //     climbUp.cancel();
-    //   }
-    //   climbDown.start();
-    // } else if(DRIVE_SUBSYSTEM.isDone1 && !DRIVE_SUBSYSTEM.isClimbed){
-    //   if(climbDown.isRunning()) {
-    //     climbDown.cancel();
-    //   }
-    //   climbUp.start();
-    // }
+    //    }
+    //    climbDown.start();
+    //  } else if(DRIVE_SUBSYSTEM.isDone1 && !DRIVE_SUBSYSTEM.isClimbed){
+    //    if(climbDown.isRunning()) {
+    //      climbDown.cancel();
+    //    }
+    //    climbUp.start();
+    //  }
   }
 
   /**

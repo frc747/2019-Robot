@@ -8,48 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.OI;
 
-public class LineTrackCommand extends Command {
-
-int timeoutMs = 10;
-
-double speed = 0.25;
-
-double leftValue = 0;
-double rightValue = 0;
-
-  public LineTrackCommand() {
-    requires(Robot.DRIVE_SUBSYSTEM);
+public class SwapPipelines extends Command {
+  public SwapPipelines() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    System.out.println("line");
-
-    OI.table.getEntry("pipeline").setDouble(0.0);
-
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-
+    OI.table.getEntry("pipeline").setDouble(1.0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-
-    leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/11);
-    rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/11));
-
-    Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -62,7 +37,6 @@ double rightValue = 0;
   @Override
   protected void end() {
     OI.table.getEntry("pipeline").setDouble(0.0);
-    Robot.DRIVE_SUBSYSTEM.stop();
   }
 
   // Called when another command which requires one or more of the same

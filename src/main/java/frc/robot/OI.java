@@ -40,7 +40,8 @@ public class OI {
   public OI() {
 
     A_BUTTON.toggleWhenPressed(new PIDDriveRotate(90));
-    B_BUTTON.toggleWhenPressed(new PIDDriveInches(50));
+    B_BUTTON.whileHeld(new CargoTrackCommand());
+    //B_BUTTON.whileHeld(new CargoTrackCommand());
     Y_BUTTON.whileHeld(new LineTrackCommand());
     
     // Ignore this error, no known conflict
@@ -50,11 +51,12 @@ public class OI {
   // Anything to be updated should be done in here
   public void updateOI() {
 
+    //table = NetworkTableInstance.getDefault().getTable("limelight");
     table = NetworkTableInstance.getDefault().getTable("limelight");
     x = table.getEntry("tx").getDouble(0);
     y = table.getEntry("ty").getDouble(0);
     area = table.getEntry("ta").getDouble(0);
-
+    
     SmartDashboard.putNumber("x value: ", x);
     SmartDashboard.putNumber("y value: ", y);
     SmartDashboard.putNumber("area value: ", area);

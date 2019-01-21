@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.OI;
 
-public class LineTrackCommand extends Command {
+public class CargoTrackCommand extends Command {
 
 int timeoutMs = 10;
 
@@ -22,17 +22,16 @@ double speed = 0.25;
 double leftValue = 0;
 double rightValue = 0;
 
-  public LineTrackCommand() {
+  public CargoTrackCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    System.out.println("line");
-
-    OI.table.getEntry("pipeline").setDouble(0.0);
+    System.out.println("cargo");
+    
+    OI.table.getEntry("pipeline").setDouble(1.0);
 
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
@@ -45,9 +44,14 @@ double rightValue = 0;
   @Override
   protected void execute() {
 
-
-    leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/11);
-    rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/11));
+    if(OI.area != 0) {
+      leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/5);
+      rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/5));
+    } else {
+      leftValue = 0;
+      rightValue = 0;
+    }
+    
 
     Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }
