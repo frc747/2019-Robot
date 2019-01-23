@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -18,6 +19,7 @@ public class LineTrackCommand extends Command {
 int timeoutMs = 10;
 
 double speed = 0.25;
+double rampDown = 1;
 
 double leftValue = 0;
 double rightValue = 0;
@@ -29,6 +31,8 @@ double rightValue = 0;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+    rampDown = 1;
 
     System.out.println("line");
 
@@ -45,9 +49,18 @@ double rightValue = 0;
   @Override
   protected void execute() {
 
+    SmartDashboard.putNumber("rampdown", rampDown);
 
-    leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/11);
-    rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/11));
+    if(rampDown > .1) {
+      rampDown -= .0065;
+    }
+
+    if(OI.area > 50) {
+      rampDown = .10;
+    }
+
+    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/11))*rampDown;
+    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/11)))*rampDown;
 
     Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }

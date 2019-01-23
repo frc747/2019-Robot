@@ -10,14 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.*;
 import frc.robot.Robot;
 
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class PIDDriveInches extends Command {
+public class PIDDriveInchesLeft extends Command {
 
   private static final double p = 0.5; // .5
-  private static final double i = 0.00001; // .0
+  private static final double i = 0.0; // .0
   private static final double d = 1.0; // .0
 
   double inch_goal;
@@ -26,9 +25,9 @@ public class PIDDriveInches extends Command {
   double nominalMin = -1;
   double nominalMax = 1;
 
-  double stop_threshold_inches = 4;
+  double stop_threshold_inches = 3;
   double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.inchesToRevs(stop_threshold_inches);
-  double count_threshold = 5;
+  double count_threshold = 25;
 
   // double distanceLeft;
   // double distanceRight;
@@ -36,8 +35,7 @@ public class PIDDriveInches extends Command {
   int timeoutMs = 10;
 
   double onTargetCount;
-  public PIDDriveInches(double inches) {
-    requires(Robot.DRIVE_SUBSYSTEM);
+  public PIDDriveInchesLeft(double inches) {
     inch_goal = inches;
 
   }
@@ -46,33 +44,19 @@ public class PIDDriveInches extends Command {
   @Override
   protected void initialize() {
 
-
-    Robot.DRIVE_SUBSYSTEM.leftPID = Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getPIDController();
-    Robot.DRIVE_SUBSYSTEM.rightPID = Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getPIDController();
-
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
 
     Robot.DRIVE_SUBSYSTEM.leftPID.setOutputRange(nominalMin, nominalMax);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setOutputRange(nominalMin, nominalMax);
 
     Robot.DRIVE_SUBSYSTEM.leftPID.setP(p);
     Robot.DRIVE_SUBSYSTEM.leftPID.setI(i);
     Robot.DRIVE_SUBSYSTEM.leftPID.setD(d);
     Robot.DRIVE_SUBSYSTEM.leftPID.setFF(0);
 
-    Robot.DRIVE_SUBSYSTEM.rightPID.setP(p);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setI(i);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setD(d);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setFF(0);
-
     Robot.DRIVE_SUBSYSTEM.leftDriveFront.follow(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary);
-    Robot.DRIVE_SUBSYSTEM.rightDriveFront.follow(Robot.DRIVE_SUBSYSTEM.rightDrivePrimary);
     
     leftGoal = -Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
-    rightGoal = Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
 
 
 
@@ -81,8 +65,7 @@ public class PIDDriveInches extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.get());
-    Robot.DRIVE_SUBSYSTEM.setPID(leftGoal, rightGoal);
+    Robot.DRIVE_SUBSYSTEM.setPIDLeft(leftGoal);
 
 
     //distanceLeft = Robot.DRIVE_SUBSYSTEM.ticksToRevs(Robot.DRIVE_SUBSYSTEM.getLeftTicks()-left_start_ticks);
@@ -94,7 +77,7 @@ public class PIDDriveInches extends Command {
 
 
 
-    SmartDashboard.putNumber("goal to travel to", leftGoal);
+    SmartDashboard.putNumber("goal to travel to left", leftGoal);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -110,8 +93,7 @@ public class PIDDriveInches extends Command {
     //   return false;
     // }
 
-    if((Robot.DRIVE_SUBSYSTEM.getLeftRevs() < leftGoal + stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getLeftRevs() > leftGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() > rightGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() < rightGoal + stop_threshold_revs)) { //&& Robot.DRIVE_SUBSYSTEM.getRightTicks() > 100) {
-      System.out.println("ON COUNT ++");
+    if((Robot.DRIVE_SUBSYSTEM.getLeftRevs() < leftGoal + stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getLeftRevs() > leftGoal - stop_threshold_revs)) {
       onTargetCount++;
     } else {
       onTargetCount = 0;
@@ -124,9 +106,7 @@ public class PIDDriveInches extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("IS FINSIHED TRUE");
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.stopMotor();
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.stopMotor();
   }
 
   // Called when another command which requires one or more of the same

@@ -7,66 +7,56 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-import com.revrobotics.*;
+public class PIDDriveRotateSpark extends Command {
 
-public class DriveCommand extends Command {
+  double p = 1, i, d, output;
 
-  int timeoutMs = 10;
+  double goal, threshold = 2.5;
 
-  double left;
-  double right;
+  double onTargetCount = 0;
 
-  public DriveCommand() {
+  double lastError = 0, error = 0;
+
+  double errorSlope;
+
+  public PIDDriveRotateSpark(double angle) {
     requires(Robot.DRIVE_SUBSYSTEM);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    goal = angle;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.stopMotor();
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.stopMotor();
-
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-    System.out.println("Initialized DRIVE_SUBSYSTEM.");
+    Robot.resetNavXAngle();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    lastError = error;
 
-    left = OI.driverController.getRawAxis(1);
-    right = -OI.driverController.getRawAxis(5);
+    error = goal - Robot.getNavXAngle();
 
+    errorSlope = 1-((lastError-error)/20);
 
-    if(Math.abs(left) < .1) {
-      left = 0;
-    } 
-    
-    if(Math.abs(right) < .1) {
-      right = 0;
-    }
+    output = Math.tanh(error/90)*errorSlope;
 
-    Robot.DRIVE_SUBSYSTEM.set(left, right);
-
+    Robot.DRIVE_SUBSYSTEM.set(-output, -output);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if(error < threshold && error > -threshold) {
+      onTargetCount++;
+    } else {
+      onTargetCount = 0;
+    }
+
+    return onTargetCount > 5;
   }
 
   // Called once after isFinished returns true
