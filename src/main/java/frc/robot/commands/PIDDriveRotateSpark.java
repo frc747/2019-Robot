@@ -40,7 +40,7 @@ public class PIDDriveRotateSpark extends Command {
 
     error = goal - Robot.getNavXAngle();
 
-    errorSlope = 1-((lastError-error)/20);
+    errorSlope = .9-((lastError-error)/20);
 
     output = Math.tanh(error/90)*errorSlope;
 
