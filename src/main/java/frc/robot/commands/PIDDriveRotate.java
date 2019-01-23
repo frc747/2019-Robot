@@ -18,7 +18,7 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     //Multiply TARGET_COUNT_ONE_SECOND by the amount of time that you want for your minimum count threshold
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.15;
     
-    private final static double STOP_THRESHOLD_DEGREES = 3;//4.25
+    private final static double STOP_THRESHOLD_DEGREES = 4.25;//4.25
     private final static double MAX_PERCENT_VBUS = 1.0;
     
     
@@ -39,7 +39,7 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
         
       // resets the navX angle back to 0, used at initialization of command.
         Robot.resetNavXAngle();
-        
+
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
         Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);

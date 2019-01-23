@@ -16,7 +16,7 @@ public class PIDDriveInches extends Command {
 
   private static final double p = 0.5; // .5
   private static final double i = 0.0; // .0
-  private static final double d = 0.0; // .0
+  private static final double d = 1.0; // .0
 
   double inch_goal;
   double leftGoal, rightGoal;
@@ -102,7 +102,7 @@ public class PIDDriveInches extends Command {
     //   return false;
     // }
 
-    if((Robot.DRIVE_SUBSYSTEM.getLeftRevs() > leftGoal + stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getLeftRevs() < leftGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() > rightGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() < rightGoal + stop_threshold_revs)) { //&& Robot.DRIVE_SUBSYSTEM.getRightTicks() > 100) {
+    if((Robot.DRIVE_SUBSYSTEM.getLeftRevs() < leftGoal + stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getLeftRevs() > leftGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() > rightGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() < rightGoal + stop_threshold_revs)) { //&& Robot.DRIVE_SUBSYSTEM.getRightTicks() > 100) {
       onTargetCount++;
     } else {
       onTargetCount = 0;

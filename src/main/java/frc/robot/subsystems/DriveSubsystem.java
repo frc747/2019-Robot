@@ -23,9 +23,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
   
-  double GEAR_RATIO = 4.821;//6.57992
+  double GEAR_RATIO = 4.75;//4.821;//6.57992
   double circumfrence = 18.84;
   double INCHES_PER_REV = circumfrence/GEAR_RATIO;
+
+  public boolean isDone1 = true;
+  public boolean isClimbed = false;
 
   int timeoutMs = 10;
 
@@ -35,12 +38,15 @@ public class DriveSubsystem extends Subsystem {
                      rightDriveFront = new CANSparkMax(9, MotorType.kBrushless),
                      rightDrivePrimary = new CANSparkMax(10, MotorType.kBrushless);
 
+  public CANSparkMax climb = new CANSparkMax(20, MotorType.kBrushless);
   
   public CANPIDController leftPID = new CANPIDController(leftDrivePrimary);
   public CANPIDController rightPID = new CANPIDController(rightDrivePrimary);
+  public CANPIDController climbPID = new CANPIDController(climb);
 
   public CANEncoder leftEncoder = new CANEncoder(leftDrivePrimary);
   public CANEncoder rightEncoder = new CANEncoder(rightDrivePrimary);
+  public CANEncoder climbEncoder = new CANEncoder(climb);
 
 
   @Override
@@ -62,6 +68,10 @@ public class DriveSubsystem extends Subsystem {
     rightDrivePrimary.set(right);
   }
 
+  public void setClimb(double left) {
+    climb.set(left);
+  }
+
   public double getLeftRevs() {
     return leftEncoder.getPosition();
   }
@@ -70,6 +80,9 @@ public class DriveSubsystem extends Subsystem {
     return rightEncoder.getPosition();
   }
 
+  public double getClimbRevs() {
+    return climbEncoder.getPosition();
+  }
   public double inchesToRevs(double INCHES) {
     return INCHES/INCHES_PER_REV;
   }
@@ -80,6 +93,9 @@ public class DriveSubsystem extends Subsystem {
     rightPID.setReference(right, ControlType.kPosition);
   }
 
+  public void setClimbPID(double goal) {
+    climbPID.setReference(goal, ControlType.kPosition);
+  }
   public void stop() {
     leftDrivePrimary.set(0);
     rightDrivePrimary.set(0);
