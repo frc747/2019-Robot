@@ -14,11 +14,11 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class PIDDriveInches extends Command {
+public class PIDDriveInchesSpark extends Command {
 
-  private static final double p = 0.5; // .5
-  private static final double i = 0.00001; // .0
-  private static final double d = 1.0; // .0
+  private static double p = 0.1; // .5
+  private static double i; // .0
+  private static double d; // .0
 
   double inch_goal;
   double leftGoal, rightGoal;
@@ -30,13 +30,15 @@ public class PIDDriveInches extends Command {
   double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.inchesToRevs(stop_threshold_inches);
   double count_threshold = 5;
 
+  double errorLeft, errorRight, outputLeft, outputRight;
+
   // double distanceLeft;
   // double distanceRight;
 
   int timeoutMs = 10;
 
   double onTargetCount;
-  public PIDDriveInches(double inches) {
+  public PIDDriveInchesSpark(double inches) {
     requires(Robot.DRIVE_SUBSYSTEM);
     inch_goal = inches;
 
@@ -46,27 +48,10 @@ public class PIDDriveInches extends Command {
   @Override
   protected void initialize() {
 
-
-    Robot.DRIVE_SUBSYSTEM.leftPID = Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getPIDController();
-    Robot.DRIVE_SUBSYSTEM.rightPID = Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getPIDController();
-
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-
-    Robot.DRIVE_SUBSYSTEM.leftPID.setOutputRange(nominalMin, nominalMax);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setOutputRange(nominalMin, nominalMax);
-
-    Robot.DRIVE_SUBSYSTEM.leftPID.setP(p);
-    Robot.DRIVE_SUBSYSTEM.leftPID.setI(i);
-    Robot.DRIVE_SUBSYSTEM.leftPID.setD(d);
-    Robot.DRIVE_SUBSYSTEM.leftPID.setFF(0);
-
-    Robot.DRIVE_SUBSYSTEM.rightPID.setP(p);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setI(i);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setD(d);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setFF(0);
 
     Robot.DRIVE_SUBSYSTEM.leftDriveFront.follow(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary);
     Robot.DRIVE_SUBSYSTEM.rightDriveFront.follow(Robot.DRIVE_SUBSYSTEM.rightDrivePrimary);
@@ -74,25 +59,20 @@ public class PIDDriveInches extends Command {
     leftGoal = -Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
     rightGoal = Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
 
-
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     System.out.println(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.get());
-    Robot.DRIVE_SUBSYSTEM.setPID(leftGoal, rightGoal);
+    
+    errorLeft = leftGoal - Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getEncoder().getPosition();
+    errorRight = rightGoal - Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getEncoder().getPosition();
 
+    outputLeft = p*errorLeft;
+    outputRight = p*errorRight;
 
-    //distanceLeft = Robot.DRIVE_SUBSYSTEM.ticksToRevs(Robot.DRIVE_SUBSYSTEM.getLeftTicks()-left_start_ticks);
-    //distanceRight = Robot.DRIVE_SUBSYSTEM.ticksToRevs(Robot.DRIVE_SUBSYSTEM.getRightTicks()-right_start_ticks);
-
-    //leftGoal = Robot.DRIVE_SUBSYSTEM.getLeftTicks() + Robot.DRIVE_SUBSYSTEM.inchesToTicks(inch_goal);
-    //rightGoal = Robot.DRIVE_SUBSYSTEM.getRightTicks() + Robot.DRIVE_SUBSYSTEM.inchesToTicks(inch_goal);
-
-
-
+    Robot.DRIVE_SUBSYSTEM.set(outputLeft, outputRight);
 
     SmartDashboard.putNumber("goal to travel to", leftGoal);
   }

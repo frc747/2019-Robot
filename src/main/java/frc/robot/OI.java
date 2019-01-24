@@ -43,10 +43,10 @@ public class OI {
 
     
     B_BUTTON.toggleWhenPressed(new PIDDriveRotateSpark(90));
-    A_BUTTON.toggleWhenPressed(new RocketAutonomous());
-    //B_BUTTON.whileHeld(new CargoTrackCommand());
+    A_BUTTON.toggleWhenPressed(new PIDDriveInches(50));
+    X_BUTTON.toggleWhenPressed(new PIDDriveInchesSpark(50));
     
-    Y_BUTTON.whileHeld(new LineTrackCommand());
+    //Y_BUTTON.whileHeld(new LineTrackCommand());
     
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);

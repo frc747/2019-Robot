@@ -12,13 +12,13 @@ import frc.robot.Robot;
 
 public class PIDDriveRotateSpark extends Command {
 
-  double p = 1, i, d, output;
+  double p = 1, i = .000001, dAcute = .9, dObtuse = 1.18, output;
 
   double goal, threshold = 2.5;
 
   double onTargetCount = 0;
 
-  double lastError = 0, error = 0;
+  double lastError = 0, error, totalError = 0;
 
   double errorSlope;
 
@@ -40,9 +40,18 @@ public class PIDDriveRotateSpark extends Command {
 
     error = goal - Robot.getNavXAngle();
 
-    errorSlope = .9-((lastError-error)/20);
+    if (Math.abs(lastError-error) > 180) {
+      error = 0;
+    }
+    if (goal < 90 && goal > -90) {
+      errorSlope = ((lastError-error)/20)*-dAcute;
+    } else {
+      errorSlope = ((lastError-error)/20)*-dObtuse;
+    }
+    
+    totalError = totalError + error;
 
-    output = Math.tanh(error/90)*errorSlope;
+    output = (Math.tanh(error/90)*p)+errorSlope+(totalError*i);
 
     Robot.DRIVE_SUBSYSTEM.set(-output, -output);
   }
