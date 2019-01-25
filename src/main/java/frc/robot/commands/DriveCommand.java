@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+import com.revrobotics.*;
+
 public class DriveCommand extends Command {
 
   int timeoutMs = 10;
@@ -29,6 +31,11 @@ public class DriveCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+    
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.stopMotor();
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.stopMotor();
+
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);

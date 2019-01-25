@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
   
-  double GEAR_RATIO = 4.75;//4.821;//6.57992
+  double GEAR_RATIO = 4.72;//4.75//4.821;//5.4//6.57992
   double circumfrence = 18.84;
   double INCHES_PER_REV = circumfrence/GEAR_RATIO;
 
@@ -35,13 +35,13 @@ public class DriveSubsystem extends Subsystem {
   // Front is the follow motor, and it is based on following the primary motor of its side.
   public CANSparkMax leftDrivePrimary = new CANSparkMax(1, MotorType.kBrushless),
                      leftDriveFront = new CANSparkMax(2, MotorType.kBrushless),
-                     rightDriveFront = new CANSparkMax(9, MotorType.kBrushless),
-                     rightDrivePrimary = new CANSparkMax(10, MotorType.kBrushless);
+                     rightDriveFront = new CANSparkMax(10, MotorType.kBrushless),
+                     rightDrivePrimary = new CANSparkMax(9, MotorType.kBrushless);
 
   public CANSparkMax climb = new CANSparkMax(20, MotorType.kBrushless);
   
-  public CANPIDController leftPID = new CANPIDController(leftDrivePrimary);
-  public CANPIDController rightPID = new CANPIDController(rightDrivePrimary);
+  public CANPIDController leftPID;
+  public CANPIDController rightPID;
   public CANPIDController climbPID = new CANPIDController(climb);
 
   public CANEncoder leftEncoder = new CANEncoder(leftDrivePrimary);
@@ -90,6 +90,15 @@ public class DriveSubsystem extends Subsystem {
   // Takes an input of ticks
   public void setPID(double left, double right) {
     leftPID.setReference(left, ControlType.kPosition);
+    rightPID.setReference(right, ControlType.kPosition);
+  }
+
+
+  public void setPIDLeft(double left) {
+    leftPID.setReference(left, ControlType.kPosition);
+  }
+
+  public void setPIDRight(double right) {
     rightPID.setReference(right, ControlType.kPosition);
   }
 

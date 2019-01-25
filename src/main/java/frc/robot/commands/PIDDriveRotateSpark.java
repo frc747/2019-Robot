@@ -8,80 +8,74 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.OI;
+public class PIDDriveRotateSpark extends Command {
 
-public class LineTrackCommand extends Command {
+  double p = 1, i = .000001, dAcute = .9, dObtuse = 1.18, output;
 
-int timeoutMs = 10;
+  double goal, threshold = 2.5;
 
-double speed = 0.25;
-double rampDown = 1;
+  double onTargetCount = 0;
 
-double leftValue = 0;
-double rightValue = 0;
+  double lastError = 0, error, totalError = 0;
 
-  public LineTrackCommand() {
+  double errorSlope;
+
+  public PIDDriveRotateSpark(double angle) {
     requires(Robot.DRIVE_SUBSYSTEM);
+    goal = angle;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    rampDown = 1;
-
-    System.out.println("line");
-
-    OI.table.getEntry("pipeline").setDouble(0.0);
-
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-
+    Robot.resetNavXAngle();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    lastError = error;
 
-    SmartDashboard.putNumber("rampdown", rampDown);
+    error = goal - Robot.getNavXAngle();
 
-    if(rampDown > .1) {
-      rampDown -= .0065;
+    if (Math.abs(lastError-error) > 180) {
+      error = 0;
     }
-
-    if(OI.area > 50) {
-      rampDown = .10;
+    if (goal < 90 && goal > -90) {
+      errorSlope = ((lastError-error)/20)*-dAcute;
+    } else {
+      errorSlope = ((lastError-error)/20)*-dObtuse;
     }
+    
+    totalError = totalError + error;
 
-    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/11))*rampDown;
-    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/11)))*rampDown;
+    output = (Math.tanh(error/90)*p)+errorSlope+(totalError*i);
 
-    Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+    Robot.DRIVE_SUBSYSTEM.set(-output, -output);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if(error < threshold && error > -threshold) {
+      onTargetCount++;
+    } else {
+      onTargetCount = 0;
+    }
+
+    return onTargetCount > 5;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
-    Robot.DRIVE_SUBSYSTEM.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
   }
 }

@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -13,7 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.autonomous.SnakeMove;
+import frc.robot.autonomous.RocketAutonomous;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,14 +36,17 @@ public class OI {
   Button B_BUTTON = new JoystickButton(driverController, 2);
   Button A_BUTTON = new JoystickButton(driverController, 1);
   Button Y_BUTTON = new JoystickButton(driverController, 4);
+  Button X_BUTTON = new JoystickButton(driverController, 3);
 
   @SuppressWarnings("resource")
   public OI() {
 
-    A_BUTTON.toggleWhenPressed(new PIDDriveRotate(90));
-    B_BUTTON.whileHeld(new CargoTrackCommand());
-    //B_BUTTON.whileHeld(new CargoTrackCommand());
-    Y_BUTTON.whileHeld(new LineTrackCommand());
+    
+    B_BUTTON.toggleWhenPressed(new PIDDriveRotateSpark(90));
+    A_BUTTON.toggleWhenPressed(new PIDDriveInches(50));
+    X_BUTTON.toggleWhenPressed(new PIDDriveInchesSpark(50));
+    
+    //Y_BUTTON.whileHeld(new LineTrackCommand());
     
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
