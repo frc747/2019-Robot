@@ -1,6 +1,6 @@
-package org.usfirst.frc.team747.robot.subsystems;
+package frc.robot.subsystems;
 
-import org.usfirst.frc.team747.robot.commands.DriveCommand;
+import frc.robot.commands.DriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -12,17 +12,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
 	
-    public TalonSRX talonDriveLeftPrimary = new TalonSRX(1);
+    public TalonSRX leftDrivePrimary = new TalonSRX(1);
 
 	//public TalonSRX talonDriveLeftMid = new TalonSRX(1);
 
-	public TalonSRX talonDriveLeftFront = new TalonSRX(2);
+	public TalonSRX leftDriveFront = new TalonSRX(2);
 
-	public TalonSRX talonDriveRightPrimary = new TalonSRX(10);
+	public TalonSRX rightDrivePrimary = new TalonSRX(10);
 
 		//public TalonSRX talonDriveRightMid = new TalonSRX(4);
 
-	public TalonSRX talonDriveRightFront = new TalonSRX(9);
+	public TalonSRX rightDriveFront = new TalonSRX(9);
 
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
@@ -48,32 +48,32 @@ public class DriveSubsystem extends Subsystem {
     public DriveSubsystem() {
         super();
         
-        talonDriveLeftPrimary.setInverted(true);
-        talonDriveLeftFront.setInverted(true);
+        leftDrivePrimary.setInverted(true);
+        leftDriveFront.setInverted(true);
         
-        talonDriveRightPrimary.setInverted(false);
-        talonDriveRightFront.setInverted(false);
+        rightDriveFront.setInverted(false);
+        rightDrivePrimary.setInverted(false);
        
-        talonDriveLeftFront.set(ControlMode.Follower, talonDriveLeftPrimary.getDeviceID());
-        talonDriveRightFront.set(ControlMode.Follower, talonDriveRightPrimary.getDeviceID());
+        leftDriveFront.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
+        rightDriveFront.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
         
-        talonDriveLeftPrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
+        leftDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
-        talonDriveRightPrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
+        rightDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
         
-        talonDriveLeftPrimary.configMotionCruiseVelocity(7500, timeoutMs);
-        talonDriveLeftPrimary.configMotionAcceleration(20500, timeoutMs);
-        talonDriveRightPrimary.configMotionCruiseVelocity(7500, timeoutMs);
-        talonDriveRightPrimary.configMotionAcceleration(20000, timeoutMs);
+        leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
+        leftDrivePrimary.configMotionAcceleration(20500, timeoutMs);
+        rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
+        rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
 
-        talonDriveLeftPrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveLeftPrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveLeftPrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveLeftPrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveRightPrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveRightPrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveRightPrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
-        talonDriveRightPrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
         
     }
    
@@ -83,13 +83,13 @@ public class DriveSubsystem extends Subsystem {
     
     public void set(double left, double right) {
     	
-        talonDriveLeftPrimary.set(ControlMode.PercentOutput, left);
-        talonDriveRightPrimary.set(ControlMode.PercentOutput, right);
+        leftDrivePrimary.set(ControlMode.PercentOutput, left);
+        rightDrivePrimary.set(ControlMode.PercentOutput, right);
     }
 
     public void setPID(double leftTicks, double rightTicks) {
-        talonDriveLeftPrimary.set(ControlMode.MotionMagic, leftTicks);
-        talonDriveRightPrimary.set(ControlMode.MotionMagic, rightTicks);
+        leftDrivePrimary.set(ControlMode.MotionMagic, leftTicks);
+        rightDrivePrimary.set(ControlMode.MotionMagic, rightTicks);
     }
     
     public double convertRevsToInches(double revs) {
@@ -129,22 +129,22 @@ public class DriveSubsystem extends Subsystem {
     }
     
     public void changeControlMode(ControlMode mode) {
-    	talonDriveLeftPrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
-    	talonDriveRightPrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
-        talonDriveLeftPrimary.set(mode, 0);
-        talonDriveRightPrimary.set(mode, 0);
+    	leftDrivePrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+    	rightDrivePrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+        leftDrivePrimary.set(mode, 0);
+        rightDrivePrimary.set(mode, 0);
     }
     
     public void stop() {
-        ControlMode mode = talonDriveLeftPrimary.getControlMode();
+        ControlMode mode = leftDrivePrimary.getControlMode();
 
         double left = 0;
         double right = 0;
         
         switch (mode) {
         case MotionMagic:
-            left = talonDriveLeftPrimary.getSelectedSensorPosition(pidIdx);
-            right = talonDriveRightPrimary.getSelectedSensorPosition(pidIdx);
+            left = leftDrivePrimary.getSelectedSensorPosition(pidIdx);
+            right = rightDrivePrimary.getSelectedSensorPosition(pidIdx);
             break;
         case PercentOutput:
         case Velocity:
@@ -167,7 +167,7 @@ public class DriveSubsystem extends Subsystem {
     
     public void resetLeftEncoder() {
         this.enableVBusControl();
-        talonDriveLeftPrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+        leftDrivePrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
@@ -178,7 +178,7 @@ public class DriveSubsystem extends Subsystem {
     
     public void resetRightEncoder() {
         this.enableVBusControl();
-        talonDriveRightPrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+        rightDrivePrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
@@ -189,8 +189,8 @@ public class DriveSubsystem extends Subsystem {
     
     public void resetBothEncoders(){
         this.enableVBusControl();
-    	this.talonDriveRightPrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
-    	this.talonDriveLeftPrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+    	this.rightDrivePrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+    	this.leftDrivePrimary.setSelectedSensorPosition(0, pidIdx, timeoutMs);
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
@@ -200,19 +200,19 @@ public class DriveSubsystem extends Subsystem {
     }
         //get the current encoder position regardless of whether it is the current feedback device
     public double getLeftEncoderPosition() {
-        return talonDriveLeftPrimary.getSelectedSensorPosition(pidIdx);
+        return leftDrivePrimary.getSelectedSensorPosition(pidIdx);
     }
     
     public double getRightEncoderPosition() {
-        return talonDriveRightPrimary.getSelectedSensorPosition(pidIdx);
+        return rightDrivePrimary.getSelectedSensorPosition(pidIdx);
     }
 
     public double getLeftPosition() {
-        return talonDriveLeftPrimary.getSelectedSensorPosition(pidIdx);
+        return leftDrivePrimary.getSelectedSensorPosition(pidIdx);
     }
         
     public double getRightPosition() {
-        return talonDriveRightPrimary.getSelectedSensorPosition(pidIdx);
+        return rightDrivePrimary.getSelectedSensorPosition(pidIdx);
     }
 
     public double getCombindedEncoderPosition() {

@@ -7,14 +7,9 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.revrobotics.*;
 
 public class DriveCommand extends Command {
 
