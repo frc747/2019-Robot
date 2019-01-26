@@ -33,11 +33,6 @@ double rightValue = 0;
     
     OI.table.getEntry("pipeline").setDouble(1.0);
 
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-
   }
 
   // Called repeatedly when this Command is scheduled to run

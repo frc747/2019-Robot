@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PIDDriveRotateSpark extends Command {
+public class PIDDriveRotateCustom extends Command {
 
   double p = 1, i = .000001, dAcute = .9, dObtuse = 1.18, output;
 
-  double goal, threshold = 2.5;
+  double goal, threshold = 5;//2.5;
 
   double onTargetCount = 0;
 
@@ -22,7 +22,7 @@ public class PIDDriveRotateSpark extends Command {
 
   double errorSlope;
 
-  public PIDDriveRotateSpark(double angle) {
+  public PIDDriveRotateCustom(double angle) {
     requires(Robot.DRIVE_SUBSYSTEM);
     goal = angle;
   }

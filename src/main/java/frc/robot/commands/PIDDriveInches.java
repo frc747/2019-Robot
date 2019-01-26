@@ -1,135 +1,158 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.*;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-import com.revrobotics.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class PIDDriveInches extends Command {
-
-  private static final double p = 0.5; // .5
-  private static final double i = 0.00001; // .0
-  private static final double d = 1.0; // .0
-
-  double inch_goal;
-  double leftGoal, rightGoal;
-
-  double nominalMin = -1;
-  double nominalMax = 1;
-
-  double stop_threshold_inches = 4;
-  double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.inchesToRevs(stop_threshold_inches);
-  double count_threshold = 5;
-
-  // double distanceLeft;
-  // double distanceRight;
-
-  int timeoutMs = 10;
-
-  double onTargetCount;
-  public PIDDriveInches(double inches) {
-    requires(Robot.DRIVE_SUBSYSTEM);
-    inch_goal = inches;
-
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-
-
-    Robot.DRIVE_SUBSYSTEM.leftPID = Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getPIDController();
-    Robot.DRIVE_SUBSYSTEM.rightPID = Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getPIDController();
-
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
-
-    Robot.DRIVE_SUBSYSTEM.leftPID.setOutputRange(nominalMin, nominalMax);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setOutputRange(nominalMin, nominalMax);
-
-    Robot.DRIVE_SUBSYSTEM.leftPID.setP(p);
-    Robot.DRIVE_SUBSYSTEM.leftPID.setI(i);
-    Robot.DRIVE_SUBSYSTEM.leftPID.setD(d);
-    Robot.DRIVE_SUBSYSTEM.leftPID.setFF(0);
-
-    Robot.DRIVE_SUBSYSTEM.rightPID.setP(p);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setI(i);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setD(d);
-    Robot.DRIVE_SUBSYSTEM.rightPID.setFF(0);
-
-    Robot.DRIVE_SUBSYSTEM.leftDriveFront.follow(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary);
-    Robot.DRIVE_SUBSYSTEM.rightDriveFront.follow(Robot.DRIVE_SUBSYSTEM.rightDrivePrimary);
     
-    leftGoal = -Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
-    rightGoal = Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
+    //execute is called every 20ms and isFinished is called right after execute
+    //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
+    
+    private double driveTicks;
+    
+    private double driveInches;
+//    private double driveP;
+//    private double driveI;
+//    private double driveD;
+    
+    private static final int pidIdx = 0;
+    private static final int timeoutMs = 10;
+    private static final int slotIdx = 0;
+    
+    private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
+    private static final double MAX_PERCENT_VOLTAGE = 1.0; //was 12 (volts previously, now the input is percent)
+    private static final double MIN_PERCENT_VOLTAGE = 0.0; //was 1.9 (volts perviously, now the input is percent)
 
+    //STOP_THRESHOLD_REAL was 3 inches and is now 8 inches in an attempt to cut back on time
+    private final static double STOP_THRESHOLD_REAL = 3; //3.0;
+    private final static double STOP_THRESHOLD_ADJUSTED = Robot.DRIVE_SUBSYSTEM.convertInchesToRevs(STOP_THRESHOLD_REAL * ENCODER_TICKS_PER_REVOLUTION);
+    
+//    private final static int I_ZONE_IN_REVOLUTIONS = 50; //100;
+    
+    private final static int allowableCloseLoopError = 1;
+    
+    private int onTargetCount = 0;
+    
+    private final static int TARGET_COUNT_ONE_SECOND = 50;
+    
+    //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
+    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * .1;
 
-  }
+    private double specificDistanceP = 0.5;
+    
+    private double specificDistanceI = 0;
+    
+    private double specificDistanceD = 1;
+    
+    private double specificDistanceF = .199;
+    
+    public PIDDriveInches(double inches, boolean reverse) {
+        requires(Robot.DRIVE_SUBSYSTEM);
+          
+//      this.driveTicks = inches / ENCODER_TICKS_PER_REVOLUTION;
+    
+        if (reverse) {
+            this.driveTicks = -Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertInchesToRevs(inches * ENCODER_TICKS_PER_REVOLUTION));//input now has to be ticks instead of revolutions which is why we multiply by 4096
+        } else {
+            this.driveTicks = Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertInchesToRevs(inches * ENCODER_TICKS_PER_REVOLUTION));
+        }
+        
+        this.driveInches = inches;
+//        this.driveP = specificDistanceP;
+//        this.driveI = specificDistanceI;
+//        this.driveD = specificDistanceD;
+    }
+    
+        
+    protected void initialize() {
+        
+        onTargetCount = 0;
+        
+        Robot.DRIVE_SUBSYSTEM.resetBothEncoders();
+//      Robot.resetNavXAngle();
+        Robot.DRIVE_SUBSYSTEM.enablePositionControl();
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.config_kP(pidIdx, specificDistanceP, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.config_kP(pidIdx, specificDistanceP, timeoutMs);
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.config_kI(pidIdx, specificDistanceI, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.config_kI(pidIdx, specificDistanceI, timeoutMs);
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.config_kD(pidIdx, specificDistanceD, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.config_kD(pidIdx, specificDistanceD, timeoutMs);
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.config_kF(pidIdx, specificDistanceF, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.config_kF(pidIdx, specificDistanceF, timeoutMs);
+        
+//        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.ClearIaccum();
+//        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.ClearIaccum();
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        
+//        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.setCloseLoopRampRate(rampRate);
+//        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.setCloseLoopRampRate(rampRate);
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+        
+//        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
+//        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
+        
+        if (driveInches > 30) {
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs); //7500, 20500, 7500, 20000
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(20500, timeoutMs); //test 5000
+            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
+            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
+        } else if (driveInches <= 30) {
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs); //7500, 15500, 7500, 15000
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(15500, timeoutMs);
+            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
+            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(15000, timeoutMs);
+        }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    System.out.println(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.get());
-    Robot.DRIVE_SUBSYSTEM.setPID(leftGoal, rightGoal);
-
-
-    //distanceLeft = Robot.DRIVE_SUBSYSTEM.ticksToRevs(Robot.DRIVE_SUBSYSTEM.getLeftTicks()-left_start_ticks);
-    //distanceRight = Robot.DRIVE_SUBSYSTEM.ticksToRevs(Robot.DRIVE_SUBSYSTEM.getRightTicks()-right_start_ticks);
-
-    //leftGoal = Robot.DRIVE_SUBSYSTEM.getLeftTicks() + Robot.DRIVE_SUBSYSTEM.inchesToTicks(inch_goal);
-    //rightGoal = Robot.DRIVE_SUBSYSTEM.getRightTicks() + Robot.DRIVE_SUBSYSTEM.inchesToTicks(inch_goal);
-
-
-
-
-    SmartDashboard.putNumber("goal to travel to", leftGoal);
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-
-// Robot.DRIVE_SUBSYSTEM.getLeftTicks() >  left_end_ticks - stop_threshold_ticks && Robot.DRIVE_SUBSYSTEM.getLeftTicks() < left_end_ticks + stop_threshold_ticks && Robot.DRIVE_SUBSYSTEM.getRightTicks() > right_end_ticks - stop_threshold_ticks && Robot.DRIVE_SUBSYSTEM.getRightTicks() < right_end_ticks + stop_threshold_ticks
-    // GOOD SHIT if(Robot.DRIVE_SUBSYSTEM.getLeftRevs() > leftGoal && Robot.DRIVE_SUBSYSTEM.getRightRevs() > rightGoal) { //&& Robot.DRIVE_SUBSYSTEM.getRightTicks() > 100) {
-    //   System.out.println("REACHED GOAL");
-    //   return true;
-    // } else {
-    //   System.out.println("FALSE");
-    //   return false;
-    // }
-
-    if((Robot.DRIVE_SUBSYSTEM.getLeftRevs() < leftGoal + stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getLeftRevs() > leftGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() > rightGoal - stop_threshold_revs) && (Robot.DRIVE_SUBSYSTEM.getRightRevs() < rightGoal + stop_threshold_revs)) { //&& Robot.DRIVE_SUBSYSTEM.getRightTicks() > 100) {
-      System.out.println("ON COUNT ++");
-      onTargetCount++;
-    } else {
-      onTargetCount = 0;
+        Robot.DRIVE_SUBSYSTEM.setPID(driveTicks, driveTicks);
+    }
+    
+    protected void execute() {
+    }
+    
+    @Override
+    protected boolean isFinished() {
+        double leftPosition = Robot.DRIVE_SUBSYSTEM.getLeftPosition();
+        double rightPosition = Robot.DRIVE_SUBSYSTEM.getRightPosition();
+        
+        if (leftPosition > (driveTicks - STOP_THRESHOLD_ADJUSTED) && leftPosition < (driveTicks + STOP_THRESHOLD_ADJUSTED) &&
+            rightPosition > (driveTicks - STOP_THRESHOLD_ADJUSTED) && rightPosition < (driveTicks + STOP_THRESHOLD_ADJUSTED)) {
+            onTargetCount++;
+        } else {
+            onTargetCount = 0;
+        }
+        
+        return (onTargetCount > ON_TARGET_MINIMUM_COUNT);
+    }
+    
+    protected void end() {
+//        SmartDashboard.putNumber("LEFT FINAL Drive Distance: Inches", Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertRevsToInches(Robot.DRIVE_SUBSYSTEM.getLeftPosition())));
+//        SmartDashboard.putNumber("RIGHT FINAL Drive Distance: Inches", Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertRevsToInches(Robot.DRIVE_SUBSYSTEM.getRightPosition())));
+        OI.distance = Math.abs(Robot.DRIVE_SUBSYSTEM.averageInchesDriven());
+//        SmartDashboard.putNumber("Straight", OI.latestDistanceDriven);
+        Robot.DRIVE_SUBSYSTEM.enableVBusControl();
+        Robot.DRIVE_SUBSYSTEM.resetBothEncoders();
+//      Robot.resetNavXAngle();
+        Robot.DRIVE_SUBSYSTEM.stop();
+    }
+    
+    protected void interrupted() {
+        end();
     }
 
-    return onTargetCount > count_threshold;
-
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    System.out.println("IS FINSIHED TRUE");
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

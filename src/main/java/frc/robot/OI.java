@@ -30,6 +30,8 @@ public class OI {
   public static double y;
   public static double area;
 
+  public static double distance;
+
   public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
   
@@ -40,11 +42,11 @@ public class OI {
 
   @SuppressWarnings("resource")
   public OI() {
-
     
-    B_BUTTON.toggleWhenPressed(new PIDDriveRotateSpark(90));
-    A_BUTTON.toggleWhenPressed(new PIDDriveInches(50));
-    X_BUTTON.toggleWhenPressed(new PIDDriveInchesSpark(50));
+    B_BUTTON.toggleWhenPressed(new PIDDriveRotate(90));
+    Y_BUTTON.toggleWhenPressed(new PIDDriveRotateCustom(90));
+    A_BUTTON.toggleWhenPressed(new PIDDriveInches(50, false));
+    //X_BUTTON.toggleWhenPressed(new PIDDriveInchesCustom(60));
     
     //Y_BUTTON.whileHeld(new LineTrackCommand());
     
@@ -64,11 +66,12 @@ public class OI {
     SmartDashboard.putNumber("x value: ", x);
     SmartDashboard.putNumber("y value: ", y);
     SmartDashboard.putNumber("area value: ", area);
+    SmartDashboard.putNumber("distance", distance);
+
 
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
-    SmartDashboard.putNumber("left encoder pos", Robot.DRIVE_SUBSYSTEM.getLeftRevs());
-    SmartDashboard.putNumber("right encoder pos", Robot.DRIVE_SUBSYSTEM.getRightRevs());
-    SmartDashboard.putNumber("Climb Encoder Pos", Robot.DRIVE_SUBSYSTEM.getClimbRevs());
+    SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
+    SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
 
   }
 }
