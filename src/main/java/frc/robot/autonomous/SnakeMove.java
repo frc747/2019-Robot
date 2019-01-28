@@ -16,10 +16,10 @@ public class SnakeMove extends CommandGroup {
    * Add your docs here.
    */
   public SnakeMove() {
-    addSequential(new PIDDriveInches(50));
+    addSequential(new PIDDriveInches(50, false));
     addSequential(new PIDDriveRotate(90));
-    addSequential(new PIDDriveInches(60));
+    addSequential(new PIDDriveInches(60, false));
     addSequential(new PIDDriveRotate(-90));
-    addSequential(new PIDDriveInches(50));
+    addSequential(new PIDDriveInches(50, false));
   }
 }

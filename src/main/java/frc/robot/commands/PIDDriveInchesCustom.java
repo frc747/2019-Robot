@@ -10,15 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.*;
 import frc.robot.Robot;
 
-import com.revrobotics.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class PIDDriveInchesSpark extends Command {
+public class PIDDriveInchesCustom extends Command {
 
-  private static double p = 0.1; // .5
+  private static double p = 0.03; // .5
   private static double i; // .0
-  private static double d; // .0
+  private static double d = 1;
 
   double inch_goal;
   double leftGoal, rightGoal;
@@ -26,11 +24,11 @@ public class PIDDriveInchesSpark extends Command {
   double nominalMin = -1;
   double nominalMax = 1;
 
-  double stop_threshold_inches = 4;
+  double stop_threshold_inches = 3;
   double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.inchesToRevs(stop_threshold_inches);
-  double count_threshold = 5;
+  double count_threshold = 10;
 
-  double errorLeft, errorRight, outputLeft, outputRight;
+  double errorLeft, errorRight, outputLeft, outputRight, lastErrorLeft, lastErrorRight, totalErrorLeft, totalErrorRight;
 
   // double distanceLeft;
   // double distanceRight;
@@ -38,7 +36,7 @@ public class PIDDriveInchesSpark extends Command {
   int timeoutMs = 10;
 
   double onTargetCount;
-  public PIDDriveInchesSpark(double inches) {
+  public PIDDriveInchesCustom(double inches) {
     requires(Robot.DRIVE_SUBSYSTEM);
     inch_goal = inches;
 
@@ -50,8 +48,6 @@ public class PIDDriveInchesSpark extends Command {
 
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setMotorType(MotorType.kBrushless);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setMotorType(MotorType.kBrushless);
 
     Robot.DRIVE_SUBSYSTEM.leftDriveFront.follow(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary);
     Robot.DRIVE_SUBSYSTEM.rightDriveFront.follow(Robot.DRIVE_SUBSYSTEM.rightDrivePrimary);
@@ -66,11 +62,14 @@ public class PIDDriveInchesSpark extends Command {
   protected void execute() {
     System.out.println(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.get());
     
+    lastErrorLeft = errorLeft;
+    lastErrorRight = errorRight;
+
     errorLeft = leftGoal - Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getEncoder().getPosition();
     errorRight = rightGoal - Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getEncoder().getPosition();
 
-    outputLeft = p*errorLeft;
-    outputRight = p*errorRight;
+    outputLeft = p*errorLeft+-d*((lastErrorLeft-errorLeft)/20);
+    outputRight = p*errorRight+-d*((lastErrorRight-errorRight)/20);
 
     Robot.DRIVE_SUBSYSTEM.set(outputLeft, outputRight);
 
