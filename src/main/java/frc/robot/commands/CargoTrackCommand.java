@@ -8,47 +8,47 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class DriveCommand extends Command {
+import frc.robot.OI;
 
-  int timeoutMs = 10;
+public class CargoTrackCommand extends Command {
 
-  double left;
-  double right;
+int timeoutMs = 10;
 
-  public DriveCommand() {
+double speed = 0.25;
+
+double leftValue = 0;
+double rightValue = 0;
+
+  public CargoTrackCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    System.out.println("cargo");
+    
+    OI.table.getEntry("pipeline").setDouble(1.0);
 
-    System.out.println("Initialized DRIVE_SUBSYSTEM.");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    left = OI.driverController.getRawAxis(1);
-    right = -OI.driverController.getRawAxis(5);
-
-
-    if(Math.abs(left) < .1) {
-      left = 0;
-    } 
-    
-    if(Math.abs(right) < .1) {
-      right = 0;
+    if(OI.area != 0) {
+      leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/5);
+      rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/5));
+    } else {
+      leftValue = 0;
+      rightValue = 0;
     }
+    
 
-    Robot.DRIVE_SUBSYSTEM.set(left, right);
-
+    Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -60,11 +60,14 @@ public class DriveCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    OI.table.getEntry("pipeline").setDouble(0.0);
+    Robot.DRIVE_SUBSYSTEM.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    OI.table.getEntry("pipeline").setDouble(0.0);
   }
 }

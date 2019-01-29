@@ -8,53 +8,64 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-public class DriveCommand extends Command {
+public class PIDDriveRotateCustom extends Command {
 
-  int timeoutMs = 10;
+  double p = 1, i = .000001, dAcute = .9, dObtuse = 1.18, output;
 
-  double left;
-  double right;
+  double goal, threshold = 5;//2.5;
 
-  public DriveCommand() {
+  double onTargetCount = 0;
+
+  double lastError = 0, error, totalError = 0;
+
+  double errorSlope;
+
+  public PIDDriveRotateCustom(double angle) {
     requires(Robot.DRIVE_SUBSYSTEM);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    goal = angle;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    System.out.println("Initialized DRIVE_SUBSYSTEM.");
+    Robot.resetNavXAngle();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    lastError = error;
 
-    left = OI.driverController.getRawAxis(1);
-    right = -OI.driverController.getRawAxis(5);
+    error = goal - Robot.getNavXAngle();
 
-
-    if(Math.abs(left) < .1) {
-      left = 0;
-    } 
-    
-    if(Math.abs(right) < .1) {
-      right = 0;
+    if (Math.abs(lastError-error) > 180) {
+      error = 0;
     }
+    if (goal < 90 && goal > -90) {
+      errorSlope = ((lastError-error)/20)*-dAcute;
+    } else {
+      errorSlope = ((lastError-error)/20)*-dObtuse;
+    }
+    
+    totalError = totalError + error;
 
-    Robot.DRIVE_SUBSYSTEM.set(left, right);
+    output = (Math.tanh(error/90)*p)+errorSlope+(totalError*i);
 
+    Robot.DRIVE_SUBSYSTEM.set(-output, -output);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if(error < threshold && error > -threshold) {
+      onTargetCount++;
+    } else {
+      onTargetCount = 0;
+    }
+
+    return onTargetCount > 5;
   }
 
   // Called once after isFinished returns true
