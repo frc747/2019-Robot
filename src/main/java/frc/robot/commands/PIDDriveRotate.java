@@ -1,12 +1,14 @@
 package frc.robot.commands;
 
+import frc.robot.OI;
 import frc.robot.Robot;
-
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+/**
+ *
+ */
 public class PIDDriveRotate extends PIDCommand {
 
     private double angleToRotate;
@@ -16,19 +18,18 @@ public class PIDDriveRotate extends PIDCommand {
 private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     //Multiply TARGET_COUNT_ONE_SECOND by the amount of time that you want for your minimum count threshold
-    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.15;
+    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.5;
     
-    private final static double STOP_THRESHOLD_DEGREES = 4.25;//4.25
+    private final static double STOP_THRESHOLD_DEGREES = 5;//4.25
     private final static double MAX_PERCENT_VBUS = 1.0;
     
-    double output = 0;
+    private static final double MAX_PERCENT_VOLTAGE = 1.0;
+    private static final double MIN_PERCENT_VOLTAGE = 0.10;
     
     private static final int timeoutMs = 10;
     
-
     public PIDDriveRotate(double degreesRotate) {
-        //     P     I    D
-        super(0.01, 0.0, 0.0225);//0.0225
+        super(0.03, 0.0, 0.0);
         
         this.angleToRotate = degreesRotate;
         
@@ -38,16 +39,16 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     // Called just before this Command runs the first time
     protected void initialize() {
         
-        output = 0;
-
-        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.stopMotor();
-        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.stopMotor();
-
-        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
-        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
-
-      // resets the navX angle back to 0, used at initialization of command.
         Robot.resetNavXAngle();
+        
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
         
         onTargetCount = 0;
         
@@ -58,13 +59,10 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
 
         
         getPIDController().setSetpoint(angleToRotate);
-
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.DRIVE_SUBSYSTEM.set(-output, -output);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -95,7 +93,6 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
 
     @Override
     protected void usePIDOutput(double output) {
-        System.out.println(output);
-        this.output = output;
+        Robot.DRIVE_SUBSYSTEM.set(output, -output);
     }
 }

@@ -17,8 +17,10 @@ public class RocketAutonomous extends CommandGroup {
   public RocketAutonomous() {
     Robot.resetNavXAngle();
     addSequential(new PIDDriveInches(90, false));
-    addSequential(new PauseCommand(2));
-    addSequential(new PIDDriveRotateCustom(90));
+    addSequential(new PIDDriveRotateCustom(-90));
+    addSequential(new PIDDriveInches(68, true));
+    addSequential(new PIDDriveRotateCustom(60));
+    addSequential(new LineTrackCommandAuto(2));
     //addSequential(new PIDDriveInches(-70));
     //addSequential(new PIDDriveRotate(55));
   }
