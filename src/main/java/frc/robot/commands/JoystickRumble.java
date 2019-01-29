@@ -27,6 +27,7 @@ public class JoystickRumble extends TimedCommand {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    //sets the joystick of choice to rumble (side of stick, on/off)
     OI.driverController.set(kLeftRumble, 1);
     OI.driverController.set(kRightRumble, 1);
   }
