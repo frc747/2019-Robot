@@ -8,55 +8,51 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-public class DriveCommand extends Command {
+public class RotationalLockMode extends Command {
 
-  int timeoutMs = 10;
+  double p = 1, i = 0, dAcute = .2, dObtuse = .2, output ;
 
-  double left;
-  double right;
-  public static String driveType = "fps";
+  double goal = 0, threshold = 5;//2.5;
 
-  public DriveCommand() {
+  double onTargetCount = 0;
+
+  double lastError = 0, error, totalError = 0;
+
+  double errorSlope;
+
+  public RotationalLockMode() {
     requires(Robot.DRIVE_SUBSYSTEM);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    System.out.println("Initialized DRIVE_SUBSYSTEM.");
+    Robot.resetNavXAngle();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    lastError = error;
 
-    if (driveType == "tank") {
-      left = OI.driverController.getRawAxis(1);
-      right = -OI.driverController.getRawAxis(5);
-  
-      if(Math.abs(left) < .1) {
-        left = 0;
-      } 
-      
-      if(Math.abs(right) < .1) {
-        right = 0;
-      }
-  
-      Robot.DRIVE_SUBSYSTEM.set(-left, right);
+    error = goal - Robot.getNavXAngle();
 
-    } else if (driveType == "arcade") {
-      Robot.drive.arcadeDrive(OI.driverController.getRawAxis(4), -OI.driverController.getRawAxis(5));
-
-    } else if (driveType == "fps") {
-      Robot.drive.arcadeDrive(OI.driverController.getRawAxis(0), -OI.driverController.getRawAxis(5));
-
+    if (Math.abs(lastError-error) > 180) {
+      error = 0;
     }
+    if (goal < 90 && goal > -90) {
+      errorSlope = ((lastError-error)/20)*-dAcute;
+    } else {
+      errorSlope = ((lastError-error)/20)*-dObtuse;
+    }
+    
+    totalError = totalError + error;
+
+    output = (Math.tanh(error/90)*p)+errorSlope+(totalError*i);
+
+    Robot.DRIVE_SUBSYSTEM.set(output, -output);
   }
 
   // Make this return true when this Command no longer needs to run execute()

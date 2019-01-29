@@ -44,10 +44,13 @@ public class OI {
     
     
     A_BUTTON.toggleWhenPressed(new RocketAutonomous());
-    //X_BUTTON.toggleWhenPressed(new PIDDriveInchesCustom(60));
+    X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     
-    Y_BUTTON.whileHeld(new LineTrackCommand());
-    B_BUTTON.whileHeld(new CargoTrackCommand());
+    //Y_BUTTON.whileHeld(new LineTrackCommand());
+    //B_BUTTON.whileHeld(new CargoTrackCommand());
+    B_BUTTON.toggleWhenPressed(new PIDDriveInches(30, false));
+    Y_BUTTON.toggleWhenPressed(new PIDDriveInches(10, true));
+
 
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
@@ -66,6 +69,8 @@ public class OI {
     SmartDashboard.putNumber("y value: ", y);
     SmartDashboard.putNumber("area value: ", area);
     SmartDashboard.putNumber("distance", distance);
+    
+    SmartDashboard.putString("Drive Type", DriveCommand.driveType);
 
 
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
