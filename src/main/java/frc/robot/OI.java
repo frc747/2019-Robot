@@ -48,6 +48,9 @@ public class OI {
     
     Y_BUTTON.whileHeld(new LineTrackCommand());
     B_BUTTON.whileHeld(new CargoTrackCommand());
+    
+    X_Button.toggleWhenPressed(new JoystickRumble(1));
+
 
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
