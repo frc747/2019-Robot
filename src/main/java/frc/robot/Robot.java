@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.AutomatedClimb;
-import frc.robot.commands.AutomatedClimb2;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
@@ -32,8 +30,6 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
 
   Command m_autonomousCommand;
-  Command climbUp = new AutomatedClimb(128);
-  Command climbDown = new AutomatedClimb2(-128);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 

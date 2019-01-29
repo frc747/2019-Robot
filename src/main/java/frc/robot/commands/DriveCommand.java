@@ -47,7 +47,7 @@ public class DriveCommand extends Command {
       right = 0;
     }
 
-    Robot.DRIVE_SUBSYSTEM.set(left, right);
+    Robot.DRIVE_SUBSYSTEM.set(-left, right);
 
   }
 

@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.networktables.*;
 
-
-
 public class OI {
 
   public static NetworkTable table;
@@ -43,13 +41,14 @@ public class OI {
   @SuppressWarnings("resource")
   public OI() {
     
-    B_BUTTON.toggleWhenPressed(new PIDDriveRotate(90));
-    Y_BUTTON.toggleWhenPressed(new PIDDriveRotateCustom(90));
-    A_BUTTON.toggleWhenPressed(new PIDDriveInches(50, false));
+    
+    
+    A_BUTTON.toggleWhenPressed(new RocketAutonomous());
     //X_BUTTON.toggleWhenPressed(new PIDDriveInchesCustom(60));
     
-    //Y_BUTTON.whileHeld(new LineTrackCommand());
-    
+    Y_BUTTON.whileHeld(new LineTrackCommand());
+    B_BUTTON.whileHeld(new CargoTrackCommand());
+
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
   }

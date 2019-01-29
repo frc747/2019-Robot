@@ -44,7 +44,7 @@ public class PIDDriveInches extends Command {
     
     private double specificDistanceI = 0;
     
-    private double specificDistanceD = 1;
+    private double specificDistanceD = .1;
     
     private double specificDistanceF = .199;
     
@@ -108,13 +108,12 @@ public class PIDDriveInches extends Command {
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
         
         if (driveInches > 30) {
-            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs); //7500, 20500, 7500, 20000
-            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(20500, timeoutMs); //test 5000
-            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(10000, timeoutMs); //7500, 20500, 7500, 20000
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(20000, timeoutMs); //test 5000
+            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(10000, timeoutMs);
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
         } else if (driveInches <= 30) {
             Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs); //7500, 15500, 7500, 15000
-            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(15500, timeoutMs);
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(15000, timeoutMs);
         }
