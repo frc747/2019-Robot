@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.autonomous.RocketAutonomous;
+import frc.robot.autonomous.RocketAutonomousArc;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,12 +44,12 @@ public class OI {
     
     
     
-    A_BUTTON.toggleWhenPressed(new RocketAutonomous());
+    A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     
     //Y_BUTTON.whileHeld(new LineTrackCommand());
     //B_BUTTON.whileHeld(new CargoTrackCommand());
-    B_BUTTON.toggleWhenPressed(new PIDDriveInches(30, false));
+    B_BUTTON.toggleWhenPressed(new PIDDriveRotateCustom(90));
     Y_BUTTON.toggleWhenPressed(new PIDDriveInches(10, true));
 
 

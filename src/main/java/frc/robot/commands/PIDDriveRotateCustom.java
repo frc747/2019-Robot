@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class PIDDriveRotateCustom extends Command {
 
-  double p = 1, i = 0, dAcute = .2, dObtuse = .2, output ;
+  double p = 3, i = 0, dAcute = 2.7, dObtuse = 2.7, output;
 
   double goal, threshold = 5;//2.5;
 

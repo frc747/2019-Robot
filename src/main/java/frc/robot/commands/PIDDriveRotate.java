@@ -18,7 +18,7 @@ public class PIDDriveRotate extends PIDCommand {
 private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     //Multiply TARGET_COUNT_ONE_SECOND by the amount of time that you want for your minimum count threshold
-    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.5;
+    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.1;
     
     private final static double STOP_THRESHOLD_DEGREES = 5;//4.25
     private final static double MAX_PERCENT_VBUS = 1.0;
@@ -29,7 +29,7 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
     private static final int timeoutMs = 10;
     
     public PIDDriveRotate(double degreesRotate) {
-        super(0.03, 0.0, 0.0);
+        super(0.03, 0.0, 0.01);
         
         this.angleToRotate = degreesRotate;
         
