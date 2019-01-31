@@ -14,10 +14,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.autonomous.RocketAutonomous;
 import frc.robot.autonomous.RocketAutonomousArc;
 import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.wpilibj.Utility;
 
 import edu.wpi.first.networktables.*;
 
@@ -28,6 +32,8 @@ public class OI {
   public static double x;
   public static double y;
   public static double area;
+
+  private int inc = 1;
 
   public static double distance;
 
@@ -41,8 +47,6 @@ public class OI {
 
   @SuppressWarnings("resource")
   public OI() {
-    
-    
     
     A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     X_BUTTON.toggleWhenPressed(new RotationalLockMode());
@@ -78,5 +82,16 @@ public class OI {
     SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
 
+    if (Utility.getUserButton()) {
+      inc++;
+    }
+
+    if (inc % 3 == 0) {
+      DriveCommand.driveType = "tank";
+    } else if ((inc+1) % 3 == 0) {
+      DriveCommand.driveType = "fps";
+    } else if ((inc+2) % 3 == 0) {
+      DriveCommand.driveType = "arcade";
+    }
   }
 }
