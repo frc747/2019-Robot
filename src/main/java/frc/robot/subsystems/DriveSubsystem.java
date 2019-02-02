@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.commands.DriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,20 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
 	
-    public WPI_TalonSRX leftDrivePrimaryWPI = new WPI_TalonSRX(1);
-
-	//public TalonSRX talonDriveLeftMid = new TalonSRX(1);
-
-	public WPI_TalonSRX leftDriveFrontWPI = new WPI_TalonSRX(2);
-
-	public WPI_TalonSRX rightDrivePrimaryWPI = new WPI_TalonSRX(10);
-
-		//public TalonSRX talonDriveRightMid = new TalonSRX(4);
-
-    public WPI_TalonSRX rightDriveFrontWPI = new WPI_TalonSRX(9);
-    
-
-
     public TalonSRX leftDrivePrimary = new TalonSRX(1);
 
 	//public TalonSRX talonDriveLeftMid = new TalonSRX(1);
@@ -37,8 +22,7 @@ public class DriveSubsystem extends Subsystem {
 
 		//public TalonSRX talonDriveRightMid = new TalonSRX(4);
 
-    public TalonSRX rightDriveFront = new TalonSRX(9);
-    
+	public TalonSRX rightDriveFront = new TalonSRX(9);
 
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;

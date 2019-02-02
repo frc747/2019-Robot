@@ -8,58 +8,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-import frc.robot.OI;
+public class DriveCommand extends Command {
 
-public class LineTrackCommandAuto extends Command {
+  int timeoutMs = 10;
 
-int timeoutMs = 10;
+  double left;
+  double right;
 
-double speed = 0.50;
-double rampDown = 1;
-
-double leftValue = 0;
-double rightValue = 0;
-
-double exit;
-
-  public LineTrackCommandAuto(double timeout) {
+  public DriveCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
-    exit = timeout;
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(exit);
-    rampDown = 1;
 
-    System.out.println("line");
-
-    OI.table.getEntry("pipeline").setDouble(0.0);
-
+    System.out.println("Initialized DRIVE_SUBSYSTEM.");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    SmartDashboard.putNumber("rampdown", rampDown);
+    left = OI.driverController.getRawAxis(1);
+    right = -OI.driverController.getRawAxis(5);
 
-    if(rampDown > .1) {
-      rampDown -= .009;
+    //Threeshhold for the controllers. Set as a variable to make sure they are consistent
+    double controllerThreshold = 0.1;
+
+    if(Math.abs(left) < controllerThreshold) {
+      left = 0;
+    } 
+    
+    if(Math.abs(right) < controllerThreshold) {
+      right = 0;
     }
 
-    if(OI.area > 50) {
-      rampDown = .10;
-    }
+    Robot.DRIVE_SUBSYSTEM.set(left, right);
 
-    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
-    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
-
-    Robot.DRIVE_SUBSYSTEM.set(-leftValue, rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -71,14 +62,11 @@ double exit;
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
-    Robot.DRIVE_SUBSYSTEM.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
   }
 }

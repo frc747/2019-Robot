@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class PIDDriveRotateCustom extends Command {
 
-  double p = 3, i = 0, dAcute = 2.7, dObtuse = 2.7, output;
+  double p = 1, i = .000001, dAcute = .9, dObtuse = 1.18, output;
 
   double goal, threshold = 5;//2.5;
 
@@ -53,7 +53,7 @@ public class PIDDriveRotateCustom extends Command {
 
     output = (Math.tanh(error/90)*p)+errorSlope+(totalError*i);
 
-    Robot.DRIVE_SUBSYSTEM.set(output, -output);
+    Robot.DRIVE_SUBSYSTEM.set(-output, -output);
   }
 
   // Make this return true when this Command no longer needs to run execute()

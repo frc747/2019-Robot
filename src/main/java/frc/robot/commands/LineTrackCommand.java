@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.OI;
 
@@ -17,7 +18,7 @@ public class LineTrackCommand extends Command {
 
 int timeoutMs = 10;
 
-double speed = 0.50;
+double speed = 0.25;
 double rampDown = 1;
 
 double leftValue = 0;
@@ -37,6 +38,9 @@ double rightValue = 0;
 
     OI.table.getEntry("pipeline").setDouble(0.0);
 
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setCANTimeout(timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setCANTimeout(timeoutMs);
+
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,10 +57,10 @@ double rightValue = 0;
       rampDown = .10;
     }
 
-    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
-    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
+    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/11))*rampDown;
+    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/11)))*rampDown;
 
-    Robot.DRIVE_SUBSYSTEM.set(-leftValue, rightValue);
+    Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()
