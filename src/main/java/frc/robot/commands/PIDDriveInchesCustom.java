@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.*;
 import frc.robot.Robot;
+import frc.robot.commands.PIDDriveInches;
+import frc.robot.OI;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,7 +27,7 @@ public class PIDDriveInchesCustom extends Command {
   double nominalMax = 1;
 
   double stop_threshold_inches = 3;
-  double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.inchesToRevs(stop_threshold_inches);
+  double stop_threshold_revs = Robot.DRIVE_SUBSYSTEM.convertInchesToRevs(stop_threshold_inches);
   double count_threshold = 10;
 
   double errorLeft, errorRight, outputLeft, outputRight, lastErrorLeft, lastErrorRight, totalErrorLeft, totalErrorRight;
@@ -52,8 +54,8 @@ public class PIDDriveInchesCustom extends Command {
     Robot.DRIVE_SUBSYSTEM.leftDriveFront.follow(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary);
     Robot.DRIVE_SUBSYSTEM.rightDriveFront.follow(Robot.DRIVE_SUBSYSTEM.rightDrivePrimary);
     
-    leftGoal = -Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
-    rightGoal = Robot.DRIVE_SUBSYSTEM.inchesToRevs(inch_goal);
+    leftGoal = -Robot.DRIVE_SUBSYSTEM.convertInchesToRevs(inch_goal);
+    rightGoal = Robot.DRIVE_SUBSYSTEM.convertInchesToRevs(inch_goal);
 
   }
 
