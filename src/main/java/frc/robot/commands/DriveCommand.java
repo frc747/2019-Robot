@@ -39,12 +39,13 @@ public class DriveCommand extends Command {
     if (driveType == "tank") {
       left = OI.driverController.getRawAxis(1);
       right = -OI.driverController.getRawAxis(5);
-  
-      if(Math.abs(left) < .1) {
+      
+      double controllerThreshold = 0.1;
+      if(Math.abs(left) < controllerThreshold) {
         left = 0;
       } 
       
-      if(Math.abs(right) < .1) {
+      if(Math.abs(right) < controllerThreshold) {
         right = 0;
       }
   
