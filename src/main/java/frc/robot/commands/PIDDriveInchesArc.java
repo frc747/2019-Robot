@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class PIDDriveInches extends Command {
+public class PIDDriveInchesArc extends Command {
     
     //execute is called every 20ms and isFinished is called right after execute
     //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
@@ -48,7 +48,7 @@ public class PIDDriveInches extends Command {
     
     private double specificDistanceF = .199;
     
-    public PIDDriveInches(double inches, boolean reverse) {
+    public PIDDriveInchesArc(double inches, boolean reverse) {
         requires(Robot.DRIVE_SUBSYSTEM);
           
 //      this.driveTicks = inches / ENCODER_TICKS_PER_REVOLUTION;
@@ -109,9 +109,9 @@ public class PIDDriveInches extends Command {
         
         if (driveInches > 30) {
             Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(10000, timeoutMs); //7500, 20500, 7500, 20000
-            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(20000, timeoutMs); //test 5000
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(10000, timeoutMs); //test 5000
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(10000, timeoutMs);
-            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
+            Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(23000, timeoutMs);
         } else if (driveInches <= 30) {
             Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs); //7500, 15500, 7500, 15000
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);

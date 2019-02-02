@@ -8,20 +8,17 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.*;
-import frc.robot.*;
-public class RocketAutonomous extends CommandGroup {
+import frc.robot.commands.PIDDriveInches;
+import frc.robot.commands.PIDDriveInchesArc;
+import frc.robot.commands.PIDDriveRotate;
+import frc.robot.commands.PIDDriveRotateCustom;
+
+public class RocketAutonomousArc extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public RocketAutonomous() {
-    Robot.resetNavXAngle();
-    addSequential(new PIDDriveInches(90, false));
-    addSequential(new PIDDriveRotateCustom(-90));
-    addSequential(new PIDDriveInches(68, true));
-    addSequential(new PIDDriveRotateCustom(60));
-    addSequential(new LineTrackCommandAuto(2));
-    //addSequential(new PIDDriveInches(-70));
-    //addSequential(new PIDDriveRotate(55));
+  public RocketAutonomousArc() {
+    addSequential(new PIDDriveRotateCustom(-27));
+    addSequential(new PIDDriveInches(177, false));
   }
 }

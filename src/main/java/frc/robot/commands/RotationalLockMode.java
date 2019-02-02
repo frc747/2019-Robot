@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PIDDriveRotateCustom extends Command {
+public class RotationalLockMode extends Command {
 
-  double p = 3, i = 0, dAcute = 2.7, dObtuse = 2.7, output;
+  double p = 1, i = 0, dAcute = .2, dObtuse = .2, output ;
 
-  double goal, threshold = 5;//2.5;
+  double goal = 0, threshold = 5;//2.5;
 
   double onTargetCount = 0;
 
@@ -22,9 +22,8 @@ public class PIDDriveRotateCustom extends Command {
 
   double errorSlope;
 
-  public PIDDriveRotateCustom(double angle) {
+  public RotationalLockMode() {
     requires(Robot.DRIVE_SUBSYSTEM);
-    goal = angle;
   }
 
   // Called just before this Command runs the first time
@@ -59,13 +58,7 @@ public class PIDDriveRotateCustom extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(error < threshold && error > -threshold) {
-      onTargetCount++;
-    } else {
-      onTargetCount = 0;
-    }
-
-    return onTargetCount > 5;
+    return false;
   }
 
   // Called once after isFinished returns true
