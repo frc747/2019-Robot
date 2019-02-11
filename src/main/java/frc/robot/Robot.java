@@ -10,17 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.RobotDrive;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -33,8 +29,6 @@ import com.kauailabs.navx.frc.AHRS;
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static OI m_oi;
-
-  public static DifferentialDrive drive = new DifferentialDrive(DRIVE_SUBSYSTEM.leftDrivePrimaryWPI, DRIVE_SUBSYSTEM.rightDrivePrimaryWPI);
 
   Command m_autonomousCommand;
 
@@ -77,7 +71,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
-  /**
+  /**e
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.

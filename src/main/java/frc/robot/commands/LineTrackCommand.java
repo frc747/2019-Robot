@@ -45,18 +45,18 @@ double rightValue = 0;
 
     SmartDashboard.putNumber("rampdown", rampDown);
 
-    if(rampDown > .1) {
-      rampDown -= .0065;
-    }
+    // if(rampDown > .1) {
+    //   rampDown -= .0065;
+    // }
 
-    if(OI.area > 50) {
-      rampDown = .10;
-    }
+    // if(OI.area > 50) {
+    //   rampDown = .10;
+    // }
 
-    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
-    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
+    leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
+    rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
 
-    Robot.DRIVE_SUBSYSTEM.set(-leftValue, rightValue);
+    Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()

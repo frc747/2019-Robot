@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.commands.DriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,32 +11,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveSubsystem extends Subsystem {
-	
-    public WPI_TalonSRX leftDrivePrimaryWPI = new WPI_TalonSRX(1);
-
-	//public TalonSRX talonDriveLeftMid = new TalonSRX(1);
-
-	public WPI_TalonSRX leftDriveFrontWPI = new WPI_TalonSRX(2);
-
-	public WPI_TalonSRX rightDrivePrimaryWPI = new WPI_TalonSRX(10);
-
-		//public TalonSRX talonDriveRightMid = new TalonSRX(4);
-
-    public WPI_TalonSRX rightDriveFrontWPI = new WPI_TalonSRX(9);
     
+    public TalonSRX leftDrivePrimary = new TalonSRX(8);
 
+	public TalonSRX leftDriveBack = new TalonSRX(9);
 
-    public TalonSRX leftDrivePrimary = new TalonSRX(1);
+	public TalonSRX rightDrivePrimary = new TalonSRX(1);
 
-	//public TalonSRX talonDriveLeftMid = new TalonSRX(1);
-
-	public TalonSRX leftDriveFront = new TalonSRX(2);
-
-	public TalonSRX rightDrivePrimary = new TalonSRX(10);
-
-		//public TalonSRX talonDriveRightMid = new TalonSRX(4);
-
-    public TalonSRX rightDriveFront = new TalonSRX(9);
+    public TalonSRX rightDriveBack = new TalonSRX(2);
     
 
     private static final int pidIdx = 0;
@@ -45,11 +26,11 @@ public class DriveSubsystem extends Subsystem {
     
     private static final double ENCODER_TICKS = 4096;
     
-    private static final double GEAR_RATIO_MULTIPLIER = 5.4; 
+    private static final double GEAR_RATIO_MULTIPLIER = 1; 
     //Gear ratio, motor needs to rotate 5.4 times more to achieve one actual rotation
     // 4096 for the mag encoders
     
-    private static final double WHEEL_CIRCUMFERNCE = 19.635; //was 18.85 on 2017 robot
+    private static final double WHEEL_CIRCUMFERNCE = 20.125; //was 18.85 on 2017 robot
     
     private static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
@@ -65,13 +46,13 @@ public class DriveSubsystem extends Subsystem {
         super();
         
         leftDrivePrimary.setInverted(true);
-        leftDriveFront.setInverted(true);
+        leftDriveBack.setInverted(true);
         
-        rightDriveFront.setInverted(false);
+        rightDriveBack.setInverted(false);
         rightDrivePrimary.setInverted(false);
        
-        leftDriveFront.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
-        rightDriveFront.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
+        leftDriveBack.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
+        rightDriveBack.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
         
         leftDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 

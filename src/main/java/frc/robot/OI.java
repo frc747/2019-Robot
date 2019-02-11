@@ -44,13 +44,13 @@ public class OI {
     
     
     
-    A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
-    X_BUTTON.toggleWhenPressed(new RotationalLockMode());
+    //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
+    //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     
     //Y_BUTTON.whileHeld(new LineTrackCommand());
-    //B_BUTTON.whileHeld(new CargoTrackCommand());
-    B_BUTTON.toggleWhenPressed(new PIDDriveRotateCustom(90));
-    Y_BUTTON.toggleWhenPressed(new PIDDriveInches(10, true));
+    X_BUTTON.whileHeld(new CargoTrackCommand());
+    B_BUTTON.whileHeld(new LineTrackCommand());
+    Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
 
 
     // Ignore this error, no known conflict
@@ -73,10 +73,13 @@ public class OI {
     
     SmartDashboard.putString("Drive Type", DriveCommand.driveType);
 
-
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
     SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
+
+    SmartDashboard.putNumber("Left encoder", Robot.DRIVE_SUBSYSTEM.getLeftPosition());
+    SmartDashboard.putNumber("Right encoder", Robot.DRIVE_SUBSYSTEM.getRightPosition());
+
 
   }
 }

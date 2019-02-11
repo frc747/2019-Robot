@@ -16,7 +16,7 @@ public class CargoTrackCommand extends Command {
 
 int timeoutMs = 10;
 
-double speed = 0.25;
+double speed = 0.65;
 
 double leftValue = 0;
 double rightValue = 0;
@@ -39,15 +39,15 @@ double rightValue = 0;
   protected void execute() {
 
     if(OI.area != 0) {
-      leftValue = (speed) - ((.75*(Math.tanh(OI.x/10)))/5);
-      rightValue = -((speed) + ((.75*(Math.tanh(OI.x/10)))/5));
+      leftValue = (speed) + ((.75*(Math.tanh(OI.x/10)))/3);
+      rightValue = -((speed) - ((.75*(Math.tanh(OI.x/10)))/3));
     } else {
       leftValue = 0;
       rightValue = 0;
     }
     
 
-    Robot.DRIVE_SUBSYSTEM.set(-leftValue, rightValue);
+    Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()

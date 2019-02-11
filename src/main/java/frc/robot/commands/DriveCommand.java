@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class DriveCommand extends Command {
 
   int timeoutMs = 10;
@@ -19,10 +21,83 @@ public class DriveCommand extends Command {
   double right;
   public static String driveType = "fps";
 
+  public double maxThreshold;
+
   public DriveCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+  }
+
+  protected double limit(double value) {
+    if (value > 1.0) {
+      return 1.0;
+    }
+    if (value < -1.0) {
+      return -1.0;
+    }
+    return value;
+  }
+
+  protected double applyDeadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
+    } else {
+      return 0.0;
+    }
+  }
+
+  private void arcadeDrive(double xSpeed, double zRotation) {
+    /*if (!m_reported) {
+      HAL.report(tResourceType.kResourceType_RobotDrive, 2,
+                 tInstances.kRobotDrive2_DifferentialArcade);
+      m_reported = true;
+    }*/
+
+    //xSpeed = limit(xSpeed);
+    //xSpeed = applyDeadband(xSpeed, .02);
+
+    //zRotation = limit(zRotation);
+    //zRotation = applyDeadband(zRotation, .02);
+
+    // Square the inputs (while preserving the sign) to increase fine control
+    // while permitting full power.
+    xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
+    zRotation = Math.copySign(zRotation * zRotation, zRotation);
+
+    double leftMotorOutput;
+    double rightMotorOutput;
+
+    double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotation)), xSpeed);
+
+    if (xSpeed >= 0.0) {
+      // First quadrant, else second quadrant
+      if (zRotation >= 0.0) {
+        leftMotorOutput = maxInput;
+        rightMotorOutput = xSpeed - zRotation;
+      } else {
+        leftMotorOutput = xSpeed + zRotation;
+        rightMotorOutput = maxInput;
+      }
+    } else {
+      // Third quadrant, else fourth quadrant
+      if (zRotation >= 0.0) {
+        leftMotorOutput = xSpeed + zRotation;
+        rightMotorOutput = maxInput;
+      } else {
+        leftMotorOutput = maxInput;
+        rightMotorOutput = xSpeed - zRotation;
+      }
+    }
+
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.set(ControlMode.PercentOutput, leftMotorOutput);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.set(ControlMode.PercentOutput, -rightMotorOutput);
+
+    //feed();
   }
 
   // Called just before this Command runs the first time
@@ -49,12 +124,22 @@ public class DriveCommand extends Command {
       }
   
       Robot.DRIVE_SUBSYSTEM.set(-left, right);
+      //Robot.drive.tankDrive(-OI.driverController.getRawAxis(1), OI.driverController.getRawAxis(5));
 
     } else if (driveType == "arcade") {
-      Robot.drive.arcadeDrive(OI.driverController.getRawAxis(4), -OI.driverController.getRawAxis(5));
+      this.arcadeDrive(OI.driverController.getRawAxis(4), -OI.driverController.getRawAxis(5));
 
     } else if (driveType == "fps") {
-      Robot.drive.arcadeDrive(OI.driverController.getRawAxis(0), -OI.driverController.getRawAxis(5));
+      double rotate = OI.driverController.getRawAxis(4), drive = -OI.driverController.getRawAxis(1);
+
+      if (rotate >= maxThreshold) {
+        rotate = maxThreshold;
+      }
+      if (drive >= maxThreshold) {
+        drive = maxThreshold;
+      }
+
+      this.arcadeDrive(OI.driverController.getRawAxis(4), -OI.driverController.getRawAxis(1));
 
     }
   }
