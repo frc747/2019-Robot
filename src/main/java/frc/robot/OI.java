@@ -21,7 +21,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.RobotController;
 
 import edu.wpi.first.networktables.*;
 
@@ -94,7 +94,7 @@ public class OI {
     SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
 
-    if (Utility.getUserButton()) {
+    if (RobotController.getUserButton()) {
       inc++;
     }
 
