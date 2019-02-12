@@ -51,13 +51,13 @@ public class OI {
     //DPAD CONTROLS
     int DPAD_ANGLE = driverController.getPOV();
     if (DPAD_ANGLE == -1) {} //Default Position - No DPAD Buttons Pressed
-    if (DPAD_ANGLE == 0) { DriveCommand.driveType = "tank"; } //Up Position
+    if (DPAD_ANGLE == 0) {} //Up Position
     if (DPAD_ANGLE == 45) {} //Up-Right Position
-    if (DPAD_ANGLE == 90) { DriveCommand.driveType = "fps"; } //Right Position
+    if (DPAD_ANGLE == 90) {} //Right Position
     if (DPAD_ANGLE == 135) {} //Down-Right Position
-    if (DPAD_ANGLE == 180) { DriveCommand.driveType = null; } //Down Position
+    if (DPAD_ANGLE == 180) {} //Down Position
     if (DPAD_ANGLE == 225) {} //Down-Left Position
-    if (DPAD_ANGLE == 270) { DriveCommand.driveType = "arcade"; } //Left Position
+    if (DPAD_ANGLE == 270) {} //Left Position
     if (DPAD_ANGLE == 315) {} //Up-Left Position
 
     A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
