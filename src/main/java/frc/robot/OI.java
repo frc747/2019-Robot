@@ -48,16 +48,50 @@ public class OI {
   @SuppressWarnings("resource")
   public OI() {
     
+    int winchState;
+    int prevWinchState;
+    void updateWinchPos() {
+        if (winchState == 0) {
+          if (prevWinchState == 1) {
+
+          }
+          if (prevWinchState == 2) {
+
+          }
+        }
+        if (winchState == 1) {
+          if (prevWinchState == 0) {
+
+          }
+          if (prevWinchState == 2) {
+
+          }
+        }
+        if (winchState == 2) {
+          if (prevWinchState == 0) {
+
+          }
+        }
+    }
+
     //DPAD CONTROLS
     int DPAD_ANGLE = driverController.getPOV();
     if (DPAD_ANGLE == -1) {} //Default Position - No DPAD Buttons Pressed
-    if (DPAD_ANGLE == 0) { DriveCommand.driveType = "tank"; } //Up Position
+    if (DPAD_ANGLE == 0) {
+      prevWinchState = winchState;
+      winchState++;
+      updateWinchPos();
+    } //Up Position
     if (DPAD_ANGLE == 45) {} //Up-Right Position
-    if (DPAD_ANGLE == 90) { DriveCommand.driveType = "fps"; } //Right Position
+    if (DPAD_ANGLE == 90) {} //Right Position
     if (DPAD_ANGLE == 135) {} //Down-Right Position
-    if (DPAD_ANGLE == 180) { DriveCommand.driveType = null; } //Down Position
+    if (DPAD_ANGLE == 180) {
+      prevWinchState = winchState;
+      winchState = winchState - 1;
+      updateWinchPos();
+    } //Down Position
     if (DPAD_ANGLE == 225) {} //Down-Left Position
-    if (DPAD_ANGLE == 270) { DriveCommand.driveType = "arcade"; } //Left Position
+    if (DPAD_ANGLE == 270) {} //Left Position
     if (DPAD_ANGLE == 315) {} //Up-Left Position
 
     A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
