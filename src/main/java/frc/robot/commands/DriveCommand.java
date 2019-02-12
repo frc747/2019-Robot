@@ -21,7 +21,7 @@ public class DriveCommand extends Command {
   double right;
   public static String driveType = "fps";
 
-  public double maxThreshold;
+  public static double maxThreshold;
 
   public DriveCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);

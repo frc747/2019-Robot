@@ -45,6 +45,8 @@ public class OI {
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
 
+  Button OP_START_BUTTON = new JoystickButton(operatorController, 8);
+
   @SuppressWarnings("resource")
   public OI() {
 
@@ -79,6 +81,15 @@ public class OI {
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
     SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
+
+    if (operatorController.getRawButton(8)) {
+       Robot.driveMode.startMode();
+       //Robot.winchMode.startMode();
+       //Robot.crankMode.startMode();
+      SmartDashboard.putString("Button is Pressed", "Is Pressed");
+    } else {
+      SmartDashboard.putString("Button is Pressed", "Isn't Pressed");
+    }
 
     if (Utility.getUserButton()) {
       inc++;
