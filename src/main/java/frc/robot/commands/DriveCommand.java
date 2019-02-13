@@ -52,17 +52,6 @@ public class DriveCommand extends Command {
   }
 
   private void arcadeDrive(double xSpeed, double zRotation) {
-    /*if (!m_reported) {
-      HAL.report(tResourceType.kResourceType_RobotDrive, 2,
-                 tInstances.kRobotDrive2_DifferentialArcade);
-      m_reported = true;
-    }*/
-
-    //xSpeed = limit(xSpeed);
-    //xSpeed = applyDeadband(xSpeed, .02);
-
-    //zRotation = limit(zRotation);
-    //zRotation = applyDeadband(zRotation, .02);
 
     // Square the inputs (while preserving the sign) to increase fine control
     // while permitting full power.
@@ -96,8 +85,6 @@ public class DriveCommand extends Command {
 
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.set(ControlMode.PercentOutput, leftMotorOutput);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.set(ControlMode.PercentOutput, -rightMotorOutput);
-
-    //feed();
   }
 
   // Called just before this Command runs the first time
@@ -124,7 +111,6 @@ public class DriveCommand extends Command {
       }
   
       Robot.DRIVE_SUBSYSTEM.set(-left, right);
-      //Robot.drive.tankDrive(-OI.driverController.getRawAxis(1), OI.driverController.getRawAxis(5));
 
     } else if (driveType == "arcade") {
       this.arcadeDrive(OI.driverController.getRawAxis(4), -OI.driverController.getRawAxis(5));

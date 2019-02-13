@@ -30,7 +30,7 @@ public class DriveSubsystem extends Subsystem {
     //Gear ratio, motor needs to rotate 5.4 times more to achieve one actual rotation
     // 4096 for the mag encoders
     
-    private static final double WHEEL_CIRCUMFERNCE = 20.125; //was 18.85 on 2017 robot
+    private static final double WHEEL_CIRCUMFERNCE = 20.125;
     
     private static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
