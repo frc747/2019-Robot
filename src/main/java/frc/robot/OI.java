@@ -51,7 +51,7 @@ public class OI {
   public static void updateElevatorPos(int elevatorState, int prevElevatorState) {
     if (elevatorState == 0) {
       if (prevElevatorState == 1) {
-
+          
       }
       if (prevElevatorState == 2) {
 

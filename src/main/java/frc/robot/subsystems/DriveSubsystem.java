@@ -46,6 +46,7 @@ public class DriveSubsystem extends Subsystem {
         super();
         
         leftDrivePrimary.setInverted(true);
+
         leftDriveBack.setInverted(true);
         
         rightDriveBack.setInverted(false);
