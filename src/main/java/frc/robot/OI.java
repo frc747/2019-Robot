@@ -45,50 +45,53 @@ public class OI {
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
 
+  int elevatorState = 0;
+  int prevElevatorState = 0;
+
+  public static void updateElevatorPos(int elevatorState, int prevElevatorState) {
+    if (elevatorState == 0) {
+      if (prevElevatorState == 1) {
+
+      }
+      if (prevElevatorState == 2) {
+
+      }
+    }
+    if (elevatorState == 1) {
+      if (prevElevatorState == 0) {
+
+      }
+      if (prevElevatorState == 2) {
+
+      }
+    }
+    if (elevatorState == 2) {
+      if (prevElevatorState == 0) {
+
+      }
+    }
+}
+
+
   @SuppressWarnings("resource")
   public OI() {
-    
-    int winchState;
-    int prevWinchState;
-    void updateWinchPos() {
-        if (winchState == 0) {
-          if (prevWinchState == 1) {
-
-          }
-          if (prevWinchState == 2) {
-
-          }
-        }
-        if (winchState == 1) {
-          if (prevWinchState == 0) {
-
-          }
-          if (prevWinchState == 2) {
-
-          }
-        }
-        if (winchState == 2) {
-          if (prevWinchState == 0) {
-
-          }
-        }
-    }
+  
 
     //DPAD CONTROLS
     int DPAD_ANGLE = driverController.getPOV();
     if (DPAD_ANGLE == -1) {} //Default Position - No DPAD Buttons Pressed
     if (DPAD_ANGLE == 0) {
-      prevWinchState = winchState;
-      winchState++;
-      updateWinchPos();
+      prevElevatorState = elevatorState;
+      elevatorState++;
+      updateElevatorPos(elevatorState, prevElevatorState);
     } //Up Position
     if (DPAD_ANGLE == 45) {} //Up-Right Position
     if (DPAD_ANGLE == 90) {} //Right Position
     if (DPAD_ANGLE == 135) {} //Down-Right Position
     if (DPAD_ANGLE == 180) {
-      prevWinchState = winchState;
-      winchState = winchState - 1;
-      updateWinchPos();
+      prevElevatorState = elevatorState;
+      elevatorState = elevatorState - 1;
+      updateElevatorPos(elevatorState, prevElevatorState);
     } //Down Position
     if (DPAD_ANGLE == 225) {} //Down-Left Position
     if (DPAD_ANGLE == 270) {} //Left Position
