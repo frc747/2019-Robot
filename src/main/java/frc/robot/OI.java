@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.autonomous.RocketAutonomous;
 import frc.robot.autonomous.RocketAutonomousArc;
 import frc.robot.commands.*;
+import frc.robot.commands.PIDElevateInches;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,33 +45,12 @@ public class OI {
   Button A_BUTTON = new JoystickButton(driverController, 1);
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
+  Button RB_Button = new JoystickButton(operatorController, 6);
+  Button LB_BUtton = new JoystickButton(operatorController, 5);
 
-  int elevatorState = 0;
-  int prevElevatorState = 0;
-
-  public static void updateElevatorPos(int elevatorState, int prevElevatorState) {
-    if (elevatorState == 0) {
-      if (prevElevatorState == 1) {
-          
-      }
-      if (prevElevatorState == 2) {
-
-      }
-    }
-    if (elevatorState == 1) {
-      if (prevElevatorState == 0) {
-
-      }
-      if (prevElevatorState == 2) {
-
-      }
-    }
-    if (elevatorState == 2) {
-      if (prevElevatorState == 0) {
-
-      }
-    }
-}
+  int DPAD_ANGLE = operatorController.getPOV();
+  double L_TRIGGER = operatorController.getRawAxis(2);
+  double R_TRIGGER = operatorController.getRawAxis(3);
 
 
   @SuppressWarnings("resource")
@@ -78,21 +58,13 @@ public class OI {
   
 
     //DPAD CONTROLS
-    int DPAD_ANGLE = driverController.getPOV();
+    
     if (DPAD_ANGLE == -1) {} //Default Position - No DPAD Buttons Pressed
-    if (DPAD_ANGLE == 0) {
-      prevElevatorState = elevatorState;
-      elevatorState++;
-      updateElevatorPos(elevatorState, prevElevatorState);
-    } //Up Position
+    if (DPAD_ANGLE == 0) {    } //Up Position
     if (DPAD_ANGLE == 45) {} //Up-Right Position
     if (DPAD_ANGLE == 90) {} //Right Position
     if (DPAD_ANGLE == 135) {} //Down-Right Position
-    if (DPAD_ANGLE == 180) {
-      prevElevatorState = elevatorState;
-      elevatorState = elevatorState - 1;
-      updateElevatorPos(elevatorState, prevElevatorState);
-    } //Down Position
+    if (DPAD_ANGLE == 180) {    } //Down Position
     if (DPAD_ANGLE == 225) {} //Down-Left Position
     if (DPAD_ANGLE == 270) {} //Left Position
     if (DPAD_ANGLE == 315) {} //Up-Left Position
@@ -141,6 +113,13 @@ public class OI {
       DriveCommand.driveType = "fps";
     } else if ((inc+2) % 3 == 0) {
       DriveCommand.driveType = "arcade";
+    }
+    double triggerThreshold = 0.25
+    if (L_TRIGGER = triggerThreshold) {
+      L_TRIGGER = 0;
+    }
+    if (R_TRIGGER = triggerThreshold) {
+      R_TRIGGER = 0;
     }
   }
 }

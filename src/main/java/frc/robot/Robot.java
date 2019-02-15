@@ -34,10 +34,11 @@ import com.kauailabs.navx.frc.AHRS;
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static ElevatorSubsystem ELEVATOR_SUBSYSTEM = new ElevatorSubsystem();
-
+//public static WinchSubsystem WINCH_SUBSYSTEM = new WinchSubsystem();
+  
   public static OI m_oi;
 
-  public static DifferentialDrive drive = new DifferentialDrive(DRIVE_SUBSYSTEM.leftDrivePrimaryWPI, DRIVE_SUBSYSTEM.rightDrivePrimaryWPI);
+  //public static DifferentialDrive drive = new DifferentialDrive(DRIVE_SUBSYSTEM.leftDrivePrimaryWPI, DRIVE_SUBSYSTEM.rightDrivePrimaryWPI);
 
   Command m_autonomousCommand;
 
