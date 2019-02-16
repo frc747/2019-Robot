@@ -17,6 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Preferences;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -43,6 +44,8 @@ public class Robot extends TimedRobot {
 
   private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
+  public static Preferences prefs;
+
   public static double getNavXAngle() {
     return NAV_X.getYaw();
   }
@@ -63,6 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    prefs = Preferences.getInstance();
     UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
     ucamera.setResolution(180, 240);
     if(m_oi == null) {
@@ -138,6 +142,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
+
+
     resetNavXAngle();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

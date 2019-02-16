@@ -32,7 +32,7 @@ public class DriveSubsystem extends Subsystem {
     
     private static final double WHEEL_CIRCUMFERNCE = 20.125;
     
-    private static final double MAX_PERCENT_VOLTAGE = 1.0;
+    public static double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
   
     //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
@@ -78,6 +78,17 @@ public class DriveSubsystem extends Subsystem {
         setDefaultCommand(new DriveCommand());
     }
     
+    public void updateSpeeds() {
+        leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+    }
+
     public void set(double left, double right) {
     	
         leftDrivePrimary.set(ControlMode.PercentOutput, left);

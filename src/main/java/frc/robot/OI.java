@@ -63,6 +63,21 @@ public class OI {
   // Anything to be updated should be done in here
   public void updateOI() {
 
+    int left;
+    int right;
+
+    //DPAD Logic Button Selection
+
+
+
+
+
+
+
+
+
+
+
     //table = NetworkTableInstance.getDefault().getTable("limelight");
     table = NetworkTableInstance.getDefault().getTable("limelight");
     x = table.getEntry("tx").getDouble(0);

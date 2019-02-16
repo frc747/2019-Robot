@@ -10,13 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveSubsystem;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public class DriveCommand extends Command {
+public class DriveCommandAuto extends Command {
 
   int timeoutMs = 10;
 
@@ -26,10 +23,9 @@ public class DriveCommand extends Command {
 
   public double maxThreshold;
 
-  public DriveCommand() {
+  public DriveCommandAuto(double seconds) {
     requires(Robot.DRIVE_SUBSYSTEM);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    setTimeout(seconds);
   }
 
   protected double limit(double value) {
@@ -93,11 +89,7 @@ public class DriveCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.DRIVE_SUBSYSTEM.MAX_PERCENT_VOLTAGE = Robot.prefs.getDouble("DRIVE", 1.0);
-
-    Robot.DRIVE_SUBSYSTEM.updateSpeeds();
-
-    SmartDashboard.putNumber("Drive Max Speed: ", Robot.DRIVE_SUBSYSTEM.MAX_PERCENT_VOLTAGE);
+    System.out.println("Initialized DRIVE_SUBSYSTEM.");
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ClimbCommand extends Command {
 
 
-  double winchMax = .2;
-  double crankMax = .1;
+  double winchMax;
+  double crankMax;
   int timeoutMs = 10;
   public ClimbCommand() {
     requires(Robot.climb);
@@ -26,6 +26,8 @@ public class ClimbCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    winchMax = Robot.prefs.getDouble("WINCH", .5);
+    crankMax = Robot.prefs.getDouble("CRANK", .5);
     Robot.climb.winch1.configNominalOutputForward(+0, timeoutMs);
     Robot.climb.winch1.configNominalOutputReverse(-0, timeoutMs);
     Robot.climb.winch1.configPeakOutputForward(+winchMax, timeoutMs);
