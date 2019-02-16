@@ -10,18 +10,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.drive.*;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Preferences;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -33,12 +30,8 @@ import com.kauailabs.navx.frc.AHRS;
  */
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
-  public static ElevatorSubsystem ELEVATOR_SUBSYSTEM = new ElevatorSubsystem();
-//public static WinchSubsystem WINCH_SUBSYSTEM = new WinchSubsystem();
-  
+  public static ClimbSubsystem climb = new ClimbSubsystem();
   public static OI m_oi;
-
-  //public static DifferentialDrive drive = new DifferentialDrive(DRIVE_SUBSYSTEM.leftDrivePrimaryWPI, DRIVE_SUBSYSTEM.rightDrivePrimaryWPI);
 
   Command m_autonomousCommand;
 
@@ -51,6 +44,8 @@ public class Robot extends TimedRobot {
 
   private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
+  public static Preferences prefs;
+
   public static double getNavXAngle() {
     return NAV_X.getYaw();
   }
@@ -71,6 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    prefs = Preferences.getInstance();
     UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
     ucamera.setResolution(180, 240);
     if(m_oi == null) {
@@ -81,7 +77,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
-  /**
+  /**e
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
@@ -146,6 +142,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
+
+
     resetNavXAngle();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
