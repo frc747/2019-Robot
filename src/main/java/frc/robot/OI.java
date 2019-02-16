@@ -45,17 +45,31 @@ public class OI {
   Button A_BUTTON = new JoystickButton(driverController, 1);
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
+
   Button RB_Button = new JoystickButton(operatorController, 6);
   Button LB_BUtton = new JoystickButton(operatorController, 5);
 
   int DPAD_ANGLE = operatorController.getPOV();
-  double L_TRIGGER = operatorController.getRawAxis(2);
-  double R_TRIGGER = operatorController.getRawAxis(3);
+  double L_TRIGGER_AXIS = operatorController.getRawAxis(2);
+  double R_TRIGGER_AXIS = operatorController.getRawAxis(3);
+  boolean L_TRIGGER;
+  boolean R_TRIGGER;
+
+  Button BACK_BUTTON = new JoystickButton(operatorController, 7);
+  Button START_BUTTON = new JoystickButton(operatorController, 8);
+
 
 
   @SuppressWarnings("resource")
   public OI() {
   
+    if (R_TRIGGER) {
+      //Attach Hatch Panel
+    }
+
+    if (L_TRIGGER) {
+      //Attach Cargo
+    }
 
     //DPAD CONTROLS
     
@@ -114,12 +128,18 @@ public class OI {
     } else if ((inc+2) % 3 == 0) {
       DriveCommand.driveType = "arcade";
     }
-    double triggerThreshold = 0.25
-    if (L_TRIGGER = triggerThreshold) {
-      L_TRIGGER = 0;
+
+    // Trigger sets
+    double triggerThreshold = 0.25;
+    if (L_TRIGGER_AXIS <= triggerThreshold) {
+      L_TRIGGER_AXIS = 0; L_TRIGGER = false;
     }
-    if (R_TRIGGER = triggerThreshold) {
-      R_TRIGGER = 0;
+    if (R_TRIGGER_AXIS <= triggerThreshold) {
+      R_TRIGGER_AXIS = 0; R_TRIGGER = false;
     }
+
+    if (L_TRIGGER_AXIS > triggerThreshold) {L_TRIGGER = true;}
+    if (R_TRIGGER_AXIS > triggerThreshold) {R_TRIGGER = true;}
+    
   }
 }
