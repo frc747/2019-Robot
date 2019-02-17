@@ -19,6 +19,8 @@ public class ClimbSubsystem extends Subsystem {
   
   public TalonSRX winch1 = new TalonSRX(3);
   public TalonSRX winch2 = new TalonSRX(4);
+  public TalonSRX winch3 = new TalonSRX(10);
+  public TalonSRX winch4 = new TalonSRX(11);
   public TalonSRX crank = new TalonSRX(5);
 
 
@@ -26,11 +28,16 @@ public class ClimbSubsystem extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new ClimbCommand());
     winch2.set(ControlMode.Follower, winch1.getDeviceID());
+    winch4.set(ControlMode.Follower, winch3.getDeviceID());
   }
 
 
-  public void setWinch(double speed) {
+  public void setLeftWinch(double speed) {
     winch1.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setRightWinch(double speed) {
+    winch3.set(ControlMode.PercentOutput, -speed);
   }
 
   public void setCrank(double speed) {
