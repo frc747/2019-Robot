@@ -17,7 +17,7 @@ public class LiftToPosition extends CommandGroup {
   public LiftToPosition(double shoulder, double wrist) {
     requires(Robot.lift);
 
-    addParallel(new PIDShoulderToPosition(shoulder));
+    addSequential(new PIDShoulderToPosition(shoulder));
     addParallel(new PIDWristToPosition(wrist));
   }
 }

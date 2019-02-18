@@ -9,12 +9,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.Robot;
 
-// does nothing
-public class DoNothing extends Command {
-  public DoNothing() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class IntakeCommandAuto extends Command {
+
+  double top;
+  double bottom;
+
+
+
+  public IntakeCommandAuto(double topSpeed, double bottomSpeed, double timeout) {
+    requires(Robot.intake);
+    setTimeout(timeout);
+    this.top = topSpeed;
+    this.bottom = bottomSpeed;
+
   }
 
   // Called just before this Command runs the first time
@@ -25,6 +34,7 @@ public class DoNothing extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.intake.setRollers(top, bottom);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -36,6 +46,7 @@ public class DoNothing extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.intake.setRollers(0, 0);
   }
 
   // Called when another command which requires one or more of the same
