@@ -32,7 +32,6 @@ public class ClimbCommand extends Command {
     Robot.climb.winch1.configNominalOutputReverse(-0, timeoutMs);
     Robot.climb.winch1.configPeakOutputForward(+winchMax, timeoutMs);
     Robot.climb.winch1.configPeakOutputReverse(-winchMax, timeoutMs);
-
     
     Robot.climb.winch3.configNominalOutputForward(+0, timeoutMs);
     Robot.climb.winch3.configNominalOutputReverse(-0, timeoutMs);

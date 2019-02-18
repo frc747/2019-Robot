@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public class DriveCommand extends Command {
+public class DriveCommandButton extends Command {
 
   int timeoutMs = 10;
 
@@ -26,7 +26,7 @@ public class DriveCommand extends Command {
 
   public double maxThreshold;
 
-  public DriveCommand() {
+  public DriveCommandButton() {
     requires(Robot.DRIVE_SUBSYSTEM);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);

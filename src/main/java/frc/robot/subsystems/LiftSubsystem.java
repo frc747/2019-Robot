@@ -36,7 +36,7 @@ public class LiftSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new LiftToPosition(0, 0, 0));
+    setDefaultCommand(new LiftToPosition(0, 0));
 
     liftPrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
     shoulderPrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
@@ -112,4 +112,21 @@ public class LiftSubsystem extends Subsystem {
   public void setPID(double leftTicks, double rightTicks, TalonSRX talon) {
     talon.set(ControlMode.MotionMagic, leftTicks);
   }
+
+  public void stop(TalonSRX talon) {
+    ControlMode mode = talon.getControlMode();
+
+    switch (mode) {
+    case MotionMagic:
+        break;
+    case PercentOutput:
+    case Velocity:
+    case Follower:
+    default:
+        // Values should be 0;
+        break;
+    }
+    
+    talon.set(ControlMode.PercentOutput, talon.getSelectedSensorPosition(pidIdx));
+}
 }

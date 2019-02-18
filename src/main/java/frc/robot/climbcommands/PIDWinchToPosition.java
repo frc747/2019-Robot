@@ -1,9 +1,10 @@
-package frc.robot.liftcommands;
+package frc.robot.climbcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PIDLiftToPosition extends Command {
+public class PIDWinchToPosition
+ extends Command {
     
     //execute is called every 20ms and isFinished is called right after execute
     //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
@@ -40,7 +41,7 @@ public class PIDLiftToPosition extends Command {
     
     private double specificDistanceF = 0;
     
-    public PIDLiftToPosition(double position) {
+    public PIDWinchToPosition(double position) {
           
 //      this.driveTicks = inches / ENCODER_TICKS_PER_REVOLUTION;
             this.driveTicks = position;
