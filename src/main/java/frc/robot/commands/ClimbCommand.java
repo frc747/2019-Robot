@@ -34,10 +34,10 @@ public class ClimbCommand extends Command {
     Robot.climb.winch1.configPeakOutputReverse(-winchMax, timeoutMs);
 
     
-    Robot.climb.crank.configNominalOutputForward(+0, timeoutMs);
-    Robot.climb.crank.configNominalOutputReverse(-0, timeoutMs);
-    Robot.climb.crank.configPeakOutputForward(+crankMax, timeoutMs);
-    Robot.climb.crank.configPeakOutputReverse(-crankMax, timeoutMs);
+    Robot.climb.winch3.configNominalOutputForward(+0, timeoutMs);
+    Robot.climb.winch3.configNominalOutputReverse(-0, timeoutMs);
+    Robot.climb.winch3.configPeakOutputForward(+winchMax, timeoutMs);
+    Robot.climb.winch3.configPeakOutputReverse(-winchMax, timeoutMs);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -47,19 +47,21 @@ public class ClimbCommand extends Command {
     SmartDashboard.putNumber("WINCH MAX: ", winchMax);
     SmartDashboard.putNumber("CRANK MAX: ", crankMax);
 
-    double winchValue = OI.operatorController.getRawAxis(1);
-    double crankValue = OI.operatorController.getRawAxis(5);
+    double winchLeftValue = OI.operatorController.getRawAxis(1);
+    double winchRightValue = OI.operatorController.getRawAxis(1);
+    //double crankValue = OI.operatorController.getRawAxis(5);
 
-    if(Math.abs(winchValue) < .05) {
-      winchValue = 0;
+    if(Math.abs(winchLeftValue) < .05) {
+      winchLeftValue = 0;
     }
 
-    if(Math.abs(crankValue) < .05) {
-      crankValue = 0;
+    if(Math.abs(winchRightValue) < .05) {
+      winchRightValue = 0;
     }
 
-    Robot.climb.setWinch(winchValue);
-    Robot.climb.setCrank(crankValue);
+    Robot.climb.setLeftWinch(winchLeftValue);
+    Robot.climb.setRightWinch(winchRightValue);
+    //Robot.climb.setCrank(crankValue);
 
   }
 
