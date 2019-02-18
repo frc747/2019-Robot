@@ -36,4 +36,16 @@ public class ClimbSubsystem extends Subsystem {
   public void setCrank(double speed) {
     crank.set(ControlMode.PercentOutput, speed);
   }
+
+  public void changeControlMode(ControlMode mode, TalonSRX talon) {
+    talon.set(mode, 0);
+  } 
+  
+  public void enablePositionControl(TalonSRX talon) {
+      this.changeControlMode(ControlMode.MotionMagic, talon);
+  }
+
+  public void enableVBusControl(TalonSRX talon) {
+      this.changeControlMode(ControlMode.PercentOutput, talon);
+  }
 }

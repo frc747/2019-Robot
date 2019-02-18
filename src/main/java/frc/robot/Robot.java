@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -31,6 +33,9 @@ import com.kauailabs.navx.frc.AHRS;
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static ClimbSubsystem climb = new ClimbSubsystem();
+  public static LiftSubsystem lift = new LiftSubsystem();
+  public static IntakeSubsystem intake = new IntakeSubsystem();
+  
   public static OI m_oi;
 
   Command m_autonomousCommand;
