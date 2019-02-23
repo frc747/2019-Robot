@@ -135,6 +135,7 @@ public class OI {
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
     SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
+    SmartDashboard.putNumber("pot reading:", Robot.pot.get());
 
     // if (Utility.getUserButton()) {
     //   inc++;

@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LiftSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -33,8 +33,10 @@ import com.kauailabs.navx.frc.AHRS;
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static ClimbSubsystem climb = new ClimbSubsystem();
-  public static LiftSubsystem lift = new LiftSubsystem();
-  public static IntakeSubsystem intake = new IntakeSubsystem();
+
+  public static AnalogInput potChannel = new AnalogInput(0);
+
+  public static AnalogPotentiometer pot = new AnalogPotentiometer(potChannel, 3600, 0);
   
   public static OI m_oi;
 

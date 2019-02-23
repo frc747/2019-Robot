@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.OI;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,23 +32,35 @@ public class ClimbCommand extends Command {
     Robot.climb.winch1.configNominalOutputReverse(-0, timeoutMs);
     Robot.climb.winch1.configPeakOutputForward(+winchMax, timeoutMs);
     Robot.climb.winch1.configPeakOutputReverse(-winchMax, timeoutMs);
+    Robot.climb.winch2.configNominalOutputForward(+0, timeoutMs);
+    Robot.climb.winch2.configNominalOutputReverse(-0, timeoutMs);
+    Robot.climb.winch2.configPeakOutputForward(+winchMax, timeoutMs);
+    Robot.climb.winch2.configPeakOutputReverse(-winchMax, timeoutMs);
     
     Robot.climb.winch3.configNominalOutputForward(+0, timeoutMs);
     Robot.climb.winch3.configNominalOutputReverse(-0, timeoutMs);
     Robot.climb.winch3.configPeakOutputForward(+winchMax, timeoutMs);
     Robot.climb.winch3.configPeakOutputReverse(-winchMax, timeoutMs);
+    Robot.climb.winch4.configNominalOutputForward(+0, timeoutMs);
+    Robot.climb.winch4.configPeakOutputForward(+winchMax, timeoutMs);
+    Robot.climb.winch4.configPeakOutputReverse(-winchMax, timeoutMs);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    SmartDashboard.putNumber("WINCH MAX: ", winchMax);
-    SmartDashboard.putNumber("CRANK MAX: ", crankMax);
+    SmartDashboard.putNumber("WINCH MAX: ", Robot.prefs.getDouble("WINCH", .5));
+    SmartDashboard.putNumber("CRANK MAX: ", Robot.prefs.getDouble("CRANK", .5));
+
+    SmartDashboard.putNumber("Winch 1: ", Robot.climb.winch1.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Winch 2: ", Robot.climb.winch2.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Winch 3: ", Robot.climb.winch3.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Winch 4: ", Robot.climb.winch4.getMotorOutputVoltage());
 
     double winchLeftValue = OI.operatorController.getRawAxis(1);
     double winchRightValue = OI.operatorController.getRawAxis(1);
-    //double crankValue = OI.operatorController.getRawAxis(5);
+    double crankValue = OI.operatorController.getRawAxis(5);
 
     if(Math.abs(winchLeftValue) < .05) {
       winchLeftValue = 0;
@@ -58,7 +72,7 @@ public class ClimbCommand extends Command {
 
     Robot.climb.setLeftWinch(winchLeftValue);
     Robot.climb.setRightWinch(winchRightValue);
-    //Robot.climb.setCrank(crankValue);
+    Robot.climb.setCrank(crankValue);
 
   }
 
