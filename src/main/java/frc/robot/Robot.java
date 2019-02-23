@@ -16,11 +16,12 @@ import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.AnalogInput;
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -33,13 +34,12 @@ import com.kauailabs.navx.frc.AHRS;
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static ClimbSubsystem climb = new ClimbSubsystem();
-
-  public static AnalogInput potChannel = new AnalogInput(0);
-
-  public static AnalogPotentiometer pot = new AnalogPotentiometer(potChannel, 3600, 0);
-  
   public static OI m_oi;
 
+  public static AnalogInput ai = new AnalogInput(0);
+  
+  public static Potentiometer pot = new AnalogPotentiometer(ai);
+ 
   Command m_autonomousCommand;
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
     try {
           Thread.sleep(100);
       } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
           e.printStackTrace();
       }
   }
@@ -81,6 +82,7 @@ public class Robot extends TimedRobot {
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+
   }
 
   /**e
@@ -102,6 +104,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    
   }
 
   @Override

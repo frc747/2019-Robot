@@ -14,9 +14,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.autonomous.RocketAutonomous;
+import frc.robot.autonomous.RocketAutonomousArc;
 import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import edu.wpi.first.wpilibj.Utility;
 
 import edu.wpi.first.networktables.*;
 
@@ -28,36 +33,20 @@ public class OI {
   public static double y;
   public static double area;
 
-  // private int inc = 1;
+  private int inc = 1;
 
   public static double distance;
 
   public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
+  
 
-  //DRIVER CONTROLLER
-  Button A_BUTTON_D = new JoystickButton(driverController, 1);
-  Button B_BUTTON_D = new JoystickButton(driverController, 2);
-  Button X_BUTTON_D = new JoystickButton(driverController, 3);
-  Button Y_BUTTON_D = new JoystickButton(driverController, 4);
-  Button LEFT_BUMPER_D = new JoystickButton(driverController, 5);
-  Button RIGHT_BUMPER_D = new JoystickButton(driverController, 6);
-  Button BACK_BUTTON_D = new JoystickButton(driverController, 7);
-  Button START_BUTTON_D = new JoystickButton(driverController, 8);
-  Button LEFT_STICK_D = new JoystickButton(driverController, 9);
-  Button RIGHT_STICK_D = new JoystickButton(driverController, 10);
 
-  //OPERATOR CONTROLLER
-  Button A_BUTTON_O = new JoystickButton(driverController, 1);
-  Button B_BUTTON_O = new JoystickButton(driverController, 2);
-  Button X_BUTTON_O = new JoystickButton(driverController, 3);
-  Button Y_BUTTON_O = new JoystickButton(driverController, 4);
-  Button LEFT_BUMPER_O = new JoystickButton(driverController, 5);
-  Button RIGHT_BUMPER_O = new JoystickButton(driverController, 6);
-  Button BACK_BUTTON_O = new JoystickButton(driverController, 7);
-  Button START_BUTTON_O = new JoystickButton(driverController, 8);
-  Button LEFT_STICK_O = new JoystickButton(driverController, 9);
-  Button RIGHT_STICK_O = new JoystickButton(driverController, 10);
+
+  Button B_BUTTON = new JoystickButton(driverController, 2);
+  Button A_BUTTON = new JoystickButton(driverController, 1);
+  Button Y_BUTTON = new JoystickButton(driverController, 4);
+  Button X_BUTTON = new JoystickButton(driverController, 3);
 
   @SuppressWarnings("resource")
   public OI() {
@@ -77,47 +66,20 @@ public class OI {
   // Anything to be updated should be done in here
   public void updateOI() {
 
-    //Button IDs and Axis IDs are placeholders, NOT REAL
-    if(operatorController.getRawButton(0)) {
-      
-    } else if (operatorController.getRawAxis(7) > .2) {
+    int left;
+    int right;
 
-    } else if (operatorController.getRawAxis(9) > .2) {
-
-    } else if (operatorController.getRawButton(0)) {
-
-    } else {
-      A_BUTTON_D.whileHeld(new DoNothing());
-      B_BUTTON_D.whileHeld(new DoNothing());
-      X_BUTTON_D.whileHeld(new DoNothing());
-      Y_BUTTON_D.whileHeld(new DoNothing());
-      LEFT_BUMPER_D.whileHeld(new DoNothing()); 
-      RIGHT_BUMPER_D.whileHeld(new DoNothing());
-      BACK_BUTTON_D.whileHeld(new DoNothing()); 
-      START_BUTTON_D.whileHeld(new DoNothing());
-      LEFT_STICK_D.whileHeld(new DoNothing());
-      RIGHT_STICK_D.whileHeld(new DoNothing()); 
-
-      A_BUTTON_O.whileHeld(new DoNothing());
-      B_BUTTON_O.whileHeld(new DoNothing()); 
-      X_BUTTON_O.whileHeld(new DoNothing()); 
-      Y_BUTTON_O.whileHeld(new DoNothing()); 
-      LEFT_BUMPER_O.whileHeld(new DoNothing());  
-      RIGHT_BUMPER_O.whileHeld(new DoNothing()); 
-      BACK_BUTTON_O.whileHeld(new DoNothing());  
-      START_BUTTON_O.whileHeld(new DoNothing()); 
-      LEFT_STICK_O.whileHeld(new DoNothing()); 
-      RIGHT_STICK_O.whileHeld(new DoNothing());  
-    }
+    //DPAD Logic Button Selection
 
 
 
 
 
 
-    
 
-    SmartDashboard.putNumber("Joystick DPAD Value: ", operatorController.getPOV());
+
+
+
 
     //table = NetworkTableInstance.getDefault().getTable("limelight");
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -137,16 +99,16 @@ public class OI {
     SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
     SmartDashboard.putNumber("pot reading:", Robot.pot.get());
 
-    // if (Utility.getUserButton()) {
-    //   inc++;
-    // }
+    if (Utility.getUserButton()) {
+      inc++;
+    }
 
-    // if (inc % 3 == 0) {
-    //   DriveCommand.driveType = "tank";
-    // } else if ((inc+1) % 3 == 0) {
-    //   DriveCommand.driveType = "fps";
-    // } else if ((inc+2) % 3 == 0) {
-    //   DriveCommand.driveType = "arcade";
-    // }
+    if (inc % 3 == 0) {
+      DriveCommand.driveType = "tank";
+    } else if ((inc+1) % 3 == 0) {
+      DriveCommand.driveType = "fps";
+    } else if ((inc+2) % 3 == 0) {
+      DriveCommand.driveType = "arcade";
+    }
   }
 }

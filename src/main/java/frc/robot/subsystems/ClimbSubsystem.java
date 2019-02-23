@@ -28,7 +28,7 @@ public class ClimbSubsystem extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new ClimbCommand());
     winch2.set(ControlMode.Follower, winch1.getDeviceID());
-    winch3.set(ControlMode.Follower, winch4.getDeviceID());
+    winch4.set(ControlMode.Follower, winch3.getDeviceID());
   }
 
 
@@ -37,7 +37,7 @@ public class ClimbSubsystem extends Subsystem {
   }
 
   public void setRightWinch(double speed) {
-    winch4.set(ControlMode.PercentOutput, -speed);
+    winch3.set(ControlMode.PercentOutput, -speed);
   }
 
   public void setCrank(double speed) {
