@@ -47,10 +47,10 @@ public class OI {
   Button A_BUTTON = new JoystickButton(driverController, 1);
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
-
+  Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   @SuppressWarnings("resource")
   public OI() {
-
+    SELECT_BUTTON.whileHeld(new GetInRangeCommand());
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     //Y_BUTTON.whileHeld(new LineTrackCommand());
