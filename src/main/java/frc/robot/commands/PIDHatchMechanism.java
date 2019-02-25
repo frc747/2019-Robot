@@ -51,7 +51,7 @@ public class PIDHatchMechanism extends Command {
     private double specificDistanceF = 0;
     
     public PIDHatchMechanism(double ticks, boolean reverse) {
-        requires(Robot.DRIVE_SUBSYSTEM);
+        requires(Robot.hatch);
           
 //      this.driveTicks = inches / ENCODER_TICKS_PER_REVOLUTION;
     
@@ -69,37 +69,37 @@ public class PIDHatchMechanism extends Command {
         //Robot.DRIVE_SUBSYSTEM.hatchTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
 
 //      Robot.resetNavXAngle();
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.set(ControlMode.MotionMagic, 0);
+        Robot.hatch.hatchTalon.set(ControlMode.MotionMagic, 0);
         
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.config_kP(pidIdx, specificDistanceP, timeoutMs);
+        Robot.hatch.hatchTalon.config_kP(pidIdx, specificDistanceP, timeoutMs);
         
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.config_kI(pidIdx, specificDistanceI, timeoutMs);
+        Robot.hatch.hatchTalon.config_kI(pidIdx, specificDistanceI, timeoutMs);
         
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.config_kD(pidIdx, specificDistanceD, timeoutMs);
+        Robot.hatch.hatchTalon.config_kD(pidIdx, specificDistanceD, timeoutMs);
         
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.config_kF(pidIdx, specificDistanceF, timeoutMs);
+        Robot.hatch.hatchTalon.config_kF(pidIdx, specificDistanceF, timeoutMs);
         
 //        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.ClearIaccum();
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.ClearIaccum();
         
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.hatch.hatchTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.hatch.hatchTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        Robot.hatch.hatchTalon.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        Robot.hatch.hatchTalon.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
         
 //        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.setCloseLoopRampRate(rampRate);
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.setCloseLoopRampRate(rampRate);
         
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+        Robot.hatch.hatchTalon.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
         
 //        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
         
 
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configMotionCruiseVelocity(7500, 10);
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.configMotionAcceleration(20000, 10);
+        Robot.hatch.hatchTalon.configMotionCruiseVelocity(7500, 10);
+        Robot.hatch.hatchTalon.configMotionAcceleration(20000, 10);
 
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.set(ControlMode.MotionMagic, driveTicks);
+        Robot.hatch.hatchTalon.set(ControlMode.MotionMagic, driveTicks);
     }
     
     protected void execute() {
@@ -123,10 +123,10 @@ public class PIDHatchMechanism extends Command {
 //        SmartDashboard.putNumber("LEFT FINAL Drive Distance: Inches", Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertRevsToInches(Robot.DRIVE_SUBSYSTEM.getLeftPosition())));
 //        SmartDashboard.putNumber("RIGHT FINAL Drive Distance: Inches", Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertRevsToInches(Robot.DRIVE_SUBSYSTEM.getRightPosition())));
 //        SmartDashboard.putNumber("Straight", OI.latestDistanceDriven);
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.set(ControlMode.PercentOutput, 0);
+        Robot.hatch.hatchTalon.set(ControlMode.PercentOutput, 0);
         //Robot.DRIVE_SUBSYSTEM.hatchTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
 //      Robot.resetNavXAngle();
-        Robot.DRIVE_SUBSYSTEM.hatchTalon.set(ControlMode.PercentOutput, 0);
+        Robot.hatch.hatchTalon.set(ControlMode.PercentOutput, 0);
     }
     
     protected void interrupted() {

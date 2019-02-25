@@ -50,7 +50,7 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   @SuppressWarnings("resource")
   public OI() {
-    SELECT_BUTTON.whileHeld(new GetInRangeCommand());
+    //SELECT_BUTTON.whileHeld(new GetInRangeCommand());
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     //Y_BUTTON.whileHeld(new LineTrackCommand());
@@ -93,7 +93,7 @@ public class OI {
     SmartDashboard.putNumber("area value: ", area);
     SmartDashboard.putNumber("distance", distance);
     
-    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.hatch.hatchTalon.getSelectedSensorPosition());
 
     SmartDashboard.putString("Drive Type", DriveCommand.driveType);
 
