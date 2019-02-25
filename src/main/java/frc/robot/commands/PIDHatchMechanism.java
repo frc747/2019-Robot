@@ -107,7 +107,7 @@ public class PIDHatchMechanism extends Command {
     
     @Override
     protected boolean isFinished() {
-        double hatchPosition = Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition();
+        /*double hatchPosition = Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition();
         
         if (hatchPosition > (driveTicks - STOP_THRESHOLD_ADJUSTED) && hatchPosition < (driveTicks + STOP_THRESHOLD_ADJUSTED)) {
             onTargetCount++;
@@ -115,7 +115,8 @@ public class PIDHatchMechanism extends Command {
             onTargetCount = 0;
         }
         
-        return (onTargetCount > ON_TARGET_MINIMUM_COUNT);
+        return (onTargetCount > ON_TARGET_MINIMUM_COUNT);*/
+        return false;
     }
     
     protected void end() {
