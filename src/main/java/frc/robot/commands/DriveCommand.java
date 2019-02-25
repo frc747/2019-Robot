@@ -22,7 +22,7 @@ public class DriveCommand extends Command {
 
   double left;
   double right;
-  public static String driveType = "fps";
+  public static String driveType = "tank";
 
   public double maxThreshold;
 
