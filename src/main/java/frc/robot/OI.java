@@ -57,8 +57,9 @@ public class OI {
    // X_BUTTON.whileHeld(new CargoTrackCommand());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
-
-
+    B_BUTTON.whileHeld(new PIDHatchMechanism(1024, false));
+    A_BUTTON.toggleWhenPressed(new PIDHatchMechanism(0, true));
+    Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
   }
@@ -92,6 +93,8 @@ public class OI {
     SmartDashboard.putNumber("area value: ", area);
     SmartDashboard.putNumber("distance", distance);
     
+    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
+
     SmartDashboard.putString("Drive Type", DriveCommand.driveType);
 
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
