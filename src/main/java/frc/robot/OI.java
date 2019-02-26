@@ -44,6 +44,7 @@ public class OI {
 
 
   Button B_BUTTON = new JoystickButton(driverController, 2);
+  Button B_BUTTON_OP = new JoystickButton(operatorController, 2);
   Button A_BUTTON = new JoystickButton(driverController, 1);
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
@@ -54,10 +55,10 @@ public class OI {
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     //Y_BUTTON.whileHeld(new LineTrackCommand());
-   // X_BUTTON.whileHeld(new CargoTrackCommand());
+     //X_BUTTON.whileHeld(new PIDCatchall());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
-    B_BUTTON.whileHeld(new PIDHatchMechanism(1024, false));
+    B_BUTTON_OP.whileHeld(new PIDHatchMechanism(1024, false));
     A_BUTTON.toggleWhenPressed(new PIDHatchMechanism(0, true));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
