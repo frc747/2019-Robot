@@ -19,8 +19,9 @@ public class RobotMap {
     
   }
   public static enum Controller {
-    DRIVER_CONTROLLER(0),
-    OPERATOR_CONTROLLER(1);
+    LEFT_STICK(0),
+    RIGHT_STICK(1),
+    OPERATOR_CONTROLLER(2);
 
     private int value;
 

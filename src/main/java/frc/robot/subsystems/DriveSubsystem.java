@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.PIDHatchMechanism;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -21,7 +21,7 @@ public class DriveSubsystem extends Subsystem {
 
     public TalonSRX rightDriveBack = new TalonSRX(2);
 
-    public TalonSRX hatchTalon = new TalonSRX(6);
+    //public TalonSRX hatchTalon = new TalonSRX(6);
 
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
@@ -59,20 +59,20 @@ public class DriveSubsystem extends Subsystem {
         leftDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
         rightDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
-        hatchTalon.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
+        //hatchTalon.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
         leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
         leftDrivePrimary.configMotionAcceleration(20500, timeoutMs);
         rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
         rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
 
-        hatchTalon.configMotionCruiseVelocity(7500, 10);
-        hatchTalon.configMotionAcceleration(20000, 10);
+        //hatchTalon.configMotionCruiseVelocity(7500, 10);
+        //hatchTalon.configMotionAcceleration(20000, 10);
 
-        hatchTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
-        hatchTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
-        hatchTalon.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
-        hatchTalon.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        //hatchTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        //hatchTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        //hatchTalon.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        //hatchTalon.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
 
         leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
@@ -87,7 +87,7 @@ public class DriveSubsystem extends Subsystem {
 
     public void initDefaultCommand() {
         //setDefaultCommand(new DriveCommand());
-        setDefaultCommand(new PIDHatchMechanism(0, false));
+        setDefaultCommand(new TankDriveCommand());
     }
 
     public void updateSpeeds() {

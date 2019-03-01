@@ -37,16 +37,17 @@ public class OI {
 
   public static double distance;
 
-  public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
+  public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
+  public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
   
 
 
 
-  Button B_BUTTON = new JoystickButton(driverController, 2);
-  Button A_BUTTON = new JoystickButton(driverController, 1);
-  Button Y_BUTTON = new JoystickButton(driverController, 4);
-  Button X_BUTTON = new JoystickButton(driverController, 3);
+  Button B_BUTTON = new JoystickButton(operatorController, 2);
+  Button A_BUTTON = new JoystickButton(operatorController, 1);
+  Button Y_BUTTON = new JoystickButton(operatorController, 4);
+  Button X_BUTTON = new JoystickButton(operatorController, 3);
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   @SuppressWarnings("resource")
   public OI() {
@@ -70,18 +71,6 @@ public class OI {
     int left;
     int right;
 
-    //DPAD Logic Button Selection
-
-
-
-
-
-
-
-
-
-
-
     //table = NetworkTableInstance.getDefault().getTable("limelight");
     table = NetworkTableInstance.getDefault().getTable("limelight");
     x = table.getEntry("tx").getDouble(0);
@@ -93,25 +82,25 @@ public class OI {
     SmartDashboard.putNumber("area value: ", area);
     SmartDashboard.putNumber("distance", distance);
     
-    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
 
-    SmartDashboard.putString("Drive Type", DriveCommand.driveType);
+    //SmartDashboard.putString("Drive Type", DriveCommand.driveType);
 
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
-    SmartDashboard.putNumber("Joystick Left", driverController.getRawAxis(1));
-    SmartDashboard.putNumber("Joystick Right", driverController.getRawAxis(5));
+    SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
+    SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
     SmartDashboard.putNumber("pot reading:", Robot.pot.get());
 
     if (Utility.getUserButton()) {
       inc++;
     }
 
-    if (inc % 3 == 0) {
+    /*if (inc % 3 == 0) {
       DriveCommand.driveType = "tank";
     } else if ((inc+1) % 3 == 0) {
       DriveCommand.driveType = "fps";
     } else if ((inc+2) % 3 == 0) {
       DriveCommand.driveType = "arcade";
-    }
+    }*/
   }
 }
