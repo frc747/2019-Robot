@@ -24,7 +24,7 @@ public class PIDHatchMechanism extends Command {
     
     private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
-    private static final double MAX_PERCENT_VOLTAGE = 1.0; //was 12 (volts previously, now the input is percent)
+    private static final double MAX_PERCENT_VOLTAGE = .25; //was 12 (volts previously, now the input is percent)
     private static final double MIN_PERCENT_VOLTAGE = 0.0; //was 1.9 (volts perviously, now the input is percent)
 
     //STOP_THRESHOLD_REAL was 3 inches and is now 8 inches in an attempt to cut back on time

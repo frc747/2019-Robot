@@ -51,11 +51,11 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   @SuppressWarnings("resource")
   public OI() {
-    SELECT_BUTTON.whileHeld(new GetInRangeCommand());
+    //SELECT_BUTTON.whileHeld(new GetInRangeCommand());
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     //Y_BUTTON.whileHeld(new LineTrackCommand());
-   // X_BUTTON.whileHeld(new CargoTrackCommand());
+     //X_BUTTON.whileHeld(new PIDCatchall());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
     B_BUTTON.whileHeld(new PIDHatchMechanism(1024, false));
