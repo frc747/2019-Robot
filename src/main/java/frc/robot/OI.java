@@ -51,14 +51,16 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   @SuppressWarnings("resource")
   public OI() {
-    //SELECT_BUTTON.whileHeld(new GetInRangeCommand());
+    SELECT_BUTTON.whileHeld(new LineTrackCommand());
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     //Y_BUTTON.whileHeld(new LineTrackCommand());
      //X_BUTTON.whileHeld(new PIDCatchall());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
-    B_BUTTON.whileHeld(new PIDHatchMechanism(1024, false));
+
+    // was 1024 making it lower so that the hatch does not slide off
+    B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
     A_BUTTON.toggleWhenPressed(new PIDHatchMechanism(0, true));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
