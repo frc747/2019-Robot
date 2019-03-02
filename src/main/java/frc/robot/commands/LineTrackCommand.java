@@ -19,7 +19,7 @@ int timeoutMs = 10;
 
 double speed = 0.50;
 double rampDown = 1;
-
+double rate;
 double leftValue = 0;
 double rightValue = 0;
 
@@ -32,10 +32,14 @@ double rightValue = 0;
   protected void initialize() {
 
     rampDown = 1;
-
+    if(OI.area > 6) {
+      rate = .008;
+    } else {
+      rate = .0065;
+    }
     System.out.println("line");
 
-    OI.table.getEntry("pipeline").setDouble(0.0);
+    OI.table.getEntry("pipeline").setDouble(5.0);
 
   }
 
@@ -45,15 +49,13 @@ double rightValue = 0;
 
     SmartDashboard.putNumber("rampdown", rampDown);
 
-    // if(rampDown > .1) {
-    //   rampDown -= .0065;
-    // }
+     if(rampDown > .1) {
+       rampDown -= rate;
+     }
 
-    // if(OI.area > 50) {
-    //   rampDown = .10;
-    // }
+    
 
-    leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
+    leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/3))*rampDown;
     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
 
     Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);

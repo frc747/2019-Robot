@@ -20,6 +20,8 @@ public class TankDriveCommand extends Command {
 
   int timeoutMs = 10;
 
+  double shiftCount = 0;
+
   private static final double MAX_PERCENT_VOLTAGE = 1.0;
   private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
@@ -30,6 +32,8 @@ public class TankDriveCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    SmartDashboard.putString("High or Low: ", "Low");
+
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
@@ -45,6 +49,19 @@ public class TankDriveCommand extends Command {
   protected void execute() {
     double left = -OI.leftStick.getRawAxis(1);
     double right = -OI.rightStick.getRawAxis(1);
+
+    if((left > .9 && right > .9) || (left < -.9 && right < -.9) && Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600) {
+      shiftCount++;
+    } else {
+      shiftCount = 0;
+    }
+
+    // if shift count has been adding for half a second
+    if(shiftCount > 25) {
+      SmartDashboard.putString("High or Low: ", "High");
+    } else {
+      SmartDashboard.putString("High or Low: ", "Low");
+    }
 
     if (Math.abs(left) < 0.1) {
         left = 0;

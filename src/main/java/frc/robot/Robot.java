@@ -51,12 +51,13 @@ public class Robot extends TimedRobot {
    * used for any initialization code.
    */
 
-  private static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
+  public static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
     
   public static Preferences prefs;
 
   public static double getNavXAngle() {
     return NAV_X.getYaw();
+    
   }
   
   public static double getNavXAngleRadians() {
