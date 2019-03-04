@@ -30,12 +30,16 @@ double rightValue = 0;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    speed = 1.0;
     rampDown = 1;
+    // Rocket
     if(OI.area > 6) {
-      rate = .008;
+      speed = .5;
+      rate = .00875;
     } else {
-      rate = .0065;
+      // Loading Station
+      speed = 1.0;
+      rate = .0080;//was 0.0049
     }
     System.out.println("line");
 
@@ -47,18 +51,32 @@ double rightValue = 0;
   @Override
   protected void execute() {
 
-    SmartDashboard.putNumber("rampdown", rampDown);
+    if(OI.leftStick.getRawButton(10)) {
+      leftValue = -OI.leftStick.getRawAxis(1);
+      rightValue = -OI.rightStick.getRawAxis(1);
+      
+      if (Math.abs(leftValue) < 0.1) {
+        leftValue = 0;
+    }
+    if (Math.abs(rightValue) < 0.1) {
+        rightValue = 0;
+    }
 
-     if(rampDown > .1) {
-       rampDown -= rate;
-     }
+      Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+    } else {
+      SmartDashboard.putNumber("rampdown", rampDown);
 
-    
-
-    leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/3))*rampDown;
-    rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
-
-    Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
+      if(rampDown > .4) {
+        rampDown -= rate;
+      }
+ 
+     
+ 
+     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/2.75))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/2.75)))*rampDown;
+ 
+     Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
