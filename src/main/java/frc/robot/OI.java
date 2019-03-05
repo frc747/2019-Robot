@@ -40,10 +40,15 @@ public class OI {
   public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
   public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
-  
+  public static Joystick testController = new Joystick(3);
 
 
-  
+
+  Button Y_BUTTON_TEST = new JoystickButton(testController, 4);
+  Button B_BUTTON_TEST = new JoystickButton(testController, 2);
+  Button A_BUTTON_TEST = new JoystickButton(testController, 1);
+  Button LEFT_BUMPER_TEST = new JoystickButton(testController, 5);
+
   Button B_BUTTON = new JoystickButton(operatorController, 2);
   Button A_BUTTON = new JoystickButton(operatorController, 1);
   Button Y_BUTTON = new JoystickButton(operatorController, 4);
@@ -58,8 +63,12 @@ public class OI {
      //X_BUTTON.whileHeld(new PIDCatchall());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
+    LEFT_BUMPER_TEST.whileHeld(new DartDriveCommand());
+    B_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(-221740));
+    A_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(0));
 
-    // was 1024 making it lower so that the hatch does not slide off
+
+    Y_BUTTON_TEST.toggleWhenPressed(new ResetDartEncoder());
     B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
     A_BUTTON.toggleWhenPressed(new PIDHatchMechanism(0, true));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
@@ -87,7 +96,7 @@ public class OI {
     SmartDashboard.putNumber("Hatch Talon Position: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
 
     //SmartDashboard.putString("Drive Type", DriveCommand.driveType);
-
+    SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
     SmartDashboard.putNumber("getBusVoltage: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getBusVoltage());
     SmartDashboard.putNumber("getMotorOutputVoltage: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getMotorOutputVoltage());
     SmartDashboard.putNumber("getOutputCurrent: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getOutputCurrent());

@@ -7,61 +7,38 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-import frc.robot.OI;
-
-public class LineTrackCommandAuto extends Command {
-
-int timeoutMs = 10;
-
-double speed = 0.50;
-double rampDown = 1;
-
-double leftValue = 0;
-double rightValue = 0;
-
-double exit;
-
-  public LineTrackCommandAuto(double timeout) {
-    requires(Robot.DRIVE_SUBSYSTEM);
-    exit = timeout;
+public class DartDriveCommand extends Command {
+  public DartDriveCommand() {
+    requires(Robot.ACTUATOR_SUBSYSTEM);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(exit);
-    rampDown = 1;
-
-    System.out.println("line");
-
-    OI.table.getEntry("pipeline").setDouble(0.0);
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double power = OI.testController.getRawAxis(1);
 
-    SmartDashboard.putNumber("rampdown", rampDown);
+    if(!OI.testController.getRawButton(6)) {
+      power = 0;
+    }
 
-    //rampDown = OI.y;
+    if(power < .05 && power > -.05) {
+      power = 0;
+    }
 
-    // if(rampDown > .1) {
-    //   rampDown -= .009;
-    // }
+    //
 
-    // if(OI.area > 50) {
-    //   rampDown = .10;
-    // }
-
-    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
-    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
-
-    Robot.DRIVE_SUBSYSTEM.set(-leftValue, rightValue);
+    Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, power);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -73,14 +50,12 @@ double exit;
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
-    Robot.DRIVE_SUBSYSTEM.stop();
+    Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
   }
 }
