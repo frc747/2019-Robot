@@ -35,8 +35,6 @@ public class PIDHatchMechanism extends Command {
     
     private final static int allowableCloseLoopError = 1;
     
-    private int onTargetCount = 0;
-    
     private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
@@ -63,8 +61,6 @@ public class PIDHatchMechanism extends Command {
     
         
     protected void initialize() {
-        
-        onTargetCount = 0;
         
         //Robot.DRIVE_SUBSYSTEM.hatchTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
 
@@ -107,16 +103,7 @@ public class PIDHatchMechanism extends Command {
     
     @Override
     protected boolean isFinished() {
-        /*double hatchPosition = Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition();
-        
-        if (hatchPosition > (driveTicks - STOP_THRESHOLD_ADJUSTED) && hatchPosition < (driveTicks + STOP_THRESHOLD_ADJUSTED)) {
-            onTargetCount++;
-        } else {
-            onTargetCount = 0;
-        }
-        
-        return (onTargetCount > ON_TARGET_MINIMUM_COUNT);*/
-        return false;
+         return false;
     }
     
     protected void end() {

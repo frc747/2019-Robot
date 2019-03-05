@@ -14,14 +14,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.autonomous.RocketAutonomous;
-import frc.robot.autonomous.RocketAutonomousArc;
 import frc.robot.commands.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.first.wpilibj.Utility;
 
 import edu.wpi.first.networktables.*;
 
@@ -33,21 +27,19 @@ public class OI {
   public static double y;
   public static double area;
 
-  private int inc = 1;
-
   public static double distance;
 
   public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
   public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
-  public static Joystick testController = new Joystick(3);
+  //commented out testController joystick
+  // public static Joystick testController = new Joystick(3);
 
-
-
-  Button Y_BUTTON_TEST = new JoystickButton(testController, 4);
-  Button B_BUTTON_TEST = new JoystickButton(testController, 2);
-  Button A_BUTTON_TEST = new JoystickButton(testController, 1);
-  Button LEFT_BUMPER_TEST = new JoystickButton(testController, 5);
+  //commented out testController joystickbuttons
+  // Button Y_BUTTON_TEST = new JoystickButton(testController, 4);
+  // Button B_BUTTON_TEST = new JoystickButton(testController, 2);
+  // Button A_BUTTON_TEST = new JoystickButton(testController, 1);
+  // Button LEFT_BUMPER_TEST = new JoystickButton(testController, 5);
 
   Button B_BUTTON = new JoystickButton(operatorController, 2);
   Button A_BUTTON = new JoystickButton(operatorController, 1);
@@ -56,6 +48,12 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   @SuppressWarnings("resource")
   public OI() {
+    //commented out testController button commands so that there will be no errors when the third controller is not plugged in
+    // LEFT_BUMPER_TEST.whileHeld(new DartDriveCommand());
+    // B_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(-221740));
+    // A_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(0));
+    // Y_BUTTON_TEST.toggleWhenPressed(new ResetDartEncoder());
+
     SELECT_BUTTON.whileHeld(new LineTrackCommand());
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
@@ -63,12 +61,7 @@ public class OI {
      //X_BUTTON.whileHeld(new PIDCatchall());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
-    LEFT_BUMPER_TEST.whileHeld(new DartDriveCommand());
-    B_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(-221740));
-    A_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(0));
 
-
-    Y_BUTTON_TEST.toggleWhenPressed(new ResetDartEncoder());
     B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
     A_BUTTON.toggleWhenPressed(new PIDHatchMechanism(0, true));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
@@ -78,11 +71,6 @@ public class OI {
 
   // Anything to be updated should be done in here
   public void updateOI() {
-
-    int left;
-    int right;
-
-    //table = NetworkTableInstance.getDefault().getTable("limelight");
     table = NetworkTableInstance.getDefault().getTable("limelight");
     x = table.getEntry("tx").getDouble(0);
     y = table.getEntry("ty").getDouble(0);
@@ -105,23 +93,9 @@ public class OI {
     SmartDashboard.putNumber("NAV_X Velocity Y: ", Robot.NAV_X.getVelocityY());
     SmartDashboard.putNumber("NAV_X Velocity Z: ", Robot.NAV_X.getVelocityZ());
 
-
-
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
     SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
     SmartDashboard.putNumber("pot reading:", Robot.pot.get());
-
-    if (Utility.getUserButton()) {
-      inc++;
-    }
-
-    /*if (inc % 3 == 0) {
-      DriveCommand.driveType = "tank";
-    } else if ((inc+1) % 3 == 0) {
-      DriveCommand.driveType = "fps";
-    } else if ((inc+2) % 3 == 0) {
-      DriveCommand.driveType = "arcade";
-    }*/
   }
 }

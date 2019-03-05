@@ -31,7 +31,6 @@ public class ClimbSubsystem extends Subsystem {
     winch4.set(ControlMode.Follower, winch3.getDeviceID());
   }
 
-
   public void setLeftWinch(double speed) {
     winch1.set(ControlMode.PercentOutput, speed);
   }

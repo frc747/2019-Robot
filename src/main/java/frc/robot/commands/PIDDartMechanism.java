@@ -26,17 +26,9 @@ public class PIDDartMechanism extends Command {
 
     private static final double MAX_PERCENT_VOLTAGE = 1.0; //was 12 (volts previously, now the input is percent)
     private static final double MIN_PERCENT_VOLTAGE = 0.0; //was 1.9 (volts perviously, now the input is percent)
-
-    //STOP_THRESHOLD_REAL was 3 inches and is now 8 inches in an attempt to cut back on time
-    private final static double STOP_THRESHOLD_REAL = 3; //3.0;
-    private final static double STOP_THRESHOLD_ADJUSTED = 10;
-    
-//    private final static int I_ZONE_IN_REVOLUTIONS = 50; //100;
     
     private final static int allowableCloseLoopError = 1;
-    
-    private int onTargetCount = 0;
-    
+        
     private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
@@ -62,8 +54,6 @@ public class PIDDartMechanism extends Command {
     
         
     protected void initialize() {
-        
-        onTargetCount = 0;
         
         //Robot.DRIVE_SUBSYSTEM.hatchTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
 
@@ -95,8 +85,8 @@ public class PIDDartMechanism extends Command {
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
         
 
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(150000, 10);
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(150000, 10);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(100000, 10);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(100000, 10);
 
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
     }
@@ -106,15 +96,6 @@ public class PIDDartMechanism extends Command {
     
     @Override
     protected boolean isFinished() {
-        /*double hatchPosition = Robot.DRIVE_SUBSYSTEM.hatchTalon.getSelectedSensorPosition();
-        
-        if (hatchPosition > (driveTicks - STOP_THRESHOLD_ADJUSTED) && hatchPosition < (driveTicks + STOP_THRESHOLD_ADJUSTED)) {
-            onTargetCount++;
-        } else {
-            onTargetCount = 0;
-        }
-        
-        return (onTargetCount > ON_TARGET_MINIMUM_COUNT);*/
         return false;
     }
     

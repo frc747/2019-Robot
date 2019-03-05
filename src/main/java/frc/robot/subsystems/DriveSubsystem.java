@@ -1,13 +1,11 @@
 package frc.robot.subsystems;
 
 import frc.robot.commands.TankDriveCommand;
-import frc.robot.commands.PIDHatchMechanism;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.TankDriveCommand;
 /**
  *
  */
@@ -76,7 +74,6 @@ public class DriveSubsystem extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        //setDefaultCommand(new DriveCommand());
         setDefaultCommand(new TankDriveCommand());
     }
 
