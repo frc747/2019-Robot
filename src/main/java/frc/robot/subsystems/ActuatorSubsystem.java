@@ -17,7 +17,7 @@ import frc.robot.commands.PIDDartMechanism;
  */
 public class ActuatorSubsystem extends Subsystem {
 
-  public TalonSRX dartTalon = new TalonSRX(7);
+  public TalonSRX dartTalon = new TalonSRX(6);
 
 
   private static final int pidIdx = 0;

@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  */
 public class HatchSubsystem extends Subsystem {
 
-  public TalonSRX hatchTalon = new TalonSRX(6);
+  public TalonSRX hatchTalon = new TalonSRX(5);
 
 
   private static final int pidIdx = 0;

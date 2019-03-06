@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
 
-    public TalonSRX leftDrivePrimary = new TalonSRX(8);
+    public TalonSRX leftDrivePrimary = new TalonSRX(1); // 10
 
-	public TalonSRX leftDriveBack = new TalonSRX(9);
+	public TalonSRX leftDriveBack = new TalonSRX(2); // 9
 
-	public TalonSRX rightDrivePrimary = new TalonSRX(1);
+	public TalonSRX rightDrivePrimary = new TalonSRX(10); // 1
 
-    public TalonSRX rightDriveBack = new TalonSRX(2);
+    public TalonSRX rightDriveBack = new TalonSRX(9); // 2
 
 
     private static final int pidIdx = 0;

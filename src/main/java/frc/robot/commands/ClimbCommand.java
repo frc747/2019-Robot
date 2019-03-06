@@ -47,7 +47,7 @@ public class ClimbCommand extends Command {
 
     double winchLeftValue = OI.operatorController.getRawAxis(1);
     double winchRightValue = OI.operatorController.getRawAxis(1);
-    double crankValue = OI.operatorController.getRawAxis(5);
+    //double crankValue = OI.operatorController.getRawAxis(5);
 
     if(Math.abs(winchLeftValue) < .05) {
       winchLeftValue = 0;
@@ -59,7 +59,7 @@ public class ClimbCommand extends Command {
 
     Robot.climb.setLeftWinch(winchLeftValue);
     Robot.climb.setRightWinch(winchRightValue);
-    Robot.climb.setCrank(crankValue);
+    //Robot.climb.setCrank(crankValue);
 
   }
 
