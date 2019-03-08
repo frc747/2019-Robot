@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.autonomous.LeftLevelTwoCargoAuto;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +27,8 @@ public class OI {
   public static double x;
   public static double y;
   public static double area;
+
+  public static boolean shiftHigh = false;
 
   public static double distance;
 
@@ -62,9 +65,10 @@ public class OI {
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
 
-    X_BUTTON.toggleWhenPressed(new PIDDriveInchesSandstorm(100, false));
+    X_BUTTON.toggleWhenPressed(new LeftLevelTwoCargoAuto());
+
     B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
-    A_BUTTON.toggleWhenPressed(new PIDHatchMechanism(0, true));
+    A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);

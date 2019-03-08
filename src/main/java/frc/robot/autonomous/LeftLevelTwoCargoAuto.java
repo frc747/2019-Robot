@@ -9,19 +9,18 @@ package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
-import frc.robot.*;
-public class RocketAutonomous extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public RocketAutonomous() {
-    Robot.resetNavXAngle();
-    addSequential(new PIDDriveInches(90, false));
-    addSequential(new PIDDriveRotateCustom(-90));
-    addSequential(new PIDDriveInches(68, true));
-    addSequential(new PIDDriveRotateCustom(60));
-    //addSequential(new LineTrackCommandAuto(2));
-    //addSequential(new PIDDriveInches(-70));
-    //addSequential(new PIDDriveRotate(55));
+
+public class LeftLevelTwoCargoAuto extends CommandGroup {
+
+
+
+  public LeftLevelTwoCargoAuto() {
+    addSequential(new PIDDriveInchesSandstorm(80, false));
+    //addSequential(new PIDDriveInchesArc(40, false));
+    // addSequential(new PIDDriveRotateCustom(45));
+    // addSequential(new PIDDriveInches(52, false));
+    // addSequential(new PIDDriveRotateCustom(-45));
+    //addSequential(new LineTrackCommandAuto(5));
   }
+
 }

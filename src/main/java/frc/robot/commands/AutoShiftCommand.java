@@ -10,35 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TankDriveCommand extends Command {
+public class AutoShiftCommand extends Command {
 
-  int timeoutMs = 10;
+  int shiftCount = 0;
 
-  double shiftCount = 0;
-
-  private static final double MAX_PERCENT_VOLTAGE = 1.0;
-  private static final double MIN_PERCENT_VOLTAGE = 0.0;
-
-  public TankDriveCommand() {
-    requires(Robot.DRIVE_SUBSYSTEM);
+  public AutoShiftCommand() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    SmartDashboard.putString("High or Low: ", "Low");
-
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
-    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -47,16 +32,20 @@ public class TankDriveCommand extends Command {
     double left = -OI.leftStick.getRawAxis(1);
     double right = -OI.rightStick.getRawAxis(1);
 
-    if (Math.abs(left) < 0.1) {
-        left = 0;
+    if((left > .9 && right > .9) || (left < -.9 && right < -.9) && Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600) {
+      shiftCount++;
+    } else {
+      shiftCount = 0;
     }
-    if (Math.abs(right) < 0.1) {
-        right = 0;
+
+    // if shift count has been adding for half a second
+    if(shiftCount > 25) {
+      OI.shiftHigh = true;
+      SmartDashboard.putString("High or Low: ", "High");
+    } else {
+      OI.shiftHigh = false;
+      SmartDashboard.putString("High or Low: ", "Low");
     }
-    
-    double speed = 1;
-    
-    Robot.DRIVE_SUBSYSTEM.set(left * speed, right * speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

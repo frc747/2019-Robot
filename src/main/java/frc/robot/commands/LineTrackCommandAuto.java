@@ -19,26 +19,32 @@ int timeoutMs = 10;
 
 double speed = 0.50;
 double rampDown = 1;
-
+double rate;
 double leftValue = 0;
 double rightValue = 0;
 
-double exit;
-
-  public LineTrackCommandAuto(double timeout) {
+  public LineTrackCommandAuto(double seconds) {
+    setTimeout(seconds);
     requires(Robot.DRIVE_SUBSYSTEM);
-    exit = timeout;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(exit);
+    speed = 1.0;
     rampDown = 1;
-
+    // Rocket
+    if(OI.area > 6) {
+      speed = .5;
+      rate = .00875;
+    } else {
+      // Loading Station
+      speed = 1.0;
+      rate = .0080;//was 0.0049
+    }
     System.out.println("line");
 
-    OI.table.getEntry("pipeline").setDouble(0.0);
+    OI.table.getEntry("pipeline").setDouble(5.0);
 
   }
 
@@ -46,22 +52,32 @@ double exit;
   @Override
   protected void execute() {
 
-    SmartDashboard.putNumber("rampdown", rampDown);
+    if(OI.leftStick.getRawButton(10)) {
+      leftValue = -OI.leftStick.getRawAxis(1);
+      rightValue = -OI.rightStick.getRawAxis(1);
+      
+      if (Math.abs(leftValue) < 0.1) {
+        leftValue = 0;
+    }
+    if (Math.abs(rightValue) < 0.1) {
+        rightValue = 0;
+    }
 
-    //rampDown = OI.y;
+      Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+    } else {
+      SmartDashboard.putNumber("rampdown", rampDown);
 
-    // if(rampDown > .1) {
-    //   rampDown -= .009;
-    // }
-
-    // if(OI.area > 50) {
-    //   rampDown = .10;
-    // }
-
-    leftValue = ((speed) - ((.75*(Math.tanh(OI.x/10)))/6))*rampDown;
-    rightValue = (-((speed) + ((.75*(Math.tanh(OI.x/10)))/3)))*rampDown;
-
-    Robot.DRIVE_SUBSYSTEM.set(-leftValue, rightValue);
+      if(rampDown > .4) {
+        rampDown -= rate;
+      }
+ 
+     
+ 
+     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/2.75))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/2.75)))*rampDown;
+ 
+     Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
