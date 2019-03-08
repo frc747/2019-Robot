@@ -61,14 +61,13 @@ public class OI {
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
     //X_BUTTON.toggleWhenPressed(new RotationalLockMode());
     //Y_BUTTON.whileHeld(new LineTrackCommand());
-     //X_BUTTON.whileHeld(new PIDCatchall());
+    //X_BUTTON.whileHeld(new PIDCatchall());
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
 
-    X_BUTTON.toggleWhenPressed(new LeftLevelTwoCargoAuto());
-
+    //X_BUTTON.toggleWhenPressed(new LeftLevelTwoCargoAuto());
+    //A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
     B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
-    A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
