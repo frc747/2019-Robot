@@ -31,8 +31,8 @@ public class ActuatorSubsystem extends Subsystem {
 
     dartTalon.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
-    dartTalon.configMotionCruiseVelocity(100000, 10);
-    dartTalon.configMotionAcceleration(100000, 10);
+    dartTalon.configMotionCruiseVelocity(80000, 10);
+    dartTalon.configMotionAcceleration(80000, 10);
 
     dartTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
     dartTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);

@@ -85,8 +85,8 @@ public class PIDDartMechanism extends Command {
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
         
 
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(100000, 10);
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(100000, 10);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(80000, 10);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(80000, 10);
 
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
     }

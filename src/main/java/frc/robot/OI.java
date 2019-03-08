@@ -14,7 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.autonomous.LeftLevelTwoCargoAuto;
+// import frc.robot.autonomous.LeftLevelTwoCargoAuto;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -36,13 +36,13 @@ public class OI {
   public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
   //commented out testController joystick
-  // public static Joystick testController = new Joystick(3);
+  public static Joystick testController = new Joystick(3);
 
   //commented out testController joystickbuttons
-  // Button Y_BUTTON_TEST = new JoystickButton(testController, 4);
-  // Button B_BUTTON_TEST = new JoystickButton(testController, 2);
-  // Button A_BUTTON_TEST = new JoystickButton(testController, 1);
-  // Button LEFT_BUMPER_TEST = new JoystickButton(testController, 5);
+  Button Y_BUTTON_TEST = new JoystickButton(testController, 4);
+  Button B_BUTTON_TEST = new JoystickButton(testController, 2);
+  Button A_BUTTON_TEST = new JoystickButton(testController, 1);
+  Button LEFT_BUMPER_TEST = new JoystickButton(testController, 5);
 
   Button B_BUTTON = new JoystickButton(operatorController, 2);
   Button A_BUTTON = new JoystickButton(operatorController, 1);
@@ -52,10 +52,10 @@ public class OI {
   @SuppressWarnings("resource")
   public OI() {
     //commented out testController button commands so that there will be no errors when the third controller is not plugged in
-    // LEFT_BUMPER_TEST.whileHeld(new DartDriveCommand());
-    // B_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(-221740));
-    // A_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(0));
-    // Y_BUTTON_TEST.toggleWhenPressed(new ResetDartEncoder());
+    LEFT_BUMPER_TEST.whileHeld(new DartDriveCommand());
+    B_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(-221740));
+    A_BUTTON_TEST.toggleWhenPressed(new PIDDartMechanism(0));
+    Y_BUTTON_TEST.toggleWhenPressed(new ResetDartEncoder());
 
     SELECT_BUTTON.whileHeld(new LineTrackCommand());
     //A_BUTTON.toggleWhenPressed(new RocketAutonomousArc());
@@ -65,10 +65,10 @@ public class OI {
     //B_BUTTON.whileHeld(new LineTrackCommand());
     //Y_BUTTON.toggleWhenPressed(new PIDDriveInches(20.125, true));
 
-    X_BUTTON.toggleWhenPressed(new LeftLevelTwoCargoAuto());
+    // X_BUTTON.toggleWhenPressed(new LeftLevelTwoCargoAuto());
 
     B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
-    A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
+    // A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
     Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
