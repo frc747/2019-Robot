@@ -22,6 +22,7 @@ double rampDown = 1;
 double rate;
 double leftValue = 0;
 double rightValue = 0;
+double last;
 
   public LineTrackCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
@@ -32,7 +33,7 @@ double rightValue = 0;
   protected void initialize() {
     speed = 1.0;
     rampDown = 1;
-    // Rocket
+    // // Rocket
     if(OI.area > 6) {
       speed = .5;
       rate = .00875;
@@ -64,16 +65,29 @@ double rightValue = 0;
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
+      //SmartDashboard.putNumber("rampdown", rampDown);
+
+       if(rampDown > .4) {
+         rampDown -= rate;
+       }
+ 
+      //turns the y-range into a positive set to eliminate accidental reversing of the robot.
+      //double convertedY = OI.y+20.5;
+      
+
+      //Divides the number by 20.5 to say that if the target is centered vertically, make the rampdown equal to 1.
+      //rampDown = Math.abs(1/convertedY)*10;
+    
+
+ 
+      // if(OI.y == 0 || rampDown < .2) {
+      //   rampDown = .2;
+      // }
+      // last = rampDown;
       SmartDashboard.putNumber("rampdown", rampDown);
 
-      if(rampDown > .4) {
-        rampDown -= rate;
-      }
- 
-     
- 
      leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/2.75))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/2.75)))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/2.75))*rampDown);
  
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
