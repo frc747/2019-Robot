@@ -58,10 +58,10 @@ double last;
       
       if (Math.abs(leftValue) < 0.1) {
         leftValue = 0;
-    }
-    if (Math.abs(rightValue) < 0.1) {
+      }
+      if (Math.abs(rightValue) < 0.1) {
         rightValue = 0;
-    }
+      }
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {

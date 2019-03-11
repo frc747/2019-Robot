@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.ShiftDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -19,6 +20,7 @@ public class DriveSubsystem extends Subsystem {
 
     public TalonSRX rightDriveBack = new TalonSRX(9); // 2
 
+    public TalonSRX gearShifter = new TalonSRX(12);
 
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
@@ -43,6 +45,8 @@ public class DriveSubsystem extends Subsystem {
 
     public DriveSubsystem() {
         super();
+        gearShifter.setInverted(true);
+        gearShifter.setSensorPhase(true);
 
         leftDrivePrimary.setInverted(true);
         leftDriveBack.setInverted(true);
@@ -56,6 +60,8 @@ public class DriveSubsystem extends Subsystem {
         leftDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
         rightDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
+
+        gearShifter.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
         leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
         leftDrivePrimary.configMotionAcceleration(20500, timeoutMs);
@@ -71,10 +77,16 @@ public class DriveSubsystem extends Subsystem {
         rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
         rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
 
+        gearShifter.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        gearShifter.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        gearShifter.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        gearShifter.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new TankDriveCommand());
+        setDefaultCommand(new ShiftDriveCommand());
+        // setDefaultCommand(new TankDriveCommand());
     }
 
     public void updateSpeeds() {

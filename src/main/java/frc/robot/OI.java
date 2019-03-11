@@ -88,6 +88,7 @@ public class OI {
     SmartDashboard.putNumber("Hatch Talon Position: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
 
     //SmartDashboard.putString("Drive Type", DriveCommand.driveType);
+    SmartDashboard.putNumber("Gear Shifter: ", Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition());
     SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
     SmartDashboard.putNumber("getBusVoltage: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getBusVoltage());
     SmartDashboard.putNumber("getMotorOutputVoltage: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getMotorOutputVoltage());
