@@ -29,6 +29,9 @@ public class HatchSubsystem extends Subsystem {
 
     hatchTalon.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
+    hatchTalon.setInverted(true);
+    hatchTalon.setSensorPhase(true);
+
     hatchTalon.configMotionCruiseVelocity(7500, 10);
     hatchTalon.configMotionAcceleration(20000, 10);
 

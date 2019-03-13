@@ -67,8 +67,10 @@ public class OI {
 
     //X_BUTTON.toggleWhenPressed(new LeftLevelTwoCargoAuto());
     //A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
+    Y_BUTTON.toggleWhenPressed(new PIDDartMechanism(-221740));
+    A_BUTTON.toggleWhenPressed(new PIDDartMechanism(0));
     B_BUTTON.whileHeld(new PIDHatchMechanism(768, false));
-    Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
+    // Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
   }

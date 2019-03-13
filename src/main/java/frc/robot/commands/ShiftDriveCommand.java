@@ -11,7 +11,7 @@ public class ShiftDriveCommand extends Command {
     //execute is called every 20ms and isFinished is called right after execute
     //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
     
-    private double driveTicks = -360;
+    private double driveTicks = 830;
     
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
@@ -35,7 +35,7 @@ public class ShiftDriveCommand extends Command {
     
     private double specificDistanceD = 0;
 
-    private double specificDistanceF = 3.0;
+    private double specificDistanceF = 1.5;
     
     private double leftValue;
 
@@ -116,7 +116,7 @@ public class ShiftDriveCommand extends Command {
                 
                 Robot.DRIVE_SUBSYSTEM.gearShifter.config_kD(pidIdx, specificDistanceD, timeoutMs);
                 
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kF(pidIdx, 2.25, timeoutMs);
+                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kF(pidIdx, specificDistanceF, timeoutMs);
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.MotionMagic, 0);
             }
         }
