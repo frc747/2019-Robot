@@ -3,6 +3,7 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -16,7 +17,8 @@ public class ShiftDriveCommand extends Command {
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
     private static final int slotIdx = 0;
-    
+    private int shiftCount = 0;
+    private boolean shiftHigh = false;
     private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
     private static final double MAX_PERCENT_VOLTAGE = 1.0;
@@ -64,8 +66,8 @@ public class ShiftDriveCommand extends Command {
         
         Robot.DRIVE_SUBSYSTEM.gearShifter.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
              
-        Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionCruiseVelocity(1500, 10);
-        Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionAcceleration(2000, 10);
+        Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionCruiseVelocity(7500, 10); //1500
+        Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionAcceleration(20000, 10); //2000
 
         Robot.DRIVE_SUBSYSTEM.gearShifter.config_kP(pidIdx, specificDistanceP, timeoutMs);
         
@@ -90,11 +92,31 @@ public class ShiftDriveCommand extends Command {
     
         Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
 
-        if (OI.leftStick.getRawButton(9)) {
+        // check if the robot should be considered moving towards high gear or stay in low gear
+        if((leftValue > .9 && rightValue > .9) || (leftValue < -.9 && rightValue < -.9) && Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600) {
+            shiftCount++;
+        } else {
+            shiftCount = 0;
+        }
+      
+
+
+        //   // if shift count has been adding for half a second
+        if(shiftCount > 25) {
+            shiftHigh = true;
+        } else {
+            shiftHigh = false;
+        }
+        SmartDashboard.putBoolean("HIGH GEAR?: ", shiftHigh);
+          
+        if (shiftHigh) {
+        //if (OI.leftStick.getRawButton(9)) {
             // Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, shifterValue);
             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > driveTicks - 10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < driveTicks + 10) {
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);
             } else {
+                Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionCruiseVelocity(7500, 10); //1500
+                Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionAcceleration(20000, 10); //2000
                 Robot.DRIVE_SUBSYSTEM.gearShifter.config_kP(pidIdx, specificDistanceP, timeoutMs);
         
                 Robot.DRIVE_SUBSYSTEM.gearShifter.config_kI(pidIdx, specificDistanceI, timeoutMs);

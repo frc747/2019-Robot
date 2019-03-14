@@ -24,7 +24,7 @@ public class PIDDartMechanism extends Command {
     
     private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
-    private static final double MAX_PERCENT_VOLTAGE = 1.0; //was 12 (volts previously, now the input is percent)
+    private static final double MAX_PERCENT_VOLTAGE = .6; //was 12 (volts previously, now the input is percent)
     private static final double MIN_PERCENT_VOLTAGE = 0.0; //was 1.9 (volts perviously, now the input is percent)
     
     private final static int allowableCloseLoopError = 1;
@@ -69,8 +69,15 @@ public class PIDDartMechanism extends Command {
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.config_kF(pidIdx, specificDistanceF, timeoutMs);
         
 //        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.ClearIaccum();
-//        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.ClearIaccum();
-        
+// //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.ClearIaccum();
+//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
+//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.
+//         //Robot.ACTUATOR_SUBSYSTEM.dartTalon.configPeakCurrentDuration(4);
+//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configContinuousCurrentLimit(0);
+//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configPeakCurrentLimit(30);
+//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
+         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(false);
+
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
@@ -85,8 +92,8 @@ public class PIDDartMechanism extends Command {
 //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.config_IntegralZone(slotIdx, I_ZONE_IN_REVOLUTIONS, timeoutMs);
         
 
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(100000, 10);
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(100000, 10);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(50000, 10);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(50000, 10);
 
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
     }

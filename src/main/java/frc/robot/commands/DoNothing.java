@@ -8,11 +8,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.Robot;
 
 // does nothing
 public class DoNothing extends Command {
   public DoNothing() {
+    requires(Robot.climb);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

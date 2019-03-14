@@ -45,6 +45,6 @@ public class HatchSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new PIDHatchMechanism(0, false));
+    setDefaultCommand(new PIDHatchMechanism(-50, false));
   }
 }

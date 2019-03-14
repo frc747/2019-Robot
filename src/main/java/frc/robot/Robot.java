@@ -158,7 +158,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
 
-
     resetNavXAngle();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
