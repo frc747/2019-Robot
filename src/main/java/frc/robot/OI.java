@@ -88,18 +88,10 @@ public class OI {
     //SmartDashboard.putString("Drive Type", DriveCommand.driveType);
     SmartDashboard.putNumber("Gear Shifter: ", Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition());
     SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
-    SmartDashboard.putNumber("getBusVoltage: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getBusVoltage());
-    SmartDashboard.putNumber("getMotorOutputVoltage: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getMotorOutputVoltage());
-    SmartDashboard.putNumber("getOutputCurrent: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getOutputCurrent());
-
-    SmartDashboard.putNumber("Talon Velocity: ", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("NAV_X Velocity Y: ", Robot.NAV_X.getVelocityY());
-    SmartDashboard.putNumber("NAV_X Velocity Z: ", Robot.NAV_X.getVelocityZ());
-    SmartDashboard.putNumber("Dart output current: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getOutputCurrent());
-    System.out.println(Robot.ACTUATOR_SUBSYSTEM.dartTalon.getOutputCurrent());
     SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
     SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
     //SmartDashboard.putNumber("pot reading:", Robot.pot.get());s
   }
 }

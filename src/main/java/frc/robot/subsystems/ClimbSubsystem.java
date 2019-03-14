@@ -49,6 +49,10 @@ public class ClimbSubsystem extends Subsystem {
     winch1.set(ControlMode.PercentOutput, speed);
     winch3.set(ControlMode.PercentOutput, -speed);
   }
+
+  public void resetLatchEncoder() {
+    latch.setSelectedSensorPosition(0);
+  }
   // public void setCrank(double speed) {
   //   crank.set(ControlMode.PercentOutput, speed);
   // }
