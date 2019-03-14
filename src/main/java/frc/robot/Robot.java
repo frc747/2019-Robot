@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
   public static ClimbSubsystem climb = new ClimbSubsystem();
   public static OI m_oi;
 
+  public static boolean latchInPos = false;
+
   public static AnalogInput ai = new AnalogInput(0);
   
   public static Potentiometer pot = new AnalogPotentiometer(ai);

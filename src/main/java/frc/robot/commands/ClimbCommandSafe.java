@@ -12,7 +12,7 @@ public class ClimbCommandSafe extends Command {
     //execute is called every 20ms and isFinished is called right after execute
     //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
     
-    private double driveTicks = 0; // FIND VALUE FOR PIN DISENGAGED
+    private double driveTicks = 8192; // FIND VALUE FOR PIN DISENGAGED
     
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
@@ -56,6 +56,7 @@ public class ClimbCommandSafe extends Command {
     
         
     protected void initialize() {
+        latchInPosition = false;
         Robot.climb.latch.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.climb.latch.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.climb.latch.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);

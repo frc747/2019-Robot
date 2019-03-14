@@ -30,8 +30,10 @@ public class ClimbSubsystem extends Subsystem {
   public TalonSRX latch = new TalonSRX(11);
   @Override
   public void initDefaultCommand() {
+    
     latch.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
-
+    latch.setInverted(true);
+    latch.setSensorPhase(true);
     setDefaultCommand(new DoNothing());
     winch2.set(ControlMode.Follower, winch1.getDeviceID());
     winch4.set(ControlMode.Follower, winch3.getDeviceID());
