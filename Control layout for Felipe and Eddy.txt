@@ -1,0 +1,53 @@
+Felipe:
+
+
+A - null
+B - Tongue out, goes back to home after letting go
+X - null
+Y - null
+Left Bumper - null (only in combination with start and drives climb when latch is in position, controlled by L Y axis)
+Right Bumper - null (only in combination with start and drives latch)
+Back - Vision Track to target
+Start - ALLOW FOR CLIMB, holding left and right bumper activates climb
+L Y Axis - Winch controller only in combination with start and left bumper after latch deployed
+R Y Axis - Null
+L X Axis - Null
+R X Axis - Null
+L Trigger - Null
+R Trigger - Null
+Logitech Gamepad Configuration and Button IDs
+
+The way we use the gamepad:
+	Switch on the back is flipped to X
+	MODE on the front is off (led is not lit)
+ID on the DriverStation "USB Order" should be read as:
+	Controller (Gamepad F310)
+
+Axis IDs:
+"0: L X Axis" - Left Stick X-Axis, pushing left = negative, pushing right = positive
+"1: L Y Axis" - Left Stick Y-Axis, pushing up = negative, pushing down = positive
+"2: L Trigger" - Left Trigger, unpressed = 0, pressing down = positive
+"3: R Trigger" - Right Trigger, unpressed = 0, pressing down = positive
+"4: R X Axis" - Left Stick X-Axis, pushing left = negative, pushing right = positve
+"5: R Y Axis" - Right Stick X-Axis, pushing up = negative, pushing down = positve
+
+
+Eddy: 
+
+
+LEFT STICK BUTTON 10: LineTrackCommand takeover
+Button IDs:
+(10 total, read from top to button, then right to left)
+A: 1
+B: 2
+X: 3
+Y: 4
+LB: 5
+RB: 6
+BACK: 7
+START: 8
+LEFT_THUMB_STICK_BUTTON: 9
+RIGHT_THUMB_STICK_BUTTON: 10
+
+D-PAD:
+POV: Display lights up a dot in corresponding direction of D-PAD input being received

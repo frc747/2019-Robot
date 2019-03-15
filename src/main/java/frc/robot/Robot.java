@@ -12,8 +12,19 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
+import frc.robot.subsystems.ActuatorSubsystem;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Preferences;
+
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.AnalogInput;
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,25 +34,66 @@ import frc.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
+  public static HatchSubsystem HATCH_SUBSYSTEM = new HatchSubsystem();
+  public static ActuatorSubsystem ACTUATOR_SUBSYSTEM = new ActuatorSubsystem();
+  public static ClimbSubsystem climb = new ClimbSubsystem();
   public static OI m_oi;
 
-  Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  public static boolean latchInPos = false;
+
+  public static AnalogInput ai = new AnalogInput(0);
+  
+  public static Potentiometer pot = new AnalogPotentiometer(ai);
+ 
+	private Command autonomousCommand;
+  public Autonomous autonomous;
 
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
-  @Override
-  public void robotInit() {
-    m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+
+  public static final AHRS NAV_X = new AHRS (SPI.Port.kMXP);
+    
+  public static Preferences prefs;
+
+  public static double getNavXAngle() {
+    return NAV_X.getYaw();
+    
+  }
+  
+  public static double getNavXAngleRadians() {
+    return Math.toRadians(getNavXAngle());
+  }
+  
+  public static void resetNavXAngle() {
+    NAV_X.zeroYaw();
+    try {
+          Thread.sleep(100);
+      } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
   }
 
-  /**
+  @Override
+  public void robotInit() {
+    prefs = Preferences.getInstance();
+    UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
+    ucamera.setResolution(180, 240);
+
+    this.autonomous = new Autonomous();
+
+    if(m_oi == null) {
+      m_oi = new OI();
+    }
+    //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    // chooser.addOption("My Auto", new MyAutoCommand());
+
+  }
+
+  /**e
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
@@ -60,6 +112,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    
   }
 
   @Override
@@ -80,7 +133,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    resetNavXAngle();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -90,9 +143,10 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
-    }
+      autonomous.startMode();
+      if (autonomousCommand != null) {
+          autonomousCommand.start();
+      }
   }
 
   /**
@@ -105,13 +159,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putBoolean("Ready to Drive", true);
+
+
+    resetNavXAngle();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+  }
   }
 
   /**
@@ -120,6 +178,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    //  if(DRIVE_SUBSYSTEM.isClimbed && DRIVE_SUBSYSTEM.isDone1) {
+    //    if(climbUp.isRunning()) {
+    //     climbUp.cancel();
+    //    }
+    //    climbDown.start();
+    //  } else if(DRIVE_SUBSYSTEM.isDone1 && !DRIVE_SUBSYSTEM.isClimbed){
+    //    if(climbDown.isRunning()) {
+    //      climbDown.cancel();
+    //    }
+    //    climbUp.start();
+    //  }
   }
 
   /**

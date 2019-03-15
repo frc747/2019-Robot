@@ -14,13 +14,25 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+  public RobotMap() {
+    
+  }
+  public static enum Controller {
+    LEFT_STICK(0),
+    RIGHT_STICK(1),
+    OPERATOR_CONTROLLER(2),
+    TEST_CONTROLLER(3);
+
+    private int value;
+
+    private Controller(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+}
+
 }
