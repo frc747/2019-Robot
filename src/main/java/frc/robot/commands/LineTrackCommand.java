@@ -40,7 +40,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
       rate = .009;
     } else if (OI.area < 1.5) {
       rate = 0.0115;
-    } else if(OI.area > 2.4) {
+    } else if(OI.area > 1.5) {
       speed = 0.6;
       rate = .018;//was 0.0049
     } else if(OI.area > 3.9) {

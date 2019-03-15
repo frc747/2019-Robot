@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
-
+import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.Joystick;
 public class TeleopSimulator extends Command {
     
     //execute is called every 20ms and isFinished is called right after execute
@@ -33,7 +34,7 @@ public class TeleopSimulator extends Command {
     //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * .1;
 
-
+    
 
 
     private double specificDistancePGear = 1.0;
@@ -57,7 +58,6 @@ public class TeleopSimulator extends Command {
 
 
 
-
     private double specificDistancePDart = 1.0;
     
     private double specificDistanceIDart = 0;
@@ -65,7 +65,6 @@ public class TeleopSimulator extends Command {
     private double specificDistanceDDart = 0;
 
     private double specificDistanceFDart = 0;
-
     
     private double leftValue;
 
@@ -74,14 +73,16 @@ public class TeleopSimulator extends Command {
     private double shifterValue;
 
     public TeleopSimulator() {
-        requires(Robot.DRIVE_SUBSYSTEM);
-        requires(Robot.ACTUATOR_SUBSYSTEM);
-        requires(Robot.HATCH_SUBSYSTEM);
+        // requires(Robot.DRIVE_SUBSYSTEM);
+        // requires(Robot.ACTUATOR_SUBSYSTEM);
+        // requires(Robot.HATCH_SUBSYSTEM);
 
     }
     
         
     protected void initialize() {
+        SmartDashboard.putBoolean("Ready to Drive", true);
+        //finished = false;
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
@@ -266,7 +267,7 @@ public class TeleopSimulator extends Command {
 
                 Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicksDart);
             }
-
+            
         } else {
             if (Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition() > -10 && Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition() < 10) {
                 Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
@@ -275,11 +276,12 @@ public class TeleopSimulator extends Command {
                 Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, 0);
             }
         }
-        SmartDashboard.putNumber("NUMBER", Math.random());
+
         if(OI.operatorController.getRawButton(6)) {
-            SmartDashboard.putNumber("TEST", 10);
+            SmartDashboard.putBoolean("Ready to Drive", false);
+            // finished = true;
         } else {
-            SmartDashboard.putNumber("TEST", -1);
+            SmartDashboard.putBoolean("Ready to Drive", true);
         }
     }
     
@@ -287,14 +289,14 @@ public class TeleopSimulator extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return OI.operatorController.getRawButton(6);
     }
     
     protected void end() {
+        //finished = false;
         Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
         Robot.HATCH_SUBSYSTEM.hatchTalon.set(ControlMode.PercentOutput, 0);
-
     }
     
     protected void interrupted() {

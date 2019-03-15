@@ -159,6 +159,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putBoolean("Ready to Drive", true);
 
 
     resetNavXAngle();
