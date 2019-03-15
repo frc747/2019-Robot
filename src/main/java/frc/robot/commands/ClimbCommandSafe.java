@@ -83,7 +83,7 @@ public class ClimbCommandSafe extends Command {
         //if (OI.leftStick.getRawButton(9)) {
         if (OI.operatorController.getRawButton(RIGHT_BUMPER) && !latchInPosition) {
             // Robot.climb.latch.set(ControlMode.PercentOutput, shifterValue);
-            if (Robot.climb.latch.getSelectedSensorPosition() > driveTicks - 10 && Robot.climb.latch.getSelectedSensorPosition() < driveTicks + 10) {
+            if (Robot.climb.latch.getSelectedSensorPosition() > driveTicks - 200 && Robot.climb.latch.getSelectedSensorPosition() < driveTicks + 1000) {
                 Robot.climb.latch.set(ControlMode.PercentOutput, 0);
                 latchInPosition = true;
             } else {
@@ -101,7 +101,8 @@ public class ClimbCommandSafe extends Command {
         }
 
         if(OI.operatorController.getRawButton(LEFT_BUMPER) && latchInPosition) {
-            Robot.climb.setWinches(1.0);
+            double winchValue = Math.abs(OI.operatorController.getRawAxis(1));
+            Robot.climb.setWinches(winchValue);
         } else {
             Robot.climb.setWinches(0.0);
         }

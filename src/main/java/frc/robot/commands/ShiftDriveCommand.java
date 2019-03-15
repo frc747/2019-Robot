@@ -93,7 +93,7 @@ public class ShiftDriveCommand extends Command {
         Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
 
         // check if the robot should be considered moving towards high gear or stay in low gear
-        if((leftValue > .9 && rightValue > .9) || (leftValue < -.9 && rightValue < -.9) && Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600) {
+        if((leftValue > .9 && rightValue > .9) || (leftValue < -.9 && rightValue < -.9) && (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600)) {
             shiftCount++;
         } else {
             shiftCount = 0;
