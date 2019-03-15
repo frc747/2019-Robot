@@ -33,20 +33,40 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 1.0;
+    //speed = .25;
     rampDown = 1;
     // // Rocket
-    if(OI.area < .75) {
+    // if(OI.area < .75) {
+    //   rate = .009;
+    // } else if (OI.area < 1.5) {
+    //   rate = 0.0115;
+    // } else if(OI.area > 1.5) {
+    //   speed = 0.6;
+    //   rate = .018;//was 0.0049
+    // } else if(OI.area > 3.9) {
+    //   speed = 0.35;
+    //   rate = 0.03;
+    // }
+
+
+
+    // if(OI.area  < .75) {
+    //   speed = 1.0;
+    // }
+    if(OI.y == 0) {
+      speed = .25;
+      rate = 0;
+    } else {
+      speed = (1/OI.y)*5;
       rate = .009;
-    } else if (OI.area < 1.5) {
-      rate = 0.0115;
-    } else if(OI.area > 1.5) {
-      speed = 0.6;
-      rate = .018;//was 0.0049
-    } else if(OI.area > 3.9) {
-      speed = 0.35;
-      rate = 0.03;
     }
+
+    if(speed > 1) {
+      speed = 1.0;
+    }
+
+    
+    
     System.out.println("line");
 
     OI.table.getEntry("pipeline").setDouble(0);
@@ -64,7 +84,14 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    double adjustMagnitiude;
+    if(speed < .45) {
+      adjustMagnitiude = 4.5;
+      speed = .45;
+      rate = 0;
+    } else {
+      adjustMagnitiude = 3.25;
+    }
     if(OI.leftStick.getRawButton(10)) {
       leftValue = -OI.leftStick.getRawAxis(1);
       rightValue = -OI.rightStick.getRawAxis(1);
@@ -80,7 +107,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
     } else {
       //SmartDashboard.putNumber("rampdown", rampDown);
 
-       if(rampDown > .25) {
+       if(rampDown > .4) {
          rampDown -= rate;
        }
  
@@ -99,8 +126,12 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
       // last = rampDown;
       SmartDashboard.putNumber("rampdown", rampDown);
 
-     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/3)))/3.75))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/3)))/3.75))*rampDown);
+     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown);
+
+    // leftValue = (speed)*rampDown + ((.6*(Math.tanh(OI.x/5)))/3.9) * 1 * rampDown;
+    // rightValue = (-speed*rampDown) + ((.6*(Math.tanh(OI.x/5)))/3.9) * 1 * rampDown;
+
  // 3.25
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }

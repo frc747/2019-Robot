@@ -65,7 +65,7 @@ public class OI {
     //A_BUTTON.toggleWhenPressed(new PIDDriveInchesArc(70, false));
     Y_BUTTON.whileHeld(new PIDDartMechanism(-221740));
     // A_BUTTON.toggleWhenPressed(new PIDDartMechanism(0));
-    B_BUTTON.whileHeld(new PIDHatchMechanism(850, false));
+    B_BUTTON.whileHeld(new PIDHatchMechanism(935, false)); //1020 //850
     // Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
