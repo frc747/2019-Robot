@@ -24,6 +24,8 @@ double leftValue = 0;
 double rightValue = 0;
 double last;
 
+private static final double MAX_PERCENT_VOLTAGE = 1.0;
+private static final double MIN_PERCENT_VOLTAGE = 0.0;
   public LineTrackCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
   }
@@ -31,21 +33,37 @@ double last;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 0.5;
-    double area = OI.area;
-    rate = .0065;
+    speed = 1.0;
+    rampDown = 1;
+    // // Rocket
+    if(OI.area < .75) {
+      rate = .009;
+    } else if (OI.area < 1.5) {
+      rate = 0.0115;
+    } else if(OI.area > 2.4) {
+      speed = 0.6;
+      rate = .018;//was 0.0049
+    } else if(OI.area > 3.9) {
+      speed = 0.35;
+      rate = 0.03;
+    }
     System.out.println("line");
 
-    OI.table.getEntry("pipeline").setDouble(0.0);
+    OI.table.getEntry("pipeline").setDouble(0);
 
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    double yOffset = -1 * (OI.y + 3 + 6);
-    double drivingAdjustY = 0.05 * yOffset; //-0.1 being the proportional value
 
     if(OI.leftStick.getRawButton(10)) {
       leftValue = -OI.leftStick.getRawAxis(1);
@@ -53,22 +71,37 @@ double last;
       
       if (Math.abs(leftValue) < 0.1) {
         leftValue = 0;
-      }
-      if (Math.abs(rightValue) < 0.1) {
+    }
+    if (Math.abs(rightValue) < 0.1) {
         rightValue = 0;
-      }
+    }
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
+      //SmartDashboard.putNumber("rampdown", rampDown);
 
-    if(rampDown > 0.6) {
-      rampDown -= rate;
-    } else {
-      rampDown = .4;
-    }
-     leftValue = ((speed) + ((.75 * (Math.tanh(OI.x / 3))) / 2.75)) *rampDown;//+ drivingAdjustY;
-     rightValue = (-((speed) - ((.75 * (Math.tanh(OI.x / 3))) / 2.75))) *rampDown; //- drivingAdjustY);
+       if(rampDown > .25) {
+         rampDown -= rate;
+       }
  
+      //turns the y-range into a positive set to eliminate accidental reversing of the robot.
+      //double convertedY = OI.y+20.5;
+      
+
+      //Divides the number by 20.5 to say that if the target is centered vertically, make the rampdown equal to 1.
+      //rampDown = Math.abs(1/convertedY)*10;
+    
+
+ 
+      // if(OI.y == 0 || rampDown < .2) {
+      //   rampDown = .2;
+      // }
+      // last = rampDown;
+      SmartDashboard.putNumber("rampdown", rampDown);
+
+     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/3)))/3.75))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/3)))/3.75))*rampDown);
+ // 3.25
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
   }
