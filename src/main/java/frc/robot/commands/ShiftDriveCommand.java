@@ -117,13 +117,6 @@ public class ShiftDriveCommand extends Command {
             } else {
                 Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionCruiseVelocity(7500, 10); //1500
                 Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionAcceleration(20000, 10); //2000
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kP(pidIdx, specificDistanceP, timeoutMs);
-        
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kI(pidIdx, specificDistanceI, timeoutMs);
-                
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kD(pidIdx, specificDistanceD, timeoutMs);
-                
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kF(pidIdx, specificDistanceF, timeoutMs);
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.MotionMagic, driveTicks);
             }
 
@@ -132,13 +125,6 @@ public class ShiftDriveCommand extends Command {
             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > -10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < 10) {
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);
             } else {
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kP(pidIdx, specificDistanceP, timeoutMs);
-        
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kI(pidIdx, specificDistanceI, timeoutMs);
-                
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kD(pidIdx, specificDistanceD, timeoutMs);
-                
-                Robot.DRIVE_SUBSYSTEM.gearShifter.config_kF(pidIdx, specificDistanceF, timeoutMs);
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.MotionMagic, 0);
             }
         }

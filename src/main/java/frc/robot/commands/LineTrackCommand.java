@@ -31,26 +31,21 @@ double last;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 1.0;
-    rampDown = 1;
-    // // Rocket
-    if(OI.area > 6) {
-      speed = .5;
-      rate = .00875;
-    } else {
-      // Loading Station
-      speed = 1.0;
-      rate = .0080;//was 0.0049
-    }
+    speed = 0.5;
+    double area = OI.area;
+    rate = .0065;
     System.out.println("line");
 
-    OI.table.getEntry("pipeline").setDouble(5.0);
+    OI.table.getEntry("pipeline").setDouble(0.0);
 
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    double yOffset = -1 * (OI.y + 3 + 6);
+    double drivingAdjustY = 0.05 * yOffset; //-0.1 being the proportional value
 
     if(OI.leftStick.getRawButton(10)) {
       leftValue = -OI.leftStick.getRawAxis(1);
@@ -65,30 +60,14 @@ double last;
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
-      //SmartDashboard.putNumber("rampdown", rampDown);
 
-      //  if(rampDown > .4) {
-      //    rampDown -= rate;
-      //  }
- 
-      //turns the y-range into a positive set to eliminate accidental reversing of the robot.
-      double convertedY = OI.y; //previously +20.5
-      
-
-      //Divides the number by 20.5 to say that if the target is centered vertically, make the rampdown equal to 1.
-      rampDown = Math.abs(1/convertedY)*10;
-    
-
- 
-      if(OI.y == 0 || rampDown < .2) {
-        rampDown = .2;
-      }
-      //last = rampDown;
-
-      SmartDashboard.putNumber("rampdown", rampDown);
-
-     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/3)))/2.75))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/3)))/2.75))*rampDown);
+    if(rampDown > 0.6) {
+      rampDown -= rate;
+    } else {
+      rampDown = .4;
+    }
+     leftValue = ((speed) + ((.75 * (Math.tanh(OI.x / 3))) / 2.75)) *rampDown;//+ drivingAdjustY;
+     rightValue = (-((speed) - ((.75 * (Math.tanh(OI.x / 3))) / 2.75))) *rampDown; //- drivingAdjustY);
  
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
