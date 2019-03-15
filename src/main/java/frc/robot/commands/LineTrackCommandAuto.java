@@ -13,7 +13,7 @@ import frc.robot.Robot;
 
 import frc.robot.OI;
 
-public class LineTrackCommandAuto extends Command {
+public class LineTrackCommand extends Command {
 
 int timeoutMs = 10;
 
@@ -22,36 +22,76 @@ double rampDown = 1;
 double rate;
 double leftValue = 0;
 double rightValue = 0;
+double last;
 
-  public LineTrackCommandAuto(double seconds) {
-    setTimeout(seconds);
+private static final double MAX_PERCENT_VOLTAGE = 1.0;
+private static final double MIN_PERCENT_VOLTAGE = 0.0;
+  public LineTrackCommand() {
     requires(Robot.DRIVE_SUBSYSTEM);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 1.0;
+    //speed = .25;
     rampDown = 1;
-    // Rocket
-    if(OI.area > 6) {
-      speed = .5;
-      rate = .00875;
+    // // Rocket
+    // if(OI.area < .75) {
+    //   rate = .009;
+    // } else if (OI.area < 1.5) {
+    //   rate = 0.0115;
+    // } else if(OI.area > 1.5) {
+    //   speed = 0.6;
+    //   rate = .018;//was 0.0049
+    // } else if(OI.area > 3.9) {
+    //   speed = 0.35;
+    //   rate = 0.03;
+    // }
+
+
+
+    // if(OI.area  < .75) {
+    //   speed = 1.0;
+    // }
+    if(OI.y == 0) {
+      speed = .25;
+      rate = 0;
     } else {
-      // Loading Station
-      speed = 1.0;
-      rate = .0080;//was 0.0049
+      speed = (1/OI.y)*5;
+      rate = .009;
     }
+
+    if(speed > 1) {
+      speed = 1.0;
+    }
+
+    
+    
     System.out.println("line");
 
-    OI.table.getEntry("pipeline").setDouble(5.0);
+    OI.table.getEntry("pipeline").setDouble(0);
 
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+    Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    double adjustMagnitiude;
+    if(speed < .45) {
+      adjustMagnitiude = 4.5;
+      speed = .45;
+      rate = 0;
+    } else {
+      adjustMagnitiude = 3.25;
+    }
     if(OI.leftStick.getRawButton(10)) {
       leftValue = -OI.leftStick.getRawAxis(1);
       rightValue = -OI.rightStick.getRawAxis(1);
@@ -65,17 +105,34 @@ double rightValue = 0;
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
+      //SmartDashboard.putNumber("rampdown", rampDown);
+
+       if(rampDown > .4) {
+         rampDown -= rate;
+       }
+ 
+      //turns the y-range into a positive set to eliminate accidental reversing of the robot.
+      //double convertedY = OI.y+20.5;
+      
+
+      //Divides the number by 20.5 to say that if the target is centered vertically, make the rampdown equal to 1.
+      //rampDown = Math.abs(1/convertedY)*10;
+    
+
+ 
+      // if(OI.y == 0 || rampDown < .2) {
+      //   rampDown = .2;
+      // }
+      // last = rampDown;
       SmartDashboard.putNumber("rampdown", rampDown);
 
-      if(rampDown > .4) {
-        rampDown -= rate;
-      }
- 
-     
- 
-     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/2.75))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/2.75)))*rampDown;
- 
+     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown);
+
+    // leftValue = (speed)*rampDown + ((.6*(Math.tanh(OI.x/5)))/3.9) * 1 * rampDown;
+    // rightValue = (-speed*rampDown) + ((.6*(Math.tanh(OI.x/5)))/3.9) * 1 * rampDown;
+
+ // 3.25
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
   }
