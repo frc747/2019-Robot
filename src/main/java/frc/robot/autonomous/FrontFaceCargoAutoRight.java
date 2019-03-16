@@ -21,5 +21,9 @@ public class FrontFaceCargoAutoRight extends CommandGroup {
     addSequential(new PIDHatchMechanism(935, false));
     addSequential(new PIDDriveInches(20, true));
     addSequential(new PIDDriveRotateCustom(120));
+    // addSequential(new TeleopSimulator());
+    // addSequential(new PIDDriveInches(20, true);
+    // addSequential(new PIDDriveRotateCustom(180));
+    // addSequential(new TeleopSimulator());
   }
 }

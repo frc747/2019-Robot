@@ -109,7 +109,7 @@ public class ShiftDriveCommand extends Command {
         }
         SmartDashboard.putBoolean("HIGH GEAR?: ", shiftHigh);
           
-        if (shiftHigh) {
+        if (shiftHigh || OI.operatorController.getRawAxis(3) > .25) {
         //if (OI.leftStick.getRawButton(9)) {
             // Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, shifterValue);
             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > driveTicks - 10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < driveTicks + 10) {

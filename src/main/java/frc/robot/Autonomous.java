@@ -11,7 +11,9 @@ public class Autonomous{
     
     public enum AutoMode{
         AUTOMODE_NONE,
-        AUTOMODE_TEST;
+        AUTOMODE_TEST,
+        AUTOMODE_FRONT_LEFT,
+        AUTOMODE_FRONT_RIGHT;
     }
     
     private SendableChooser autoChooser1;
@@ -21,7 +23,9 @@ public class Autonomous{
         
         
         autoChooser1.addDefault("No autonomous", AutoMode.AUTOMODE_NONE);
-        autoChooser1.addObject("Test Autonomous", AutoMode.AUTOMODE_TEST);    
+        // autoChooser1.addObject("Test Autonomous", AutoMode.AUTOMODE_TEST);
+        autoChooser1.addObject("Front Cargoship Left", AutoMode.AUTOMODE_FRONT_LEFT);
+        autoChooser1.addObject("Front Cargoship Right", AutoMode.AUTOMODE_FRONT_RIGHT);
 
         SmartDashboard.putData("Auto mode", autoChooser1);
     }
@@ -34,12 +38,17 @@ public class Autonomous{
         AutoMode selectedAutoMode = (AutoMode)(autoChooser1.getSelected());
                     
         switch (selectedAutoMode){
-            case AUTOMODE_TEST:
-            	new TestCommandGroup().start();
+            case AUTOMODE_FRONT_LEFT:
+                new FrontFaceCargoAutoLeft().start();
+                break;
+            case AUTOMODE_FRONT_RIGHT:
+            	new FrontFaceCargoAutoRight().start();
             	break;
+            // case AUTOMODE_TEST:
+            // 	new TestCommandGroup().start();
+            // 	break;
             case AUTOMODE_NONE:
                 //DO NOTHING
-
             default:
                 break;
             }
