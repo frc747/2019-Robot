@@ -41,31 +41,23 @@ public class OI {
   public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
   
+  //Driver Controller Commands
   Button B_BUTTON = new JoystickButton(driverController, 2);
   Button A_BUTTON = new JoystickButton(driverController, 1);
   Button Y_BUTTON = new JoystickButton(driverController, 4);
   Button X_BUTTON = new JoystickButton(driverController, 3);
 
-  Button RB_Button = new JoystickButton(operatorController, 6);
-  Button LB_BUtton = new JoystickButton(operatorController, 5);
+  Button R_BUMPER = new JoystickButton(driverController, 6);
+  Button L_BUMPER = new JoystickButton(driverController, 5);
 
-<<<<<<< HEAD
-  int DPAD_ANGLE = operatorController.getPOV();
-  double L_TRIGGER_AXIS = operatorController.getRawAxis(2);
-  double R_TRIGGER_AXIS = operatorController.getRawAxis(3);
+  int DPAD_ANGLE = driverController.getPOV();
+  double L_TRIGGER_AXIS = driverController.getRawAxis(2);
+  double R_TRIGGER_AXIS = driverController.getRawAxis(3);
   boolean L_TRIGGER;
   boolean R_TRIGGER;
-=======
-  public static void updateElevatorPos(int elevatorState, int prevElevatorState) {
-    if (elevatorState == 0) {
-      if (prevElevatorState == 1) {
 
-      }
-      if (prevElevatorState == 2) {
->>>>>>> parent of 34ff8b0... K0.7.0K Elevator Susbystem
-
-  Button BACK_BUTTON = new JoystickButton(operatorController, 7);
-  Button START_BUTTON = new JoystickButton(operatorController, 8);
+  Button BACK_BUTTON = new JoystickButton(driverController, 7);
+  Button START_BUTTON = new JoystickButton(driverController, 8);
 
 
 
