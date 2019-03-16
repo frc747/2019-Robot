@@ -7,16 +7,8 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class PIDDartMechanism extends Command {
-    
-    //execute is called every 20ms and isFinished is called right after execute
-    //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
-    
+        
     private double driveTicks;
-    
-    private double driveInches;
-//    private double driveP;
-//    private double driveI;
-//    private double driveD;
     
     private static final int pidIdx = 0;
     private static final int timeoutMs = 10;
@@ -24,8 +16,8 @@ public class PIDDartMechanism extends Command {
     
     private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
-    private static final double MAX_PERCENT_VOLTAGE = .6; //was 12 (volts previously, now the input is percent)
-    private static final double MIN_PERCENT_VOLTAGE = 0.0; //was 1.9 (volts perviously, now the input is percent)
+    private static final double MAX_PERCENT_VOLTAGE = .55;
+    private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     private final static int allowableCloseLoopError = 1;
         
@@ -76,7 +68,8 @@ public class PIDDartMechanism extends Command {
 //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configContinuousCurrentLimit(0);
 //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configPeakCurrentLimit(30);
 //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
-         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(false);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
+        Robot.ACTUATOR_SUBSYSTEM.dartTalon.configContinuousCurrentLimit(30);
 
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
@@ -99,6 +92,16 @@ public class PIDDartMechanism extends Command {
     }
     
     protected void execute() {
+        double dartPosition = Robot.ACTUATOR_SUBSYSTEM.getDartPosition();
+        if (this.driveTicks != 0 && dartPosition < (-221740 + 40000) && dartPosition > (-221740 - 5000)) {
+            if (Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorVelocity(pidIdx) < -1000) {
+                Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
+            } else {
+                Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
+            }
+        } else {
+            Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
+        }
     }
     
     @Override
@@ -110,7 +113,6 @@ public class PIDDartMechanism extends Command {
 //        SmartDashboard.putNumber("LEFT FINAL Drive Distance: Inches", Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertRevsToInches(Robot.DRIVE_SUBSYSTEM.getLeftPosition())));
 //        SmartDashboard.putNumber("RIGHT FINAL Drive Distance: Inches", Robot.DRIVE_SUBSYSTEM.applyGearRatio(Robot.DRIVE_SUBSYSTEM.convertRevsToInches(Robot.DRIVE_SUBSYSTEM.getRightPosition())));
 //        SmartDashboard.putNumber("Straight", OI.latestDistanceDriven);
-        Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
         //Robot.DRIVE_SUBSYSTEM.hatchTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
 //      Robot.resetNavXAngle();
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);

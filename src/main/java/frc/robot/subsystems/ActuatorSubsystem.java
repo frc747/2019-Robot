@@ -47,4 +47,8 @@ public class ActuatorSubsystem extends Subsystem {
   public void initDefaultCommand() {
         setDefaultCommand(new PIDDartMechanism(0)); // 0 original
   }
+
+  public double getDartPosition() {
+    return dartTalon.getSelectedSensorPosition(pidIdx);
+  }
 }
