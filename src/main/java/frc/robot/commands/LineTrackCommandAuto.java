@@ -10,29 +10,31 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-
 import frc.robot.OI;
 
-public class LineTrackCommand extends Command {
+public class LineTrackCommandAuto extends Command {
 
 int timeoutMs = 10;
-
+double threshold = 0;
 double speed = 0.50;
 double rampDown = 1;
 double rate;
 double leftValue = 0;
 double rightValue = 0;
 double last;
-
+double seconds;
 private static final double MAX_PERCENT_VOLTAGE = 1.0;
 private static final double MIN_PERCENT_VOLTAGE = 0.0;
-  public LineTrackCommand() {
+
+  public LineTrackCommandAuto(double seconds) {
     requires(Robot.DRIVE_SUBSYSTEM);
+    this.seconds = seconds;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    setTimeout(seconds);
     //speed = .25;
     rampDown = 1;
     // // Rocket
@@ -140,7 +142,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < threshold && Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getSelectedSensorVelocity() < threshold) || (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > -threshold && Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getSelectedSensorVelocity() > -threshold);
   }
 
   // Called once after isFinished returns true
