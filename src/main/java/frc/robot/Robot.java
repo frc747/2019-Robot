@@ -30,7 +30,10 @@ import com.kauailabs.navx.frc.AHRS;
  */
 public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
+<<<<<<< HEAD
   public static ClimbSubsystem climb = new ClimbSubsystem();
+=======
+>>>>>>> parent of 34ff8b0... K0.7.0K Elevator Susbystem
   public static OI m_oi;
 
   Command m_autonomousCommand;

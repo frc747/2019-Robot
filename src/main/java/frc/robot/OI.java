@@ -49,11 +49,20 @@ public class OI {
   Button RB_Button = new JoystickButton(operatorController, 6);
   Button LB_BUtton = new JoystickButton(operatorController, 5);
 
+<<<<<<< HEAD
   int DPAD_ANGLE = operatorController.getPOV();
   double L_TRIGGER_AXIS = operatorController.getRawAxis(2);
   double R_TRIGGER_AXIS = operatorController.getRawAxis(3);
   boolean L_TRIGGER;
   boolean R_TRIGGER;
+=======
+  public static void updateElevatorPos(int elevatorState, int prevElevatorState) {
+    if (elevatorState == 0) {
+      if (prevElevatorState == 1) {
+
+      }
+      if (prevElevatorState == 2) {
+>>>>>>> parent of 34ff8b0... K0.7.0K Elevator Susbystem
 
   Button BACK_BUTTON = new JoystickButton(operatorController, 7);
   Button START_BUTTON = new JoystickButton(operatorController, 8);
