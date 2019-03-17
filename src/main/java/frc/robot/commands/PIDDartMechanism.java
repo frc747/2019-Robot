@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PIDDartMechanism extends Command {
         
     private double driveTicks;
@@ -59,15 +59,6 @@ public class PIDDartMechanism extends Command {
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.config_kD(pidIdx, specificDistanceD, timeoutMs);
         
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.config_kF(pidIdx, specificDistanceF, timeoutMs);
-        
-//        Robot.DRIVE_SUBSYSTEM.talonDriveLeftPrimary.ClearIaccum();
-// //        Robot.DRIVE_SUBSYSTEM.talonDriveRightPrimary.ClearIaccum();
-//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
-//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.
-//         //Robot.ACTUATOR_SUBSYSTEM.dartTalon.configPeakCurrentDuration(4);
-//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configContinuousCurrentLimit(0);
-//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configPeakCurrentLimit(30);
-//         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.enableCurrentLimit(true);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configContinuousCurrentLimit(30);
 
@@ -92,16 +83,24 @@ public class PIDDartMechanism extends Command {
     }
     
     protected void execute() {
-        double dartPosition = Robot.ACTUATOR_SUBSYSTEM.getDartPosition();
-        if (this.driveTicks != 0 && dartPosition < (-221740 + 40000) && dartPosition > (-221740 - 5000)) {
-            if (Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorVelocity(pidIdx) < -1000) {
-                Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
-            } else {
-                Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
-            }
-        } else {
-            Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
-        }
+        SmartDashboard.putNumber("Dart Current Value:", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getOutputCurrent());
+
+        // logic is made redundant by "configContinuousCurrentLimit()"
+
+        // double dartPosition = Robot.ACTUATOR_SUBSYSTEM.getDartPosition();
+        // if (this.driveTicks != 0 && dartPosition < (-221740 + 40000) && dartPosition > (-221740 - 5000)) {
+        //     if (Robot.ACTUATOR_SUBSYSTEM.dartTalon.getOutputCurrent() < 29.5) {
+        //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
+        //     } else {
+        //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
+        //     }
+        // } else {
+        //     if (Robot.ACTUATOR_SUBSYSTEM.dartTalon.getOutputCurrent() < 29.5) {
+        //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.MotionMagic, driveTicks);
+        //     } else {
+        //         Robot.ACTUATOR_SUBSYSTEM.dartTalon.set(ControlMode.PercentOutput, 0);
+        //     }
+        // }
     }
     
     @Override
