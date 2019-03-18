@@ -16,7 +16,7 @@ public class PIDDartMechanism extends Command {
     
     private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
-    private static final double MAX_PERCENT_VOLTAGE = .55;
+    private static final double MAX_PERCENT_VOLTAGE = .5; //regular current draw is ~20 AMPS
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     private final static int allowableCloseLoopError = 1;
