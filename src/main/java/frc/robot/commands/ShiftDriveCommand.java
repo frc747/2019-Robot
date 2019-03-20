@@ -89,8 +89,14 @@ public class ShiftDriveCommand extends Command {
         if (Math.abs(rightValue) < 0.1) {
             rightValue = 0;
         }
-    
-        Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+        
+        if (OI.leftStick.getRawButton(8)) {
+            double average = (leftValue + rightValue) / 2;
+
+            Robot.DRIVE_SUBSYSTEM.set(average, average);
+        } else {
+            Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+        }
 
         // check if the robot should be considered moving towards high gear or stay in low gear
         if((leftValue > .9 && rightValue > .9) || (leftValue < -.9 && rightValue < -.9) && (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600)) {
@@ -108,9 +114,8 @@ public class ShiftDriveCommand extends Command {
             shiftHigh = false;
         }
         SmartDashboard.putBoolean("HIGH GEAR?: ", shiftHigh);
-          
-        if (shiftHigh) {
-        //if (OI.leftStick.getRawButton(9)) {
+       
+        if (shiftHigh && !(OI.operatorController.getRawAxis(3) > .25)) {
             // Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, shifterValue);
             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > driveTicks - 10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < driveTicks + 10) {
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);

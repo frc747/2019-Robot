@@ -35,7 +35,12 @@ public class TeleopSimulator extends Command {
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * .1;
 
     
+    double speed = 0.50;
+    double rampDown = 1;
+    double rate;    
+    double last;
 
+    private boolean firstVisionCheckDone;
 
     private double specificDistancePGear = 1.0;
     
@@ -176,12 +181,12 @@ public class TeleopSimulator extends Command {
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionCruiseVelocity(50000, 10);
         Robot.ACTUATOR_SUBSYSTEM.dartTalon.configMotionAcceleration(50000, 10);
 
+        firstVisionCheckDone = false;
     }
     
     protected void execute() {
         leftValue = -OI.leftStick.getRawAxis(1);
         rightValue = -OI.rightStick.getRawAxis(1);
-        shifterValue = OI.operatorController.getRawAxis(5);
 
         if (Math.abs(leftValue) < 0.1) {
             leftValue = 0;
@@ -189,9 +194,48 @@ public class TeleopSimulator extends Command {
         if (Math.abs(rightValue) < 0.1) {
             rightValue = 0;
         }
-    
-        Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+        if(OI.operatorController.getRawButton(7)) {
+            if(firstVisionCheckDone == false) {
+                updateTrackValues();
+                firstVisionCheckDone = true;
+            }
+            double adjustMagnitiude;
+            if(speed < .45) {
+                adjustMagnitiude = 4.5;
+                speed = .45;
+                rate = 0;
+            } else {
+                adjustMagnitiude = 3.25;
+            }
+            if(OI.leftStick.getRawButton(10)) {
+                leftValue = -OI.leftStick.getRawAxis(1);
+                rightValue = -OI.rightStick.getRawAxis(1);
+      
+                if (Math.abs(leftValue) < 0.1) {
+                    leftValue = 0;
+                }
+                if (Math.abs(rightValue) < 0.1) {
+                    rightValue = 0;
+                }
 
+                Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+            } else {
+
+                if(rampDown > .4) {
+                    rampDown -= rate;
+                }
+ 
+                SmartDashboard.putNumber("rampdown", rampDown);
+
+                leftValue = ((speed) + ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown;
+                rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown);
+
+                Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
+            } 
+        } else {
+            Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
+
+        }
         // check if the robot should be considered moving towards high gear or stay in low gear
         if((leftValue > .9 && rightValue > .9) || (leftValue < -.9 && rightValue < -.9) && Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600) {
             shiftCount++;
@@ -301,6 +345,28 @@ public class TeleopSimulator extends Command {
     
     protected void interrupted() {
         end();
+    }
+
+    public void updateTrackValues() {
+        rampDown = 1;
+
+        if(OI.y == 0) {
+          speed = .25;
+          rate = 0;
+        } else {
+          speed = (1/OI.y)*5;
+          rate = .009;
+        }
+
+        if(speed > 1) {
+            speed = 1.0;
+        }
+
+    
+    
+        System.out.println("line");
+
+        OI.table.getEntry("pipeline").setDouble(0);
     }
 
 }

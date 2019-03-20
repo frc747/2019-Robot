@@ -9,13 +9,24 @@ package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.PIDDriveInches;
+import frc.robot.commands.PIDDriveRotateCustom;
+import frc.robot.commands.PIDHatchMechanism;
+import frc.robot.commands.TeleopSimulator;
+import frc.robot.commands.PIDDriveInchesHoldHatch;
 
-public class FrontFaceCargoAuto extends CommandGroup {
+public class LeftRocketLevelTwo extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public FrontFaceCargoAuto() {
-    addSequential(new PIDDriveInches(40, false));
-    //addSequential(new )
+  public LeftRocketLevelTwo() {
+    addSequential(new PIDDriveInchesHoldHatch(80, false));
+    addSequential(new PIDDriveRotateCustom(-40));
+
+    // addSequential(new TeleopSimulator());
+
+    // addSequential(new PIDHatchMechanism(935, false));
+    // addSequential(new PIDDriveInches(10, true));
+    // addSequential(new PIDDriveRotateCustom(-120));
+    // addSequential(new TeleopSimulator());
   }
 }

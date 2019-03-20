@@ -86,11 +86,12 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   protected void execute() {
     double adjustMagnitiude;
     if(speed < .45) {
-      adjustMagnitiude = 4.5;
+      adjustMagnitiude = 5;//was 4.75
       speed = .45;
       rate = 0;
     } else {
-      adjustMagnitiude = 3.25;
+      adjustMagnitiude = 3.75;// was 3.5 up to match 28 on Saturday of Chestnut Hill 3/16/19
+      //this is done to 
     }
     if(OI.leftStick.getRawButton(10)) {
       leftValue = -OI.leftStick.getRawAxis(1);
@@ -98,10 +99,10 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
       
       if (Math.abs(leftValue) < 0.1) {
         leftValue = 0;
-    }
-    if (Math.abs(rightValue) < 0.1) {
+      }
+      if (Math.abs(rightValue) < 0.1) {
         rightValue = 0;
-    }
+      }
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
@@ -118,8 +119,6 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
       //Divides the number by 20.5 to say that if the target is centered vertically, make the rampdown equal to 1.
       //rampDown = Math.abs(1/convertedY)*10;
     
-
- 
       // if(OI.y == 0 || rampDown < .2) {
       //   rampDown = .2;
       // }
