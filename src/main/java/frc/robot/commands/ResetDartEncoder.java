@@ -8,15 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
+import frc.robot.Robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.*;
-public class RollerCommand extends Command {
-
-  TalonSRX roller = new TalonSRX(30);
-
-  public RollerCommand() {
+public class ResetDartEncoder extends Command {
+  
+  
+  private static final int pidIdx = 0;
+  private static final int timeoutMs = 10;
+  private static final int slotIdx = 0;
+  public ResetDartEncoder() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -24,22 +24,19 @@ public class RollerCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.ACTUATOR_SUBSYSTEM.dartTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(OI.driverController.getRawButton(2)) {
-      roller.set(ControlMode.PercentOutput, 1);
-    } else {
-      roller.set(ControlMode.PercentOutput, 0);
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    Robot.ACTUATOR_SUBSYSTEM.dartTalon.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+    return true;
   }
 
   // Called once after isFinished returns true
