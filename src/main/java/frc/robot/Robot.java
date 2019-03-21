@@ -34,6 +34,7 @@ import com.kauailabs.navx.frc.AHRS;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static boolean climbBrakeMode;
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static HatchSubsystem HATCH_SUBSYSTEM = new HatchSubsystem();
   public static ActuatorSubsystem ACTUATOR_SUBSYSTEM = new ActuatorSubsystem();
@@ -112,7 +113,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    
+    climb.changeClimbBrakeMode(false);
   }
 
   @Override
@@ -134,6 +135,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     resetNavXAngle();
+    climb.changeClimbBrakeMode(true);
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -161,8 +163,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     SmartDashboard.putBoolean("Ready to Drive", true);
 
-
     resetNavXAngle();
+    climb.changeClimbBrakeMode(true);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
