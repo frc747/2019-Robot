@@ -101,7 +101,12 @@ public class ClimbCommandSafe extends Command {
         }
 
         if(OI.operatorController.getRawButton(LEFT_BUMPER) && latchInPosition) {
-            double winchValue = Math.abs(OI.operatorController.getRawAxis(1));
+            double winchValue = OI.operatorController.getRawAxis(1);
+            // if (winchValue > 0.75) {
+            //     winchValue = 0.75;
+            // } else if (winchValue < -0.75) {
+            //     winchValue = -0.75;
+            // }
             Robot.climb.setWinches(-winchValue);
         } else {
             Robot.climb.setWinches(0.0);

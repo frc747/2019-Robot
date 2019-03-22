@@ -41,8 +41,10 @@ public class ClimbSubsystem extends Subsystem {
     winch3.setSmartCurrentLimit(45);
     winch4.setSmartCurrentLimit(45);
 
-    winch3.setInverted(false);
-    winch4.setInverted(false);
+    winch3.setInverted(true);
+    winch4.setInverted(true);
+
+    //winch1(ID 3) and winch4(ID 8) are not being used right now
   }
   
 
@@ -86,10 +88,10 @@ public class ClimbSubsystem extends Subsystem {
   }
 
   public void setWinches(double speed) {
-    winch1.set(speed);
+    // winch1.set(speed);
     winch2.set(speed);
     winch3.set(speed);
-    winch4.set(speed);
+    // winch4.set(speed);
     // winch1.set(ControlMode.PercentOutput, speed);
     // winch3.set(ControlMode.PercentOutput, -speed);
   }
