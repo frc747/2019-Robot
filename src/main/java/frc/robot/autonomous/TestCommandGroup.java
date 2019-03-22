@@ -8,19 +8,20 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.*;
+import frc.robot.commands.PIDDriveRotateCustom;
+import frc.robot.commands.StepThroughCommand;
+import frc.robot.commands.TeleopSimulator;
 
-public class LeftLevelTwoCargoAuto extends CommandGroup {
+public class TestCommandGroup extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public TestCommandGroup() {
+    addSequential(new TeleopSimulator());
+    addSequential(new PIDDriveRotateCustom(90));
+    addSequential(new TeleopSimulator());
+    addSequential(new PIDDriveRotateCustom(90));
+    
 
-
-
-  public LeftLevelTwoCargoAuto() {
-    addSequential(new PIDDriveInchesSandstorm(80, false));
-    //addSequential(new PIDDriveInchesArc(40, false));
-    // addSequential(new PIDDriveRotateCustom(45));
-    // addSequential(new PIDDriveInches(52, false));
-    // addSequential(new PIDDriveRotateCustom(-45));
-    //addSequential(new LineTrackCommandAuto(5));
   }
-
 }

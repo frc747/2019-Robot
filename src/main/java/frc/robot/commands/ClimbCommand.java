@@ -49,18 +49,19 @@ public class ClimbCommand extends Command {
     double winchRightValue = OI.operatorController.getRawAxis(1);
     //double crankValue = OI.operatorController.getRawAxis(5);
 
-    if(Math.abs(winchLeftValue) < .05) {
+    if (Math.abs(winchLeftValue) < .05) {
       winchLeftValue = 0;
     }
 
-    if(Math.abs(winchRightValue) < .05) {
+    if (Math.abs(winchRightValue) < .05) {
       winchRightValue = 0;
     }
 
-    Robot.climb.setLeftWinch(winchLeftValue);
-    Robot.climb.setRightWinch(winchRightValue);
-    //Robot.climb.setCrank(crankValue);
-
+    if (OI.operatorController.getRawButton(5) && OI.operatorController.getRawButton(6)) {
+      Robot.climb.setLeftWinch(winchLeftValue);
+      Robot.climb.setRightWinch(winchRightValue);
+      //Robot.climb.setCrank(crankValue);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
