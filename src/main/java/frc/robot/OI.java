@@ -89,5 +89,8 @@ public class OI {
     SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
 
+    SmartDashboard.putNumber("Left Velocity", (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity()*0.498728*10)/4096);//((ticks per 100 ms) * circumference in meters * 10) / 4096 = meters per second
+    SmartDashboard.putNumber("Right Velocity", (Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getSelectedSensorVelocity()*0.498728*10)/4096);//((ticks per 100 ms) * circumference in meters * 10) / 4096 = meters per second
+
   }
 }
