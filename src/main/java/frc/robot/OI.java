@@ -50,9 +50,12 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   Button START_BUTTON = new JoystickButton(operatorController, 8);
 
+  Button LEFT_BUTTON_ONE = new JoystickButton(leftStick, 1);
+
   @SuppressWarnings("resource")
   public OI() {
     
+    LEFT_BUTTON_ONE.whenPressed(new MotionProfilingDrivePathCommand());
     SELECT_BUTTON.whileHeld(new LineTrackCommand());
     START_BUTTON.whileHeld(new ClimbCommandSafe());
     Y_BUTTON.whileHeld(new PIDDartMechanism(-221740));
@@ -71,23 +74,23 @@ public class OI {
     y = table.getEntry("ty").getDouble(0);
     area = table.getEntry("ta").getDouble(0);
     
-    SmartDashboard.putNumber("x value: ", x);
-    SmartDashboard.putNumber("y value: ", y);
-    SmartDashboard.putNumber("area value: ", area);
-    SmartDashboard.putNumber("distance", distance);
+    // SmartDashboard.putNumber("x value: ", x);
+    // SmartDashboard.putNumber("y value: ", y);
+    // SmartDashboard.putNumber("area value: ", area);
+    // SmartDashboard.putNumber("distance", distance);
     
-    SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
+    // SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
 
-    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Hatch Talon Position: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
 
-    SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
 
-    SmartDashboard.putNumber("Gear Shifter: ", Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Gear Shifter: ", Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition());
 
-    SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
 
-    SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
-    SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    // SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
+    // SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
 
   }
 }

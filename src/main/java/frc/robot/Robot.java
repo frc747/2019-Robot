@@ -80,8 +80,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     prefs = Preferences.getInstance();
-    UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
-    ucamera.setResolution(180, 240);
+    // UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
+    // ucamera.setResolution(180, 240);
 
     this.autonomous = new Autonomous();
 
