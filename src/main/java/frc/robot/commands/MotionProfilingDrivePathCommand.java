@@ -62,6 +62,7 @@ public class MotionProfilingDrivePathCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.resetNavXAngle();
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.setSelectedSensorPosition(0);
     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.setSelectedSensorPosition(0);
     try {
@@ -128,8 +129,10 @@ public class MotionProfilingDrivePathCommand extends Command {
     } else {
       double left_speed = left_follower.calculate(Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorPosition());
       double right_speed = right_follower.calculate(Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getSelectedSensorPosition());
+      //pathfinder works with a gyro that reads counterclockwise as positive and clockwise as negative
+      //might need to invert the navx angle
       double heading = Robot.getNavXAngle();
-      // double desired_heading = Pathfinder.r2d(m_left_follower.getHeading());
+      // attempt to run the code without the turn variable being added and subtracted in DRIVE_SUBSYSTEM.set
       double desired_heading = -Pathfinder.r2d(left_follower.getHeading());
       double heading_difference = Pathfinder.boundHalfDegrees(desired_heading - heading);
       double turn =  0.8 * (-1.0/80.0) * heading_difference;
