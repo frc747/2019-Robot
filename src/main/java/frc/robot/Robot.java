@@ -171,7 +171,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    SmartDashboard.putBoolean("Ready to Drive", true);
+    // was used for teleopSimulator
+    // SmartDashboard.putBoolean("Ready to Drive", true);
     resetNavXAngle();
     climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);

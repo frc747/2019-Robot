@@ -25,7 +25,6 @@ public class Autonomous{
     public Autonomous(){
         autoChooser1 = new SendableChooser();
         
-        
         autoChooser1.addDefault("BUCKET HEAD (No autonomous)", AutoMode.AUTOMODE_NONE);
         // autoChooser1.addObject("Test Autonomous", AutoMode.AUTOMODE_TEST);
         autoChooser1.addObject("Front Cargoship Left", AutoMode.AUTOMODE_FRONT_CARGO_LEFT);
@@ -68,6 +67,7 @@ public class Autonomous{
             // 	break;
             case AUTOMODE_NONE:
                 //DO NOTHING
+                Robot.operatorControl = true;
             default:
                 break;
             }

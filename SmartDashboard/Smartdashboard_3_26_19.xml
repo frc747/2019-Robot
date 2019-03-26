@@ -1,0 +1,129 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Latch: " type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="1231" y="504"/>
+		<width>277</width>
+		<height>50</height>
+		<property name="Font Size" value="36"/>
+	</widget>
+	<widget field="GEAR: " type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="1" y="131"/>
+		<width>154</width>
+		<height>50</height>
+		<property name="Font Size" value="36"/>
+	</widget>
+	<widget field="limelight_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="1" y="42"/>
+		<width>207</width>
+	</widget>
+	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="0" y="22"/>
+		<width>212</width>
+	</widget>
+	<widget field="limelight_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="0" y="0"/>
+		<width>285</width>
+	</widget>
+	<widget field="During Auto:" type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="1229" y="451"/>
+		<width>279</width>
+		<property name="Font Size" value="10"/>
+	</widget>
+	<widget field="After Auto:" type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="1230" y="472"/>
+		<width>279</width>
+		<property name="Font Size" value="10"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1250" y="525"/>
+		<property name="Text" value=""/>
+	</static-widget>
+	<widget field="Tongue is out: " type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="1226" y="262"/>
+		<width>302</width>
+		<height>180</height>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="1226" y="4"/>
+		<width>308</width>
+		<height>254</height>
+		<property name="Camera Choice" value="cam1"/>
+	</static-widget>
+	<widget field="Auto mode" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="340"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="215" y="3"/>
+		<width>1008</width>
+		<height>753</height>
+		<property name="Camera Choice" value="limelight"/>
+	</static-widget>
+</dashboard>
+<live-window>
+	<widget field="ClimbSubsystem" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="66"/>
+	</widget>
+	<widget field="ActuatorSubsystem" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="44"/>
+	</widget>
+	<widget field="HatchSubsystem" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="22"/>
+	</widget>
+	<widget field="DriveSubsystem" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="0"/>
+	</widget>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="AnalogInput[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="AnalogInput[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="AnalogPotentiometer[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="AnalogPotentiometer[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<location x="27" y="2"/>
+		<width>153</width>
+		<height>59</height>
+	</widget>
+</live-window>
+	<hidden field=""/>
+	<hidden field="Gear Shifter Encoder: "/>
+	<hidden field="distance"/>
+	<hidden field="Boolean Box Info: "/>
+	<hidden field="area value: "/>
+	<hidden field="Gear Shifter: "/>
+	<hidden field="Green: Auto is running 
+ Red: Auto is Finished 
+ Green: Tongue is deployed: "/>
+	<hidden field="Hatch Talon Position: "/>
+	<hidden field="Joystick Left"/>
+	<hidden field="Latch Encoder: "/>
+	<hidden field="Boolean Box INFO"/>
+	<hidden field="AfterOutside Auto:"/>
+	<hidden field="Ready to Drive"/>
+	<hidden field="Tongue Encoder: "/>
+	<hidden field="During Auto 2:"/>
+	<hidden field="Dart Current Value:"/>
+	<hidden field="robot heading"/>
+	<hidden field="Robot Heading"/>
+	<hidden field="x value: "/>
+	<hidden field="Latch in postition?"/>
+	<hidden field="Joystick Right"/>
+	<hidden field="Dart Encoder: "/>
+	<hidden field="During Auto 1:"/>
+	<hidden field="Latch"/>
+	<hidden field="HIGH GEAR?: "/>
+	<hidden field="y value: "/>
+</xml>

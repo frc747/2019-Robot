@@ -31,6 +31,8 @@ public class OI {
 
   public static boolean tongueIsOut = false;
 
+  public static boolean latchInPosition = false;
+
   public static double distance;
 
   public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
@@ -59,8 +61,11 @@ public class OI {
     START_BUTTON.whileHeld(new ClimbCommandSafe());
     Y_BUTTON.whileHeld(new PIDDartMechanism(-221740));
     B_BUTTON.whileHeld(new PIDHatchMechanism(935, false)); //1020 //850
-    //Y_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
-    //A_BUTTON.toggleWhenPressed(new ResetDartEncoder());
+    //X_BUTTON.toggleWhenPressed(new ResetDartEncoder());
+    //B_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
+
+    SmartDashboard.putString("During Auto:", "Green - Auto is running; Red - Auto is finished");
+    SmartDashboard.putString("After Auto:", "Green - Tongue is out; Red - Tongue is in");
 
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
@@ -74,24 +79,34 @@ public class OI {
     area = table.getEntry("ta").getDouble(0);
     
     SmartDashboard.putBoolean("Tongue is out: ", tongueIsOut);
+    if (latchInPosition) {
+      SmartDashboard.putString("Latch: ", "CLIMB");
+    } else {
+      SmartDashboard.putString("Latch: ", "DON'T CLIMB");
+    }
 
-    SmartDashboard.putNumber("x value: ", x);
-    SmartDashboard.putNumber("y value: ", y);
-    SmartDashboard.putNumber("area value: ", area);
-    SmartDashboard.putNumber("distance", distance);
+    if (shiftHigh) {
+      SmartDashboard.putString("GEAR: ", "HIGH");
+    } else {
+      SmartDashboard.putString("GEAR: ", "LOW");
+    }
+
+    // Limelight Value SmartDashboard display
+    // SmartDashboard.putNumber("x value: ", x);
+    // SmartDashboard.putNumber("y value: ", y);
+    // SmartDashboard.putNumber("area value: ", area);
     
-    SmartDashboard.putNumber("robot heading", Robot.getNavXAngle());
+    // Sensor Values and Information
+    // SmartDashboard.putNumber("Average Inches Driven", distance);
 
-    SmartDashboard.putNumber("Hatch Talon Position: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
-
-    SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
-
-    SmartDashboard.putNumber("Gear Shifter: ", Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition());
-
-    SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
-
-    SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
-    SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    // SmartDashboard.putNumber("Gear Shifter Encoder: ", Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Tongue Encoder: ", Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Dart Encoder: ", Robot.ACTUATOR_SUBSYSTEM.dartTalon.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Robot Heading", Robot.getNavXAngle());
+    
+    // SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
+    // SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
 
   }
 }
