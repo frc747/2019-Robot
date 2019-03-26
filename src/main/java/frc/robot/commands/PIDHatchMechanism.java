@@ -99,6 +99,11 @@ public class PIDHatchMechanism extends Command {
     }
     
     protected void execute() {
+        if (Robot.HATCH_SUBSYSTEM.hatchTalon.getSelectedSensorPosition() > 500 || (!Robot.operatorControl && Robot.isAutonomous)) {
+            OI.tongueIsOut = true;
+        } else {
+            OI.tongueIsOut = false;
+        }
     }
     
     @Override

@@ -4,7 +4,9 @@ import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.ShiftDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
@@ -202,6 +204,25 @@ public class DriveSubsystem extends Subsystem {
 
         this.set(left, right);
     }
+
+    public void changeDriveBrakeMode(boolean enabled) {
+        if (enabled) {
+          leftDrivePrimary.setNeutralMode(NeutralMode.Brake);
+          leftDriveMid.setNeutralMode(NeutralMode.Brake);
+          leftDriveBack.setNeutralMode(NeutralMode.Brake);
+          rightDrivePrimary.setNeutralMode(NeutralMode.Brake);
+          rightDriveMid.setNeutralMode(NeutralMode.Brake);
+          rightDriveBack.setNeutralMode(NeutralMode.Brake);
+        } else {
+            leftDrivePrimary.setNeutralMode(NeutralMode.Coast);
+            leftDriveMid.setNeutralMode(NeutralMode.Coast);
+            leftDriveBack.setNeutralMode(NeutralMode.Coast);
+            rightDrivePrimary.setNeutralMode(NeutralMode.Coast);
+            rightDriveMid.setNeutralMode(NeutralMode.Coast);
+            rightDriveBack.setNeutralMode(NeutralMode.Coast);
+        }
+    
+      }
 
     public void enablePositionControl() {
         this.changeControlMode(ControlMode.MotionMagic);

@@ -29,6 +29,8 @@ public class OI {
 
   public static boolean shiftHigh = false;
 
+  public static boolean tongueIsOut = false;
+
   public static double distance;
 
   public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
@@ -71,6 +73,8 @@ public class OI {
     y = table.getEntry("ty").getDouble(0);
     area = table.getEntry("ta").getDouble(0);
     
+    SmartDashboard.putBoolean("Tongue is out: ", tongueIsOut);
+
     SmartDashboard.putNumber("x value: ", x);
     SmartDashboard.putNumber("y value: ", y);
     SmartDashboard.putNumber("area value: ", area);
