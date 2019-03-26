@@ -13,10 +13,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveSubsystem extends Subsystem {
 
     public TalonSRX leftDrivePrimary = new TalonSRX(1); // 10
+    
+    public TalonSRX leftDriveMid = new TalonSRX(13);
 
 	public TalonSRX leftDriveBack = new TalonSRX(2); // 9
 
-	public TalonSRX rightDrivePrimary = new TalonSRX(10); // 1
+    public TalonSRX rightDrivePrimary = new TalonSRX(10); // 1
+    
+    public TalonSRX rightDriveMid = new TalonSRX(14);
 
     public TalonSRX rightDriveBack = new TalonSRX(9); // 2
 
@@ -45,17 +49,21 @@ public class DriveSubsystem extends Subsystem {
 
     public DriveSubsystem() {
         super();
-        gearShifter.setInverted(true);
+        gearShifter.setInverted(false);
         gearShifter.setSensorPhase(true);
 
         leftDrivePrimary.setInverted(true);
-        leftDriveBack.setInverted(true);
+        leftDriveMid.setInverted(true);
+        leftDriveBack.setInverted(false); //inverted because of the way it is mounted
 
-        rightDriveBack.setInverted(false);
         rightDrivePrimary.setInverted(false);
+        rightDriveMid.setInverted(false);
+        rightDriveBack.setInverted(true); //inverted because of the way it is mounted
 
         leftDriveBack.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
+        leftDriveMid.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
         rightDriveBack.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
+        rightDriveMid.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
 
         leftDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
@@ -76,6 +84,25 @@ public class DriveSubsystem extends Subsystem {
         rightDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
         rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
         rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+
+        leftDriveMid.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveMid.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveMid.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveMid.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+
+        leftDriveBack.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveBack.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveBack.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveBack.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+
 
         gearShifter.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         gearShifter.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
