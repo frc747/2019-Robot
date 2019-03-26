@@ -41,8 +41,6 @@ public class ClimbCommandSafe extends Command {
     private double specificDistanceD = 0;
 
     private double specificDistanceF = 1.5;
-    
-    private boolean latchInPosition = false;
 
     private double leftValue;
 
@@ -56,7 +54,7 @@ public class ClimbCommandSafe extends Command {
     
         
     protected void initialize() {
-        latchInPosition = false;
+        OI.latchInPosition = false;
         Robot.climb.latch.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.climb.latch.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.climb.latch.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
@@ -77,15 +75,13 @@ public class ClimbCommandSafe extends Command {
     }
     
     protected void execute() {
-          
-        SmartDashboard.putBoolean("Latch in postition?", latchInPosition);
 
         //if (OI.leftStick.getRawButton(9)) {
-        if (OI.operatorController.getRawButton(RIGHT_BUMPER) && !latchInPosition) {
+        if (OI.operatorController.getRawButton(RIGHT_BUMPER) && !OI.latchInPosition) {
             // Robot.climb.latch.set(ControlMode.PercentOutput, shifterValue);
             if (Robot.climb.latch.getSelectedSensorPosition() > driveTicks - 200 && Robot.climb.latch.getSelectedSensorPosition() < driveTicks + 1000) {
                 Robot.climb.latch.set(ControlMode.PercentOutput, 0);
-                latchInPosition = true;
+                OI.latchInPosition = true;
             } else {
                 Robot.climb.latch.config_kP(pidIdx, specificDistanceP, timeoutMs);
         
@@ -100,8 +96,11 @@ public class ClimbCommandSafe extends Command {
         
         }
 
-        if(OI.operatorController.getRawButton(LEFT_BUMPER) && latchInPosition) {
+        if(OI.operatorController.getRawButton(LEFT_BUMPER) && OI.latchInPosition) {
             double winchValue = Math.abs(OI.operatorController.getRawAxis(1));
+            if (winchValue > 0.4) {
+                winchValue = 0.4;
+            }
             Robot.climb.setWinches(winchValue);
         } else {
             Robot.climb.setWinches(0.0);

@@ -7,11 +7,16 @@
 
 package frc.robot.autonomous;
 
+import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
 
 public class LeftFaceCargoShipLevelTwo extends CommandGroup {
-
+  
+  @Override
+  protected void initialize() {
+    Robot.operatorControl = false;
+  }
 
   // this autonomous routine runs assuming the robot starts at the furthest to the right and forward on the right side of level two
   public LeftFaceCargoShipLevelTwo() {
@@ -30,4 +35,8 @@ public class LeftFaceCargoShipLevelTwo extends CommandGroup {
     // addSequential(new LineTrackCommandAuto(5));
   }
 
+  @Override
+  protected void end() {
+    Robot.operatorControl = true;
+  }
 }

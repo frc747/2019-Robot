@@ -18,7 +18,6 @@ public class ShiftDriveCommand extends Command {
     private static final int timeoutMs = 10;
     private static final int slotIdx = 0;
     private int shiftCount = 0;
-    private boolean shiftHigh = false;
     private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
     private static final double MAX_PERCENT_VOLTAGE = 1.0;
@@ -109,13 +108,12 @@ public class ShiftDriveCommand extends Command {
 
         //   // if shift count has been adding for half a second
         if(shiftCount > 25) {
-            shiftHigh = true;
+            OI.shiftHigh = true;
         } else {
-            shiftHigh = false;
+            OI.shiftHigh = false;
         }
-        SmartDashboard.putBoolean("HIGH GEAR?: ", shiftHigh);
        
-        if (shiftHigh && !(OI.operatorController.getRawAxis(3) > .25)) {
+        if (OI.shiftHigh && !(OI.operatorController.getRawAxis(3) > .25)) {
             // Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, shifterValue);
             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > driveTicks - 10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < driveTicks + 10) {
                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);

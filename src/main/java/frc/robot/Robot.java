@@ -34,6 +34,7 @@ import com.kauailabs.navx.frc.AHRS;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static boolean climbBrakeMode;
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static HatchSubsystem HATCH_SUBSYSTEM = new HatchSubsystem();
   public static ActuatorSubsystem ACTUATOR_SUBSYSTEM = new ActuatorSubsystem();
@@ -41,6 +42,9 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
 
   public static boolean latchInPos = false;
+
+  public static boolean operatorControl = false;
+  public static boolean isAutonomous = false;
 
   public static AnalogInput ai = new AnalogInput(0);
   
@@ -112,7 +116,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    
+    climb.changeClimbBrakeMode(true);
+    DRIVE_SUBSYSTEM.changeDriveBrakeMode(false);
+    operatorControl = false;
+    isAutonomous = false;
   }
 
   @Override
@@ -134,6 +141,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     resetNavXAngle();
+    climb.changeClimbBrakeMode(true);
+    DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
+    // this is now done within the autonomous command groups (within initialize)
+    // operatorControl = false;
+    isAutonomous = true;
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -159,10 +171,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    SmartDashboard.putBoolean("Ready to Drive", true);
-
-
+    // was used for teleopSimulator
+    // SmartDashboard.putBoolean("Ready to Drive", true);
     resetNavXAngle();
+    climb.changeClimbBrakeMode(true);
+    DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
+    operatorControl = true;
+    isAutonomous = false;
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -178,17 +193,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //  if(DRIVE_SUBSYSTEM.isClimbed && DRIVE_SUBSYSTEM.isDone1) {
-    //    if(climbUp.isRunning()) {
-    //     climbUp.cancel();
-    //    }
-    //    climbDown.start();
-    //  } else if(DRIVE_SUBSYSTEM.isDone1 && !DRIVE_SUBSYSTEM.isClimbed){
-    //    if(climbDown.isRunning()) {
-    //      climbDown.cancel();
-    //    }
-    //    climbUp.start();
-    //  }
   }
 
   /**
