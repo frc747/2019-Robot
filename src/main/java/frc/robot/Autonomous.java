@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import frc.robot.autonomous.*;
 
-
-
-
 public class Autonomous{
     
     public enum AutoMode{
@@ -26,7 +23,6 @@ public class Autonomous{
         autoChooser1 = new SendableChooser();
         
         autoChooser1.addDefault("BUCKET HEAD (No autonomous)", AutoMode.AUTOMODE_NONE);
-        // autoChooser1.addObject("Test Autonomous", AutoMode.AUTOMODE_TEST);
         autoChooser1.addObject("Front Cargoship Left", AutoMode.AUTOMODE_FRONT_CARGO_LEFT);
         autoChooser1.addObject("Front Cargoship Right", AutoMode.AUTOMODE_FRONT_CARGO_RIGHT);
         autoChooser1.addObject("Left Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_LEFT_LEVEL_TWO);
@@ -62,9 +58,6 @@ public class Autonomous{
             case AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO:
                 new RightFaceCargoShipLevelTwo().start();
                 break;
-            // case AUTOMODE_TEST:
-            // 	new TestCommandGroup().start();
-            // 	break;
             case AUTOMODE_NONE:
                 //DO NOTHING
                 Robot.operatorControl = true;

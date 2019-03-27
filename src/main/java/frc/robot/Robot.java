@@ -10,8 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
@@ -171,13 +169,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // was used for teleopSimulator
-    // SmartDashboard.putBoolean("Ready to Drive", true);
     resetNavXAngle();
     climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
     operatorControl = true;
     isAutonomous = false;
+    
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

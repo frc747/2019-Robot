@@ -1,17 +1,14 @@
 package frc.robot.subsystems;
 
-import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.ShiftDriveCommand;
+// import frc.robot.commands.TankDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-/**
- *
- */
+
 public class DriveSubsystem extends Subsystem {
 
     public TalonSRX leftDrivePrimary = new TalonSRX(1); // 10
@@ -34,17 +31,11 @@ public class DriveSubsystem extends Subsystem {
     private static final double ENCODER_TICKS = 4096;
 
     private static final double GEAR_RATIO_MULTIPLIER = 1;
-    //Gear ratio, motor needs to rotate 5.4 times more to achieve one actual rotation
-    // 4096 for the mag encoders
 
     private static final double WHEEL_CIRCUMFERNCE = 20.125;
 
-    public static double MAX_PERCENT_VOLTAGE = 1.0;
+    public static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
-
-    //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
-
-//    private static final double TICKS_PER_INCH = ENCODER_TICKS / WHEEL_CIRCUMFERNCE;
 
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
@@ -113,6 +104,7 @@ public class DriveSubsystem extends Subsystem {
 
     }
 
+    @Override
     public void initDefaultCommand() {
         setDefaultCommand(new ShiftDriveCommand());
         // setDefaultCommand(new TankDriveCommand());

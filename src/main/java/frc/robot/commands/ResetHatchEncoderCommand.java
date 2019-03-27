@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,7 +7,7 @@ public class ResetHatchEncoderCommand extends Command {
   
   private static final int pidIdx = 0;
   private static final int timeoutMs = 10;
-  private static final int slotIdx = 0;
+  
   public ResetHatchEncoderCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
