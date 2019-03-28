@@ -1,0 +1,17 @@
+Going into the ethernet hub/switch
+(5 available ports; powered by VRM 5V/500mA):
+
+	1) Computer to tune limelight pipeline
+
+	2) roboRIO
+
+	3) Radio
+
+
+
+Going into the radio
+(2 available ports; powered by VRM 12V/2A):
+
+	1) Limelight
+
+	2) Ethernet hub/switch

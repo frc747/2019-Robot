@@ -1,28 +1,3 @@
-Felipe (Operator):
-
-A - null
-B - Tongue out, goes back to home after letting go
-X - null
-Y - null
-Left Bumper - null (only in combination with start and drives climb when latch is in position, controlled by L Y axis)
-Right Bumper - null (only in combination with start and drives latch)
-Back - Vision Track to target
-Start - ALLOW FOR CLIMB, holding left and right bumper activates climb
-L Y Axis - Winch controller only in combination with start and left bumper after latch deployed
-R Y Axis - Null
-L X Axis - Null
-R X Axis - Null
-L Trigger - Null
-R Trigger - Null
-
-
-Eddy (Driver):
-
-Left Stick Button 8: Drive Straight (average of two sticks Y-Axis)
-Left Stick Button 10: LineTrackCommand takeover
-
-
-
 Logitech Gamepad Configuration and Button IDs
 
 The way we use the gamepad:
