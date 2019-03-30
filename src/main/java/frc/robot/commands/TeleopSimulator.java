@@ -225,8 +225,8 @@ public class TeleopSimulator extends Command {
  
                 SmartDashboard.putNumber("rampdown", rampDown);
 
-                leftValue = ((speed) + ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown;
-                rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown);
+                leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
+                rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown);
 
                 Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
             } 
@@ -348,11 +348,11 @@ public class TeleopSimulator extends Command {
     public void updateTrackValues() {
         rampDown = 1;
 
-        if(OI.y == 0) {
+        if(Robot.y == 0) {
           speed = .25;
           rate = 0;
         } else {
-          speed = (1/OI.y)*5;
+          speed = (1/Robot.y)*5;
           rate = .009;
         }
 
@@ -364,7 +364,7 @@ public class TeleopSimulator extends Command {
     
         System.out.println("line");
 
-        OI.table.getEntry("pipeline").setDouble(0);
+        Robot.table.getEntry("pipeline").setDouble(0);
     }
 
 }

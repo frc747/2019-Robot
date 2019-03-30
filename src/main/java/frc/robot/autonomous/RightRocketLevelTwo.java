@@ -16,12 +16,18 @@ public class RightRocketLevelTwo extends CommandGroup {
 
   @Override
   protected void initialize() {
+    Robot.autoSideLeft = false;
+    Robot.autoSideRight = true;
+    Robot.autoSideFaceCargoShip = false;
+    Robot.autoFrontFaceCargoShip = false;
+    Robot.autoRocket = true;
+
     Robot.operatorControl = false;
   }
 
    public RightRocketLevelTwo() {
     addSequential(new PIDDriveInchesHoldHatch(80, false));
-    addSequential(new PIDDriveRotateCustom(40));
+    addSequential(new PIDDriveRotateCustom(40, false));
 
     // addSequential(new TeleopSimulator());
 

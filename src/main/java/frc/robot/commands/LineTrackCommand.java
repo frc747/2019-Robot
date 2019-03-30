@@ -27,11 +27,11 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   protected void initialize() {
     rampDown = 1;
 
-    if(OI.y == 0) {
+    if(Robot.y == 0) {
       speed = .25;
       rate = 0;
     } else {
-      speed = (1/OI.y)*5;
+      speed = (1/Robot.y)*5;
       rate = .009;
     }
 
@@ -41,7 +41,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     System.out.println("line");
 
-    OI.table.getEntry("pipeline").setDouble(0);
+    Robot.table.getEntry("pipeline").setDouble(0);
 
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
@@ -58,11 +58,11 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   protected void execute() {
     double adjustMagnitiude;
     if(speed < .45) {
-      adjustMagnitiude = 5; //changed to 5 for the final matches of Chestnut Hill
+      adjustMagnitiude = 6; //changed to 5 for the final matches of Chestnut Hill
       speed = .45;
       rate = 0;
     } else {
-      adjustMagnitiude = 3.75; //changed to 3.75 for the final matches of Chestnut Hill
+      adjustMagnitiude = 4.5; //changed to 3.75 for the final matches of Chestnut Hill
     }
 
     if(OI.leftStick.getRawButton(10)) {
@@ -82,8 +82,8 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
          rampDown -= rate;
        }
  
-     leftValue = ((speed) + ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/5)))/adjustMagnitiude))*rampDown);
+     leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown);
 
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
@@ -98,7 +98,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
+    Robot.table.getEntry("pipeline").setDouble(0.0);
     Robot.DRIVE_SUBSYSTEM.stop();
   }
 
@@ -106,6 +106,6 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    OI.table.getEntry("pipeline").setDouble(0.0);
+    Robot.table.getEntry("pipeline").setDouble(0.0);
   }
 }

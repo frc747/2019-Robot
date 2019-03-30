@@ -2,22 +2,16 @@ package frc.robot;
 
 import java.lang.SuppressWarnings;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.autonomous.BackoffRotateReloadAdaptive;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.networktables.*;
 
 public class OI {
-
-  public static NetworkTable table;
-
-  public static double x;
-  public static double y;
-  public static double area;
 
   public static boolean shiftHigh = false;
 
@@ -47,6 +41,8 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   Button START_BUTTON = new JoystickButton(operatorController, 8);
 
+  Button LEFT_STICK_BUTTON_SEVEN = new JoystickButton(leftStick, 7);
+
   @SuppressWarnings("resource")
   public OI() {
     
@@ -56,7 +52,8 @@ public class OI {
     B_BUTTON.whileHeld(new PIDHatchMechanism(935, false)); //1020 //850
     //X_BUTTON.toggleWhenPressed(new ResetDartEncoder());
     //B_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
-
+    LEFT_STICK_BUTTON_SEVEN.whenPressed(new BackoffRotateReloadAdaptive());
+    
     SmartDashboard.putString("During Auto:", "Green - Auto is running; Red - Auto is finished");
     SmartDashboard.putString("After Auto:", "Green - Tongue is out; Red - Tongue is in");
 
@@ -66,10 +63,6 @@ public class OI {
 
   // Anything to be updated should be done in here
   public void updateOI() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    x = table.getEntry("tx").getDouble(0);
-    y = table.getEntry("ty").getDouble(0);
-    area = table.getEntry("ta").getDouble(0);
     
     SmartDashboard.putBoolean("Tongue is out: ", tongueIsOut);
     if (latchInPosition) {

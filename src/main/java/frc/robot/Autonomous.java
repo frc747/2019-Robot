@@ -41,10 +41,10 @@ public class Autonomous{
                     
         switch (selectedAutoMode){
             case AUTOMODE_FRONT_CARGO_LEFT:
-                new FrontFaceCargoAutoLeft().start();
+                new FrontFaceCargoShipLeft().start();
                 break;
             case AUTOMODE_FRONT_CARGO_RIGHT:
-            	new FrontFaceCargoAutoRight().start();
+            	new FrontFaceCargoShipRight().start();
                 break;
             case AUTOMODE_ROCKET_LEFT_LEVEL_TWO:
             	new LeftRocketLevelTwo().start();
