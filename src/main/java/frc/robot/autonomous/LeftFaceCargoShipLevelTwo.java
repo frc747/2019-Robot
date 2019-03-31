@@ -30,7 +30,8 @@ public class LeftFaceCargoShipLevelTwo extends CommandGroup {
     
     addSequential(new PIDDriveInchesHoldHatch(96.775, false));
     addSequential(new PIDDriveRotateCustom(-21.5, false));
-    addSequential(new PIDDriveInches(149, false));
+    addSequential(new PIDDriveInches(143, false)); //was 149 when it overdrove in practice match
+    //seen via Jon Jon's video
     addSequential(new PIDDriveRotateCustom(90, false));
     // driver takes over now
   }

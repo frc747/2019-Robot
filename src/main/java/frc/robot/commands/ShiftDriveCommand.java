@@ -3,7 +3,6 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 
@@ -20,8 +19,6 @@ public class ShiftDriveCommand extends Command {
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     private final static int allowableCloseLoopError = 1;
-    
-    private final static int TARGET_COUNT_ONE_SECOND = 50;
     
     private double driveShiftP = 1.0;
     

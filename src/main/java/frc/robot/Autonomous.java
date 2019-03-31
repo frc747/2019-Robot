@@ -17,18 +17,18 @@ public class Autonomous{
         AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO;
     }
     
-    private SendableChooser autoChooser1;
+    private SendableChooser<AutoMode> autoChooser1;
     
     public Autonomous(){
-        autoChooser1 = new SendableChooser();
+        autoChooser1 = new SendableChooser<AutoMode>();
         
-        autoChooser1.addDefault("BUCKET HEAD (No autonomous)", AutoMode.AUTOMODE_NONE);
-        autoChooser1.addObject("Front Cargoship Left", AutoMode.AUTOMODE_FRONT_CARGO_LEFT);
-        autoChooser1.addObject("Front Cargoship Right", AutoMode.AUTOMODE_FRONT_CARGO_RIGHT);
-        autoChooser1.addObject("Left Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_LEFT_LEVEL_TWO);
-        autoChooser1.addObject("Right Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_RIGHT_LEVEL_TWO);
-        autoChooser1.addObject("Left Face Cargo, Level 2", AutoMode.AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO);
-        autoChooser1.addObject("Right Face Cargo, Level 2", AutoMode.AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO);
+        autoChooser1.setDefaultOption("BUCKET HEAD (No autonomous)", AutoMode.AUTOMODE_NONE);
+        autoChooser1.addOption("Front Cargoship Left", AutoMode.AUTOMODE_FRONT_CARGO_LEFT);
+        autoChooser1.addOption("Front Cargoship Right", AutoMode.AUTOMODE_FRONT_CARGO_RIGHT);
+        autoChooser1.addOption("Left Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_LEFT_LEVEL_TWO);
+        autoChooser1.addOption("Right Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_RIGHT_LEVEL_TWO);
+        autoChooser1.addOption("Left Face Cargo, Level 2", AutoMode.AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO);
+        autoChooser1.addOption("Right Face Cargo, Level 2", AutoMode.AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO);
         SmartDashboard.putData("Auto mode", autoChooser1);
     }
     

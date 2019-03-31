@@ -92,10 +92,12 @@ public class Robot extends TimedRobot {
     UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
     ucamera.setResolution(180, 240);
 
+    // ucamera.setResolution(160, 120);
+    // ucamera.setFPS(10);
     //might want to lower resolution or fps for the usbcamera to compensate for the limelight
     // ucamera.setResolution(256, 144);
-    // ucamera.setFPS(10);
-
+    // ucamera.setFPS(15);
+    
     this.autonomous = new Autonomous();
 
     if(m_oi == null) {

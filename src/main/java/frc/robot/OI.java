@@ -9,8 +9,6 @@ import frc.robot.autonomous.BackoffRotateReloadAdaptive;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.networktables.*;
-
 public class OI {
 
   public static boolean shiftHigh = false;
@@ -78,9 +76,9 @@ public class OI {
     }
 
     // Limelight Value SmartDashboard display
-    // SmartDashboard.putNumber("x value: ", x);
-    // SmartDashboard.putNumber("y value: ", y);
-    // SmartDashboard.putNumber("area value: ", area);
+    // SmartDashboard.putNumber("x value: ", Robot.x);
+    // SmartDashboard.putNumber("y value: ", Robot.y);
+    // SmartDashboard.putNumber("area value: ", Robot.area);
     
     // Sensor Values and Information
     // SmartDashboard.putNumber("Average Inches Driven", distance);

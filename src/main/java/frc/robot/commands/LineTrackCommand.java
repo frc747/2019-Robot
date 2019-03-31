@@ -81,9 +81,9 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
        if(rampDown > .4) {
          rampDown -= rate;
        }
- 
-     leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown);
+      //  was leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
+     leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown);
 
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
