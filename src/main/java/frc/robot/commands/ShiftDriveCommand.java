@@ -80,7 +80,11 @@ public class ShiftDriveCommand extends Command {
         }
         
         if (OI.leftStick.getRawButton(8)) {
-            double average = (leftValue + rightValue) / 2;
+            // was applying the average of both sticks to both sides
+            // double average = (leftValue + rightValue) / 2;
+
+            // now applies the rightStick values to both sides
+            double average = rightValue;
 
             Robot.DRIVE_SUBSYSTEM.set(average, average);
         } else {

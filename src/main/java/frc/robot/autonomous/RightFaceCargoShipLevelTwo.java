@@ -26,10 +26,10 @@ public class RightFaceCargoShipLevelTwo extends CommandGroup {
 
   // this autonomous routine runs assuming the robot starts at the furthest to the right and forward on the right side of level two
   public RightFaceCargoShipLevelTwo() {
-    addSequential(new PIDDriveInchesHoldHatch(96.775, false));
-    addSequential(new PIDDriveRotateCustom(21.5, false));
-    addSequential(new PIDDriveInches(143, false));
-    addSequential(new PIDDriveRotateCustom(-90, false));
+    addSequential(new PIDDriveInchesHoldHatch(96.775, false), 4);
+    addSequential(new PIDDriveRotateCustom(21.5, false), 4);
+    addSequential(new PIDDriveInches(143, false), 4);
+    addSequential(new PIDDriveRotateCustom(-90, false), 4);
     // driver takes over now
   }
 
