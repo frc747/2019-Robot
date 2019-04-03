@@ -5,7 +5,6 @@ import java.lang.SuppressWarnings;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.autonomous.BackoffRotateReloadAdaptive;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,7 +38,7 @@ public class OI {
   Button SELECT_BUTTON = new JoystickButton(operatorController, 7);
   Button START_BUTTON = new JoystickButton(operatorController, 8);
 
-  Button LEFT_STICK_BUTTON_SEVEN = new JoystickButton(leftStick, 7);
+  // Button LEFT_STICK_BUTTON_SEVEN = new JoystickButton(leftStick, 7);
 
   @SuppressWarnings("resource")
   public OI() {
@@ -50,7 +49,8 @@ public class OI {
     B_BUTTON.whileHeld(new PIDHatchMechanism(935, false)); //1020 //850
     //X_BUTTON.toggleWhenPressed(new ResetDartEncoder());
     //B_BUTTON.toggleWhenPressed(new ResetHatchEncoderCommand());
-    LEFT_STICK_BUTTON_SEVEN.whenPressed(new BackoffRotateReloadAdaptive());
+
+    // LEFT_STICK_BUTTON_SEVEN.whenPressed(new BackoffRotateReloadAdaptive());
     
     SmartDashboard.putString("During Auto:", "Green - Auto is running; Red - Auto is finished");
     SmartDashboard.putString("After Auto:", "Green - Tongue is out; Red - Tongue is in");

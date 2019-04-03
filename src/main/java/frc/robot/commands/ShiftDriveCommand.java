@@ -32,6 +32,8 @@ public class ShiftDriveCommand extends Command {
 
     private double rightValue;
 
+    private double rotateValue;
+
     // private double shifterValue;
 
     public ShiftDriveCommand() {
@@ -68,8 +70,9 @@ public class ShiftDriveCommand extends Command {
     }
     
     protected void execute() {
-        leftValue = -OI.leftStick.getRawAxis(1);
+        leftValue = -OI.leftStick.getRawAxis(1); // before modifying raw of axis 1: forward = negative, backward = positive
         rightValue = -OI.rightStick.getRawAxis(1);
+        rotateValue = OI.rightStick.getRawAxis(3); // before modifying raw of axis 3: CCW = negative, CW = positive
         // shifterValue = OI.operatorController.getRawAxis(5);
 
         if (Math.abs(leftValue) < 0.1) {
@@ -80,13 +83,27 @@ public class ShiftDriveCommand extends Command {
         }
         
         if (OI.leftStick.getRawButton(8)) {
-            // was applying the average of both sticks to both sides
-            // double average = (leftValue + rightValue) / 2;
+            // drive straight function
 
-            // now applies the rightStick values to both sides
-            double average = rightValue;
 
-            Robot.DRIVE_SUBSYSTEM.set(average, average);
+            // while holding button 8 on the left joystick, the value from the Y-Axis of the right joystick will be applied to both sides of the drive train so that it will drive in the same direction of the movement done by the joystick
+
+            double straightDrive = rightValue;
+
+            // when forward, left and right side both go forward
+            // when backward, left and right side both go backward
+            Robot.DRIVE_SUBSYSTEM.set(straightDrive, straightDrive);
+        } else if (OI.leftStick.getRawButton(7)) { // TODO: Test and ask Eddy for button preference; keep in mind 8 and 10 are in use
+            // drive rotate function
+
+
+            // while holding button 7 on the left joystick, the value from the Z-Axis of the right joystick will be applied to the one side of the drive train and the negative of that value will be applied to the other side so that it will rotate in the same direction of the rotation done by the joystick
+
+            double rotateDrive = rotateValue;
+
+            // when counter clockwise, left goes backward and right side goes forward
+            // when clockwise, left side goes forward and right side goes backward
+            Robot.DRIVE_SUBSYSTEM.set(rotateDrive, -rotateDrive);            
         } else {
             Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
         }

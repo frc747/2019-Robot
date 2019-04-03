@@ -7,10 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 public class TeleopSimulator extends Command {
-    
-    //execute is called every 20ms and isFinished is called right after execute
-    //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
-    
+        
     private double driveTicksGear = 830;
     private double driveTicksTongue = 850;
     private double driveTicksDart = -221740;
