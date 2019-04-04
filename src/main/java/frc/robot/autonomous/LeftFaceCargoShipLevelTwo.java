@@ -20,10 +20,10 @@ public class LeftFaceCargoShipLevelTwo extends CommandGroup {
 
   // this autonomous routine runs assuming the robot starts at the furthest to the right and forward on the right side of level two
   public LeftFaceCargoShipLevelTwo() {
-    addSequential(new PIDDriveInchesHoldHatch(96.775, false)); //was 96.775 at the end of Chestnut Hill Qualification Matches 3-17-19
+    addSequential(new PIDDriveInchesHoldHatch(97.775, false)); //was 96.775 at the end of Chestnut Hill Qualification Matches 3-17-19
     addSequential(new PIDDriveRotateCustom(-18)); //was -13.5 at the end of Chestnut Hill Qualification Matches 3-17-19
     addSequential(new PIDDriveInches(146, false)); // was 143 at the end of Chestnut Hill Qualification Matches 3-17-19
-    addSequential(new PIDDriveRotateCustom(100)); // was 100 in first elims match // was 100 at the end of Chestnut Hill Qualification Matches 3-17-19
+    addSequential(new PIDDriveRotateCustom(90)); // was 100 in first elims match // was 100 at the end of Chestnut Hill Qualification Matches 3-17-19
   //CHANGES MADE AFTER FIRST ELIMS MATCH WERE BASED OFF OF THE LEFT SIDE
   
 

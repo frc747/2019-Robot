@@ -20,7 +20,7 @@ public class RightRocketLevelTwo extends CommandGroup {
   }
 
    public RightRocketLevelTwo() {
-    addSequential(new PIDDriveInchesHoldHatch(80, false));
+    addSequential(new PIDDriveInchesHoldHatch(81, false));
     addSequential(new PIDDriveRotateCustom(40));
 
     // addSequential(new TeleopSimulator());

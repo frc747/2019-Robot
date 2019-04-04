@@ -86,11 +86,11 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   protected void execute() {
     double adjustMagnitiude;
     if(speed < .45) {
-      adjustMagnitiude = 5;//was 4.75
+      adjustMagnitiude = 4;//was 4.75
       speed = .45;
       rate = 0;
     } else {
-      adjustMagnitiude = 3.75;// was 3.5 up to match 28 on Saturday of Chestnut Hill 3/16/19
+      adjustMagnitiude = 3.5;// was 3.5 up to match 28 on Saturday of Chestnut Hill 3/16/19
       //this is done to 
     }
     if(OI.leftStick.getRawButton(10)) {
