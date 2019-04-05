@@ -82,7 +82,7 @@ public class ShiftDriveCommand extends Command {
             rightValue = 0;
         }
         
-        if (OI.leftStick.getRawButton(8)) {
+        if (OI.leftStick.getRawButton(7)) {
             // drive straight function
 
 
@@ -93,7 +93,7 @@ public class ShiftDriveCommand extends Command {
             // when forward, left and right side both go forward
             // when backward, left and right side both go backward
             Robot.DRIVE_SUBSYSTEM.set(straightDrive, straightDrive);
-        } else if (OI.leftStick.getRawButton(7)) { // TODO: Test and ask Eddy for button preference; keep in mind 8 and 10 are in use
+        } else if (OI.leftStick.getRawButton(8)) { // TODO: Test and ask Eddy for button preference; keep in mind 8 and 10 are in use
             // drive rotate function
 
 
