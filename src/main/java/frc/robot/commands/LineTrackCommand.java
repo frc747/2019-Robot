@@ -14,7 +14,8 @@ private double rampDown = 1;
 private double rate;
 private double leftValue = 0;
 private double rightValue = 0;
-
+private double x;
+private double X_TOLERANCE = 1;
 private static final double MAX_PERCENT_VOLTAGE = 1.0;
 private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
@@ -26,7 +27,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   @Override
   protected void initialize() {
     rampDown = 1;
-
+    x = 30;
     if(Robot.y == 0) {
       speed = .25;
       rate = 0;
@@ -78,12 +79,22 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
-       if(rampDown > .4) {
-         rampDown -= rate;
-       }
+      if(rampDown > .4) {
+        rampDown -= rate;
+      }
+
+      // If the absolute value of the X offset is less than the old value of X plus a tolerance and it is not equal to 0 then it will update the value
+      // otherwise it will keep the old value and assume that you picked up a red herring
+      if((Math.abs(Robot.x) < Math.abs(x) + X_TOLERANCE) && x != 0) {
+        x = Robot.x;
+      } 
+
+      
+
+
       //  was leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
-     leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown);
+     leftValue = ((speed) + ((.75*(Math.tanh(x/10)))/adjustMagnitiude))*rampDown;
+     rightValue = (-((speed) - ((.75*(Math.tanh(x/10)))/adjustMagnitiude))*rampDown);
 
      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
