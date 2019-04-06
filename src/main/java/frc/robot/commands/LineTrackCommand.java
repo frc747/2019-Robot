@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 import frc.robot.OI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LineTrackCommand extends Command {
 
@@ -15,6 +16,8 @@ private double rate;
 private double leftValue = 0;
 private double rightValue = 0;
 
+private boolean hasTarget = false;
+
 private static final double MAX_PERCENT_VOLTAGE = 1.0;
 private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
@@ -25,14 +28,18 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    SmartDashboard.putBoolean("Currently Vision Tracking", true);
+
     rampDown = 1;
 
     if(Robot.y == 0) {
       speed = .25;
       rate = 0;
+      hasTarget = false;
     } else {
       speed = (1/Robot.y)*5;
       rate = .009;
+      hasTarget = true;
     }
 
     if(speed > 1) {
@@ -82,10 +89,15 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
          rampDown -= rate;
        }
       //  was leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
-     leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown);
+      leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown;
+      rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown);
 
-     Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
+
+      // added printouts for vision tracking logging purposes
+      System.out.println("Speed: " + speed + "\t Rampdown: " + rampDown + "\t Rate: " + rate + "\t Has target: " + hasTarget + "Adjust Magnitude : " + adjustMagnitiude);
+      System.out.println("Left Value: " + leftValue + "Right Value: " + -rightValue);
+
+      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
   }
 
@@ -100,6 +112,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   protected void end() {
     Robot.table.getEntry("pipeline").setDouble(0.0);
     Robot.DRIVE_SUBSYSTEM.stop();
+    SmartDashboard.putBoolean("Currently Vision Tracking", true);
   }
 
   // Called when another command which requires one or more of the same

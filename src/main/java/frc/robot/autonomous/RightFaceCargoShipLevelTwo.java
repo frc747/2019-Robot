@@ -28,7 +28,7 @@ public class RightFaceCargoShipLevelTwo extends CommandGroup {
   public RightFaceCargoShipLevelTwo() {
     addSequential(new PIDDriveInchesHoldHatch(109.775, false), 4);
     addSequential(new PIDDriveRotateCustom(21.5, false), 4);
-    addSequential(new PIDDriveInches(143, false), 4);
+    addSequential(new PIDDriveInches(142, false), 4);
     addSequential(new PIDDriveRotateCustom(-90, false), 4);
     // driver takes over now
   }

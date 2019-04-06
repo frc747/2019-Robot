@@ -55,6 +55,9 @@ public class OI {
     SmartDashboard.putString("During Auto:", "Green - Auto is running; Red - Auto is finished");
     SmartDashboard.putString("After Auto:", "Green - Tongue is out; Red - Tongue is in");
 
+    SmartDashboard.putBoolean("Currently Vision Tracking", false);
+    // DriverStation.getInstance().getMatchTime();
+
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
   }
