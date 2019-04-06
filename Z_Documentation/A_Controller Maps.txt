@@ -1,0 +1,73 @@
+Logitech Gamepad Configuration and Button IDs
+
+The way we use the gamepad:
+	there is one gamepad on the driverstation
+	the gamepad is for the operator
+	Switch on the back is flipped to X
+	MODE on the front is off (led is not lit)
+ID on the DriverStation "USB Order" should be read as:
+	Controller (Gamepad F310)
+Should be placed onto index 2 of USB Order
+
+Axis IDs:
+"0: L X Axis" - Left Stick X-Axis, pushing left = negative, pushing right = positive
+"1: L Y Axis" - Left Stick Y-Axis, pushing up = negative, pushing down = positive
+"2: L Trigger" - Left Trigger, unpressed = 0, pressing down = positive
+"3: R Trigger" - Right Trigger, unpressed = 0, pressing down = positive
+"4: R X Axis" - Left Stick X-Axis, pushing left = negative, pushing right = positve
+"5: R Y Axis" - Right Stick X-Axis, pushing up = negative, pushing down = positve
+
+A: 1
+B: 2
+X: 3
+Y: 4
+LB: 5
+RB: 6
+BACK: 7
+START: 8
+LEFT_THUMB_STICK_BUTTON: 9
+RIGHT_THUMB_STICK_BUTTON: 10
+
+POV:
+D-Pad -
+Display lights up a dot in corresponding direction of D-PAD input being received on the DriverStation
+
+Gamepad has Rumble Capabilities
+
+
+
+Logitech Joystick Configuration and Button IDs
+
+The way we use the joysticks:
+	there are two of the same type of joystick on the driverstation
+	both a left and right joystick are for the driver
+	ID on the DriverStation "USB Order" should be read as:
+	Logitech Extreme 3D
+Left Joystick: should be placed onto index 0 of USB Order
+Right Joystick: should be placed onto index 1 of USB Order
+
+Button IDs:
+Joystick Trigger: 1
+Side-Button: 2
+Top Four Buttons: 3-6
+	(Bottom two from left to right are 3 and 4)
+	(Top two from left to right are 5 and 6)
+Bottom 6 Buttons: 7-12
+	(Front two from left to right are 7 and 8)
+	(Middle two from left to right are 9 and 10)
+	(Back two from left to right are 11 and 12)
+
+Axis IDs:
+"0: X Axis" - Joystick X-Axis, pushing left = negative, pushing right = positive
+"1: Y Axis" - Joystick Y-Axis, pushing up = negative, pushing down = positive
+"2: Z Rotate" - Joystick Z-Axis (rotation),
+	from top-down perspective: 
+		rotating Counter Clockwise = negative,
+		rotating Clockwise = positive
+"3: Slider" - Slider,
+	pushing up/forwards = negative,
+	pushing down/backwards = positive
+
+POV:
+Small Joystick on top of Main Joystick -
+Display lights up a dot in corresponding direction of D-PAD input being received on the DriverStation 

@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.autonomous;
 
 import frc.robot.Robot;
@@ -16,19 +9,18 @@ public class RightRocketLevelTwo extends CommandGroup {
 
   @Override
   protected void initialize() {
+    Robot.autoSideLeft = false;
+    Robot.autoSideRight = true;
+    Robot.autoSideFaceCargoShip = false;
+    Robot.autoFrontFaceCargoShip = false;
+    Robot.autoRocket = true;
+
     Robot.operatorControl = false;
   }
 
    public RightRocketLevelTwo() {
-    addSequential(new PIDDriveInchesHoldHatch(81, false));
-    addSequential(new PIDDriveRotateCustom(40));
-
-    // addSequential(new TeleopSimulator());
-
-    // addSequential(new PIDHatchMechanism(935, false));
-    // addSequential(new PIDDriveInches(10, true));
-    // addSequential(new PIDDriveRotateCustom(120));
-    // addSequential(new TeleopSimulator());
+    addSequential(new PIDDriveInchesHoldHatch(93, false), 4);
+    addSequential(new PIDDriveRotateCustom(40, false), 4);
   }
 
   @Override
