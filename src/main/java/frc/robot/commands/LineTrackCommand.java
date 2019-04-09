@@ -18,6 +18,8 @@ private double rightValue = 0;
 
 private boolean hasTarget = false;
 
+private int count = 0;
+
 private static final double MAX_PERCENT_VOLTAGE = 1.0;
 private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
@@ -32,12 +34,13 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
     rampDown = 1;
 
-    if(Robot.y == 0) {
+    if(OI.y == 0) {
       speed = .25;
       rate = 0;
+
       hasTarget = false;
     } else {
-      speed = (1/Robot.y)*5;
+      speed = (1/OI.y)*5;
       rate = .009;
       hasTarget = true;
     }
@@ -48,7 +51,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     System.out.println("line");
 
-    Robot.table.getEntry("pipeline").setDouble(0);
+    OI.table.getEntry("pipeline").setDouble(0);
 
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
@@ -89,13 +92,16 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
          rampDown -= rate;
        }
       //  was leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
-      leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown;
-      rightValue = (-((speed) - ((.75*(Math.tanh(Robot.x/10)))/adjustMagnitiude))*rampDown);
+      leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/adjustMagnitiude))*rampDown;
+      rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/adjustMagnitiude))*rampDown);
 
+      // if (count % 25 == 0) {
+      //   // added printouts for vision tracking logging purposes
+      //   System.out.println("Speed: " + speed + "\t Rampdown: " + rampDown + "\t Rate: " + rate + "\t Has target: " + hasTarget + "Adjust Magnitude : " + adjustMagnitiude);
+      //   System.out.println("Left Value: " + leftValue + "Right Value: " + -rightValue);
+      // }
+      // count++;
 
-      // added printouts for vision tracking logging purposes
-      System.out.println("Speed: " + speed + "\t Rampdown: " + rampDown + "\t Rate: " + rate + "\t Has target: " + hasTarget + "Adjust Magnitude : " + adjustMagnitiude);
-      System.out.println("Left Value: " + leftValue + "Right Value: " + -rightValue);
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
@@ -110,15 +116,15 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.table.getEntry("pipeline").setDouble(0.0);
+    SmartDashboard.putBoolean("Currently Vision Tracking", false);
+    OI.table.getEntry("pipeline").setDouble(0.0);
     Robot.DRIVE_SUBSYSTEM.stop();
-    SmartDashboard.putBoolean("Currently Vision Tracking", true);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.table.getEntry("pipeline").setDouble(0.0);
+    OI.table.getEntry("pipeline").setDouble(0.0);
   }
 }

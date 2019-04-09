@@ -49,10 +49,10 @@ public class Robot extends TimedRobot {
   public static boolean autoFrontFaceCargoShip = false;
   public static boolean autoRocket = false;
 
-  public static NetworkTable table;
-  public static double x;
-  public static double y;
-  public static double area;
+  // public static NetworkTable table;
+  // public static double x;
+  // public static double y;
+  // public static double area;
  
 	private Command autonomousCommand;
   public Autonomous autonomous;
@@ -219,9 +219,9 @@ public class Robot extends TimedRobot {
   }
 
   private void updateLimelightTracking() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    x = table.getEntry("tx").getDouble(0);
-    y = table.getEntry("ty").getDouble(0);
+    // table = NetworkTableInstance.getDefault().getTable("limelight");
+    // x = table.getEntry("tx").getDouble(0);
+    // y = table.getEntry("ty").getDouble(0);
     // area = table.getEntry("ta").getDouble(0);
 
     // x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);

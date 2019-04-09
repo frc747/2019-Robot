@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.*;
 
 public class OI {
 
@@ -17,6 +18,11 @@ public class OI {
   public static boolean latchInPosition = false;
 
   public static double distance;
+
+  public static NetworkTable table;
+  public static double x;
+  public static double y;
+  public static double area;
 
   public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
   public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
@@ -79,6 +85,10 @@ public class OI {
     }
 
     // Limelight Value SmartDashboard display
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    x = table.getEntry("tx").getDouble(0);
+    y = table.getEntry("ty").getDouble(0);
+    area = table.getEntry("ta").getDouble(0);
     // SmartDashboard.putNumber("x value: ", Robot.x);
     // SmartDashboard.putNumber("y value: ", Robot.y);
     // SmartDashboard.putNumber("area value: ", Robot.area);
