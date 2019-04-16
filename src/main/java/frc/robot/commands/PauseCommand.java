@@ -8,9 +8,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class PauseCommand extends Command {
 
     public PauseCommand(double timeOutAmount) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	
     	setTimeout(timeOutAmount);
     	
     }
