@@ -37,6 +37,8 @@ public class DriveSubsystem extends Subsystem {
     public static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
+    public boolean tracking = false;
+
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 

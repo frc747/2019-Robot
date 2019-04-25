@@ -44,7 +44,8 @@ public class ShiftDriveCommand extends Command {
         
     protected void initialize() {
         SmartDashboard.putBoolean("Currently Vision Tracking", false);
-
+        
+        Robot.DRIVE_SUBSYSTEM.tracking = false;
 
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
@@ -74,19 +75,27 @@ public class ShiftDriveCommand extends Command {
     }
     
     protected void execute() {
-        leftValue = -OI.leftStick.getRawAxis(1); // before modifying raw of axis 1: forward = negative, backward = positive
-        rightValue = -OI.rightStick.getRawAxis(1);
-        rotateValue = OI.rightStick.getRawAxis(3); // before modifying raw of axis 3: CCW = negative, CW = positive
-        // shifterValue = OI.operatorController.getRawAxis(5);
+        // manual application of a sloppy "deadband"
 
-        if (Math.abs(leftValue) < 0.1) {
-            leftValue = 0;
-        }
-        if (Math.abs(rightValue) < 0.1) {
-            rightValue = 0;
-        }
+        // leftValue = -OI.leftStick.getRawAxis(1); // before modifying raw of axis 1: forward = negative, backward = positive
+        // rightValue = -OI.rightStick.getRawAxis(1);
+        // rotateValue = OI.rightStick.getRawAxis(3); // before modifying raw of axis 3: CCW = negative, CW = positive
+        // // shifterValue = OI.operatorController.getRawAxis(5);
+
+        // if (Math.abs(leftValue) < 0.1) {
+        //     leftValue = 0;
+        // }
+        // if (Math.abs(rightValue) < 0.1) {
+        //     rightValue = 0;
+        // }
         
-        if (OI.leftStick.getRawButton(7)) {
+        // cleaned up version of a deadband, helper method at bottom of the class
+
+        leftValue = applyDeadband(-OI.leftStick.getRawAxis(1), 0.1); // before modifying raw of axis 1: forward = negative, backward = positive
+        rightValue = applyDeadband(-OI.rightStick.getRawAxis(1), 0.1);
+        rotateValue = applyDeadband(OI.rightStick.getRawAxis(2), 0.1); // before modifying raw of axis 3: CCW = negative, CW = positive
+        
+        if (OI.leftStick.getRawButton(8)) {
             // drive straight function
 
 
@@ -97,14 +106,15 @@ public class ShiftDriveCommand extends Command {
             // when forward, left and right side both go forward
             // when backward, left and right side both go backward
             Robot.DRIVE_SUBSYSTEM.set(straightDrive, straightDrive);
-        } else if (OI.leftStick.getRawButton(8)) { // TODO: Test and ask Eddy for button preference; keep in mind 8 and 10 are in use
+        } else if (OI.leftStick.getRawButton(7)) {
             // drive rotate function
 
 
             // while holding button 7 on the left joystick, the value from the Z-Axis of the right joystick will be applied to the one side of the drive train and the negative of that value will be applied to the other side so that it will rotate in the same direction of the rotation done by the joystick
 
-            double rotateDrive = rotateValue;
+            double rotateDrive = rotateValue * Math.sqrt(0.5);
 
+            rotateDrive = Math.copySign(rotateValue*rotateValue, rotateValue);
             // when counter clockwise, left goes backward and right side goes forward
             // when clockwise, left side goes forward and right side goes backward
             Robot.DRIVE_SUBSYSTEM.set(rotateDrive, -rotateDrive);            
@@ -119,7 +129,11 @@ public class ShiftDriveCommand extends Command {
             shiftCount = 0;
         }
       
-
+        if (OI.operatorController.getRawAxis(2) > 0.25) {
+            Robot.DRIVE_SUBSYSTEM.tracking = true;
+        } else {
+            Robot.DRIVE_SUBSYSTEM.tracking = false;
+        }
 
         // if shift count has been adding for half a second
         if(shiftCount > 25) {
@@ -161,4 +175,16 @@ public class ShiftDriveCommand extends Command {
         end();
     }
 
+    private double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) > deadband) {
+          if (value > 0.0) {
+            return (value - deadband) / (1.0 - deadband);
+          } else {
+            return (value + deadband) / (1.0 - deadband);
+          }
+        } else {
+          return 0.0;
+        }
+    }
+      
 }
