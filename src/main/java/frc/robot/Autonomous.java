@@ -45,41 +45,47 @@ public class Autonomous{
                     
         switch (selectedAutoMode){
             case AUTOMODE_FRONT_CARGO_LEFT:
-                new FrontFaceCargoShipLeft().start();
                 OI.table.getEntry("pipeline").setDouble(1.0);
+                new FrontFaceCargoShipLeft().start();
                 Robot.side = "left";
                 break;
             case AUTOMODE_FRONT_CARGO_RIGHT:
-                new FrontFaceCargoShipRight().start();
                 OI.table.getEntry("pipeline").setDouble(2.0);
+                new FrontFaceCargoShipRight().start();
                 Robot.side = "right";
                 break;
             case AUTOMODE_TWO_HATCH_FRONT_CARGO_LEFT:
-                new FrontFaceCargoShipLeft().start();
                 OI.table.getEntry("pipeline").setDouble(1.0);
+                new FrontFaceCargoShipLeft().start();
                 Robot.side = "leftTwo";
                 break;
             case AUTOMODE_TWO_HATCH_FRONT_CARGO_RIGHT:
-                new FrontFaceCargoShipRight().start();
                 OI.table.getEntry("pipeline").setDouble(2.0);
+                new FrontFaceCargoShipRight().start();
                 Robot.side = "rightTwo";
                 break;
             case AUTOMODE_ROCKET_LEFT_LEVEL_TWO:
+                OI.table.getEntry("pipeline").setDouble(0.0);
             	new LeftRocketLevelTwo().start();
                 break;
             case AUTOMODE_ROCKET_RIGHT_LEVEL_TWO:
+                OI.table.getEntry("pipeline").setDouble(0.0);
             	new RightRocketLevelTwo().start();
                 break;
             case AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO:
+                // want to focus on the rightmost target on the side face of the cargoship
+                OI.table.getEntry("pipeline").setDouble(2.0);
                 new LeftFaceCargoShipLevelTwo().start();
                 break;
             case AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO:
+                // want to focus on the leftmost target on the side face of the cargoship
+                OI.table.getEntry("pipeline").setDouble(1.0);
                 new RightFaceCargoShipLevelTwo().start();
                 break;
             case AUTOMODE_NONE:
                 //DO NOTHING
-                Robot.operatorControl = true;
                 OI.table.getEntry("pipeline").setDouble(0.0);
+                Robot.operatorControl = true;
             default:
                 break;
             }

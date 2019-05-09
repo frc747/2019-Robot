@@ -167,14 +167,14 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
         this.arcadeDrive(straight, steer, true, 0);
         Robot.DRIVE_SUBSYSTEM.set(limit(leftValue) * DRIVE_MAX, limit(rightValue) * DRIVE_MAX);
       }
-    } else {
+    } else { // when there is no target in sight)
       hasTarget = false;
       leftValue = 0;
       rightValue = 0;
 
       straight = 0;
       steer = 0;
-      this.arcadeDrive(0.25, 0, false, 0);
+      this.arcadeDrive(0.30, 0, false, 0);
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     }
   }

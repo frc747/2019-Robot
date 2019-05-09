@@ -1,0 +1,65 @@
+﻿After Match
+* Reset climb and latch (including ratchets and pipe insulation)
+* Zero the dart and the tongue
+* Charge driver station
+* Charge GoPro
+* Charge match battery
+* Hang up bumper
+
+________________
+
+
+Maintenance
+* Electrical Connections: Roborio, Radio, VRM, PDB, Main Breaker, Encoders, CAN Bus, Limelight, USB Camera
+* Tighten Bolts: Tongue, Dart, Wheels, etc.
+* Lubricate: Climb, Drive Train
+* Scan for wear: Frame, Treads, Bumpers, etc.
+* Tension Chains
+* Systems Check and Communications Test
+
+________________
+
+
+Pre-Match
+* Confirm correct bumpers are mounted
+* Verify and then swap in the next fully charged battery
+* Secure battery with bungee
+* Ensure back Sponsor Panel is mounted
+* Ensure clip-on rocket is mounted
+* Replace tongue tape
+* Ensure side electrical panels are mounted
+* Ensure pipe insulation is mounted to the top of both struts
+* Driver Station is ready: Laptop is charged, GoPro is charged and has its microSD card, two joysticks, one gamepad
+
+________________
+
+
+MATCH: DRIVER STATION (Eddy and Felipe)
+* Mount team control panel to the driver station
+* Power on the laptop
+* Plug in the dock charger
+* Plug in field ethernet connection
+* Restart the driver station software
+* Verify all controllers’ axes are zeroed and buttons are displaying the correct inputs
+* Turn on the GoPro and Start the recording
+* Verify connection to the robot
+* Verify camera streams are displaying properly
+* Select Auto routine
+
+________________
+
+
+MATCH: FIELD (Jeff and Sam)
+* Check wingnuts (bumper)
+* Place robot for planned autonomous
+* Place hatch panel onto tongue
+* Wind hatch tongue and hold tongue towards the robot
+* Power on the robot
+* Check Encoder LEDs
+* Check Roborio, Radio, and Limelight
+* Confirm Cargo Ship (Null Hatch Panel) and remove rocket clip
+* Scan the robot for loose tools
+* Confirm communication to driver station
+* Confirm camera streams
+* Check USB Camera position
+* Select Auto routine

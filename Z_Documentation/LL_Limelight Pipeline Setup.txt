@@ -1,4 +1,4 @@
-Pipeline 1 and Pipeline 2 are copies of Pipeline 0 with the only difference being sortmode is eiher leftmost or rightmost rather than closest.
+Pipeline 1 and Pipeline 2 are copies of Pipeline 0 with the only difference being sortmode is either leftmost or rightmost rather than closest.
 
 Pipeline 0 - main pipeline, sort mode: closest
 Pipeline 1 - secondary pipeline, sort mode: leftmost

@@ -1,0 +1,11 @@
+Inches off of the face of the DART
+ALL encoder readings are in ticks.
+
+ - .91" locked (fully retracted)
+ - .95" home position (within frame perimeter):
+	encoder reading: 0
+	position is marked by a 	black sharpie line near the 	base of the rod)
+
+ - 5.5" rocket scoring position (outside frame perimeter):
+	encoder reading: -231,935
+ - 6.0" locked (fully extended)
