@@ -1,0 +1,31 @@
+Felipe (Operator):
+
+A - null
+B - Tongue out, goes back to home after letting go
+X - null
+Y - Dart out, goes back to home after letting go
+Left Bumper - while start is being held and when latch is in 	position (right bumper), allows for the climb to be 		driven using L Y axis
+Right Bumper - while start is being held, drives latch
+Back - "Track" (Vision Tracks to target);
+	w/ L Trigger: 
+		"Fast Track" (Quickly Tracks to target)
+Start - ALLOW FOR CLIMB commands, it is possible to run the 		latch then climb while holding left bumper
+L Y Axis - Drives the climb when pushing in either direction
+	while holding start and left bumper after latch is in 	position (right bumper)
+R Y Axis - Null
+L X Axis - Null
+R X Axis - Null
+L Trigger - "Preview" (swaps camMode to vision processor)
+R Trigger - Keeps the robot in low gear when held,
+	or shifts to low gear when in high gear
+
+
+Eddy (Driver):
+
+Left Stick Button 7: Drive Rotate (applies opposites of right 	stick Z-Axis to either side of the drive train to 	rotate)
+Left Stick Button 8: Drive Straight (applies right stick Y-		Axis to both sides of the drive train)
+Left Stick Button 10: LineTrackCommand takeover
+Left Stick Y Axis: Left Side Drive Control
+Right Stick Y Axis: Right side Drive Control
+
+

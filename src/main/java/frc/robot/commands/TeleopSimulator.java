@@ -6,13 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.Joystick;
 public class TeleopSimulator extends Command {
-    
-    //execute is called every 20ms and isFinished is called right after execute
-    //add a button to Ryan's joystick that will default the drive train back to DriveWithJoystickCommand
-    
+        
     private double driveTicksGear = 830;
     private double driveTicksTongue = 850;
     private double driveTicksDart = -221740;
@@ -22,18 +17,11 @@ public class TeleopSimulator extends Command {
     private static final int slotIdx = 0;
     private int shiftCount = 0;
     private boolean shiftHigh = false;
-    private final static double ENCODER_TICKS_PER_REVOLUTION = 4096;
 
     private static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     private final static int allowableCloseLoopError = 1;
-    
-    private final static int TARGET_COUNT_ONE_SECOND = 50;
-    
-    //Half a second is being multiplied by the user input to achieve the desired "ON_TARGET_COUNT"
-    private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * .1;
-
     
     double speed = 0.50;
     double rampDown = 1;
@@ -74,8 +62,6 @@ public class TeleopSimulator extends Command {
     private double leftValue;
 
     private double rightValue;
-
-    private double shifterValue;
 
     public TeleopSimulator() {
         // requires(Robot.DRIVE_SUBSYSTEM);

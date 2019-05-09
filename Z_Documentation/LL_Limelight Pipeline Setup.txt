@@ -1,0 +1,29 @@
+Pipeline 1 and Pipeline 2 are copies of Pipeline 0 with the only difference being sortmode is either leftmost or rightmost rather than closest.
+
+Pipeline 0 - main pipeline, sort mode: closest
+Pipeline 1 - secondary pipeline, sort mode: leftmost
+Pipeline 2 - secondary pipeline, sort mode: rightmost
+
+Variable: ledMode
+= 0: use the LED Mode set in the current pipeline
+= 1: force off
+= 2: force blink
+= 3: force on
+
+Variable: camMode
+= 0: vision processor
+= 1: driver camera (increases exposure, disables vision processing)
+
+Variable: stream
+= 0: Standard - Side-by-side streams if a webcam is attached to Limelight
+= 1: PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
+= 2: PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream
+
+
+How to change the value of a variable:
+
+NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(<value>);
+
+How to check the value of a variable:
+
+NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getNumber(<value>);

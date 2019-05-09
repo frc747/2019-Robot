@@ -3,20 +3,16 @@ package frc.robot.commands;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
 public class PIDDriveRotate extends PIDCommand {
 
     private double angleToRotate;
     
     private int onTargetCount;
     
-private final static int TARGET_COUNT_ONE_SECOND = 50;
+    private final static int TARGET_COUNT_ONE_SECOND = 50;
     
-    //Multiply TARGET_COUNT_ONE_SECOND by the amount of time that you want for your minimum count threshold
+    // Multiply TARGET_COUNT_ONE_SECOND by the amount of time that you want for your minimum count threshold
     private final static double ON_TARGET_MINIMUM_COUNT = TARGET_COUNT_ONE_SECOND * 0.1;
     
     private final static double STOP_THRESHOLD_DEGREES = 5;//4.25
@@ -77,7 +73,6 @@ private final static int TARGET_COUNT_ONE_SECOND = 50;
 
     // Called once after isFinished returns true
     protected void end() {
-        SmartDashboard.putNumber("Last Known NavX Angle:", Robot.getNavXAngle());
     }
 
     // Called when another command which requires one or more of the same

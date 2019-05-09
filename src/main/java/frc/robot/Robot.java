@@ -10,20 +10,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.ActuatorSubsystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.DriverStation;
 
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.networktables.*;
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -34,6 +31,7 @@ import com.kauailabs.navx.frc.AHRS;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static boolean climbBrakeMode;
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static HatchSubsystem HATCH_SUBSYSTEM = new HatchSubsystem();
   public static ActuatorSubsystem ACTUATOR_SUBSYSTEM = new ActuatorSubsystem();
@@ -42,9 +40,22 @@ public class Robot extends TimedRobot {
 
   public static boolean latchInPos = false;
 
-  public static AnalogInput ai = new AnalogInput(0);
-  
-  public static Potentiometer pot = new AnalogPotentiometer(ai);
+  public static boolean operatorControl = false;
+  public static boolean isAutonomous = false;
+  public static boolean isTeleop = false;
+
+  public static boolean autoSideLeft = false;
+  public static boolean autoSideRight = false;
+  public static boolean autoSideFaceCargoShip = false;
+  public static boolean autoFrontFaceCargoShip = false;
+  public static boolean autoRocket = false;
+
+  public static String side = "";
+
+  // public static NetworkTable table;
+  // public static double x;
+  // public static double y;
+  // public static double area;
  
 	private Command autonomousCommand;
   public Autonomous autonomous;
@@ -80,9 +91,16 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     prefs = Preferences.getInstance();
+
     UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
     ucamera.setResolution(180, 240);
 
+    // ucamera.setResolution(160, 120);
+    // ucamera.setFPS(10);
+    //might want to lower resolution or fps for the usbcamera to compensate for the limelight
+    // ucamera.setResolution(256, 144);
+    // ucamera.setFPS(15);
+    
     this.autonomous = new Autonomous();
 
     if(m_oi == null) {
@@ -103,6 +121,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    if (!isDisabled()) {
+      updateLimelightTracking();
+    }
   }
 
   /**
@@ -112,7 +133,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    
+    climb.changeClimbBrakeMode(true);
+    DRIVE_SUBSYSTEM.changeDriveBrakeMode(false);
+    operatorControl = false;
+    isAutonomous = false;
+    isTeleop = false;
   }
 
   @Override
@@ -134,6 +159,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     resetNavXAngle();
+    climb.changeClimbBrakeMode(true);
+    DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
+    // this is now done within the autonomous command groups (within initialize)
+    // operatorControl = false;
+    isAutonomous = true;
+    isTeleop = false;
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -154,15 +185,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (DriverStation.getInstance().getMatchTime() < 8.75 && DriverStation.getInstance().getMatchTime() > 0) {
+      if (side.compareTo("rightTwo") == 0) {
+        OI.table.getEntry("pipeline").setDouble(1.0);
+      } else if (side.compareTo("leftTwo") == 0) {
+        OI.table.getEntry("pipeline").setDouble(2.0);
+      } else if (side.compareTo("left") == 0 || side.compareTo("right") == 0) {
+        OI.table.getEntry("pipeline").setDouble(0.0);
+      }
+    }
+    
     Scheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
-    SmartDashboard.putBoolean("Ready to Drive", true);
-
-
+    OI.table.getEntry("pipeline").setDouble(0.0);
     resetNavXAngle();
+    climb.changeClimbBrakeMode(true);
+    DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
+    operatorControl = true;
+    isAutonomous = false;
+    isTeleop = true;
+    
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -178,17 +223,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //  if(DRIVE_SUBSYSTEM.isClimbed && DRIVE_SUBSYSTEM.isDone1) {
-    //    if(climbUp.isRunning()) {
-    //     climbUp.cancel();
-    //    }
-    //    climbDown.start();
-    //  } else if(DRIVE_SUBSYSTEM.isDone1 && !DRIVE_SUBSYSTEM.isClimbed){
-    //    if(climbDown.isRunning()) {
-    //      climbDown.cancel();
-    //    }
-    //    climbUp.start();
-    //  }
   }
 
   /**
@@ -196,5 +230,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  private void updateLimelightTracking() {
+    // table = NetworkTableInstance.getDefault().getTable("limelight");
+    // x = table.getEntry("tx").getDouble(0);
+    // y = table.getEntry("ty").getDouble(0);
+    // area = table.getEntry("ta").getDouble(0);
+
+    // x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    // y = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    // area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+
+
   }
 }

@@ -1,22 +1,25 @@
 package frc.robot.subsystems;
 
-import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.ShiftDriveCommand;
+// import frc.robot.commands.TankDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-/**
- *
- */
+
 public class DriveSubsystem extends Subsystem {
 
     public TalonSRX leftDrivePrimary = new TalonSRX(1); // 10
+    
+    public TalonSRX leftDriveMid = new TalonSRX(13);
 
 	public TalonSRX leftDriveBack = new TalonSRX(2); // 9
 
-	public TalonSRX rightDrivePrimary = new TalonSRX(10); // 1
+    public TalonSRX rightDrivePrimary = new TalonSRX(10); // 1
+    
+    public TalonSRX rightDriveMid = new TalonSRX(14);
 
     public TalonSRX rightDriveBack = new TalonSRX(9); // 2
 
@@ -28,34 +31,34 @@ public class DriveSubsystem extends Subsystem {
     private static final double ENCODER_TICKS = 4096;
 
     private static final double GEAR_RATIO_MULTIPLIER = 1;
-    //Gear ratio, motor needs to rotate 5.4 times more to achieve one actual rotation
-    // 4096 for the mag encoders
 
     private static final double WHEEL_CIRCUMFERNCE = 20.125;
 
-    public static double MAX_PERCENT_VOLTAGE = 1.0;
+    public static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
-    //Gear Distance IN REVOLUTIONS 3.7125 (needed like another inch or so; trying 3.725
-
-//    private static final double TICKS_PER_INCH = ENCODER_TICKS / WHEEL_CIRCUMFERNCE;
+    public boolean tracking = false;
 
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 
     public DriveSubsystem() {
         super();
-        gearShifter.setInverted(true);
+        gearShifter.setInverted(false);
         gearShifter.setSensorPhase(true);
 
         leftDrivePrimary.setInverted(true);
-        leftDriveBack.setInverted(true);
+        leftDriveMid.setInverted(true);
+        leftDriveBack.setInverted(false); //inverted because of the way it is mounted
 
-        rightDriveBack.setInverted(false);
         rightDrivePrimary.setInverted(false);
+        rightDriveMid.setInverted(false);
+        rightDriveBack.setInverted(true); //inverted because of the way it is mounted
 
         leftDriveBack.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
+        leftDriveMid.set(ControlMode.Follower, leftDrivePrimary.getDeviceID());
         rightDriveBack.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
+        rightDriveMid.set(ControlMode.Follower, rightDrivePrimary.getDeviceID());
 
         leftDrivePrimary.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
@@ -77,6 +80,25 @@ public class DriveSubsystem extends Subsystem {
         rightDrivePrimary.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
         rightDrivePrimary.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
 
+        leftDriveMid.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveMid.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveMid.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveMid.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveMid.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+
+        leftDriveBack.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveBack.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveBack.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        leftDriveBack.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
+        rightDriveBack.configPeakOutputReverse(-MAX_PERCENT_VOLTAGE, timeoutMs);
+
+
         gearShifter.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
         gearShifter.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
         gearShifter.configPeakOutputForward(+MAX_PERCENT_VOLTAGE, timeoutMs);
@@ -84,6 +106,7 @@ public class DriveSubsystem extends Subsystem {
 
     }
 
+    @Override
     public void initDefaultCommand() {
         setDefaultCommand(new ShiftDriveCommand());
         // setDefaultCommand(new TankDriveCommand());
@@ -175,6 +198,25 @@ public class DriveSubsystem extends Subsystem {
 
         this.set(left, right);
     }
+
+    public void changeDriveBrakeMode(boolean enabled) {
+        if (enabled) {
+          leftDrivePrimary.setNeutralMode(NeutralMode.Brake);
+          leftDriveMid.setNeutralMode(NeutralMode.Brake);
+          leftDriveBack.setNeutralMode(NeutralMode.Brake);
+          rightDrivePrimary.setNeutralMode(NeutralMode.Brake);
+          rightDriveMid.setNeutralMode(NeutralMode.Brake);
+          rightDriveBack.setNeutralMode(NeutralMode.Brake);
+        } else {
+            leftDrivePrimary.setNeutralMode(NeutralMode.Coast);
+            leftDriveMid.setNeutralMode(NeutralMode.Coast);
+            leftDriveBack.setNeutralMode(NeutralMode.Coast);
+            rightDrivePrimary.setNeutralMode(NeutralMode.Coast);
+            rightDriveMid.setNeutralMode(NeutralMode.Coast);
+            rightDriveBack.setNeutralMode(NeutralMode.Coast);
+        }
+    
+      }
 
     public void enablePositionControl() {
         this.changeControlMode(ControlMode.MotionMagic);
