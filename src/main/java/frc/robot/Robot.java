@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.networktables.*;
 import com.kauailabs.navx.frc.AHRS;
@@ -48,6 +49,8 @@ public class Robot extends TimedRobot {
   public static boolean autoSideFaceCargoShip = false;
   public static boolean autoFrontFaceCargoShip = false;
   public static boolean autoRocket = false;
+
+  public static String side = "";
 
   // public static NetworkTable table;
   // public static double x;
@@ -182,11 +185,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (DriverStation.getInstance().getMatchTime() < 8.75 && DriverStation.getInstance().getMatchTime() > 0) {
+      if (side.compareTo("rightTwo") == 0) {
+        OI.table.getEntry("pipeline").setDouble(1.0);
+      } else if (side.compareTo("leftTwo") == 0) {
+        OI.table.getEntry("pipeline").setDouble(2.0);
+      } else if (side.compareTo("left") == 0 || side.compareTo("right") == 0) {
+        OI.table.getEntry("pipeline").setDouble(0.0);
+      }
+    }
+    
     Scheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
+    OI.table.getEntry("pipeline").setDouble(0.0);
     resetNavXAngle();
     climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
@@ -200,7 +214,8 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
-  }
+    }
+    Robot.DRIVE_SUBSYSTEM.resetBothEncoders();
   }
 
   /**

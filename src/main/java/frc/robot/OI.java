@@ -20,6 +20,7 @@ public class OI {
   public static double distance;
 
   public static NetworkTable table;
+  public static double v;
   public static double x;
   public static double y;
   public static double area;
@@ -49,7 +50,7 @@ public class OI {
   @SuppressWarnings("resource")
   public OI() {
     
-    SELECT_BUTTON.whileHeld(new LineTrackCommand());
+    SELECT_BUTTON.whileHeld(new VisionTrackCommand());
     START_BUTTON.whileHeld(new ClimbCommandSafe());
     Y_BUTTON.whileHeld(new PIDDartMechanism(-221740));
     B_BUTTON.whileHeld(new PIDHatchMechanism(935, false)); //1020 //850
@@ -66,11 +67,14 @@ public class OI {
 
     // Ignore this error, no known conflict
     new Notifier(() -> updateOI()).startPeriodic(.1);
+    // OI.table.getEntry("stream").setDouble(0);
   }
 
   // Anything to be updated should be done in here
   public void updateOI() {
     
+    // SmartDashboard.putNumber("Countdown", DriverStation.getInstance().getMatchTime());
+
     SmartDashboard.putBoolean("Tongue is out: ", tongueIsOut);
     if (latchInPosition) {
       SmartDashboard.putString("Latch: ", "CLIMB");
@@ -86,9 +90,21 @@ public class OI {
 
     // Limelight Value SmartDashboard display
     table = NetworkTableInstance.getDefault().getTable("limelight");
+
+    v = table.getEntry("tv").getDouble(0);
+
     x = table.getEntry("tx").getDouble(0);
     y = table.getEntry("ty").getDouble(0);
     area = table.getEntry("ta").getDouble(0);
+
+    if (Robot.DRIVE_SUBSYSTEM.tracking) {
+      OI.table.getEntry("camMode").setDouble(0);
+      OI.table.getEntry("ledMode").setDouble(3);
+    } else {
+      OI.table.getEntry("camMode").setDouble(1);
+      OI.table.getEntry("ledMode").setDouble(1);
+    }
+
     // SmartDashboard.putNumber("x value: ", Robot.x);
     // SmartDashboard.putNumber("y value: ", Robot.y);
     // SmartDashboard.putNumber("area value: ", Robot.area);
@@ -102,8 +118,18 @@ public class OI {
     // SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
     // SmartDashboard.putNumber("Robot Heading", Robot.getNavXAngle());
     
-    // SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
-    // SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    SmartDashboard.putNumber("Left Encoder", Robot.DRIVE_SUBSYSTEM.getLeftEncoderPosition());
+    SmartDashboard.putNumber("Right Encoder", Robot.DRIVE_SUBSYSTEM.getRightEncoderPosition());
+
+    SmartDashboard.putNumber("Left Front Output Voltage", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Left Mid Output Voltage", Robot.DRIVE_SUBSYSTEM.leftDriveMid.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Left Back Output Voltage", Robot.DRIVE_SUBSYSTEM.leftDriveBack.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Right Front Output Voltage", Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Right Mid Output Voltage", Robot.DRIVE_SUBSYSTEM.rightDriveMid.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Right Back Output Voltage", Robot.DRIVE_SUBSYSTEM.rightDriveBack.getMotorOutputVoltage());
+
+    SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
+    SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
 
   }
 }

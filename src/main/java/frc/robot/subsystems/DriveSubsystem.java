@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.commands.ShiftDriveCommand;
-// import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.TankDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -37,6 +37,8 @@ public class DriveSubsystem extends Subsystem {
     public static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
+    public boolean tracking = false;
+
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 
@@ -65,7 +67,7 @@ public class DriveSubsystem extends Subsystem {
         gearShifter.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
 
         leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
-        leftDrivePrimary.configMotionAcceleration(20500, timeoutMs);
+        leftDrivePrimary.configMotionAcceleration(20000, timeoutMs);
         rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
         rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
 
@@ -106,8 +108,8 @@ public class DriveSubsystem extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ShiftDriveCommand());
-        // setDefaultCommand(new TankDriveCommand());
+        //setDefaultCommand(new ShiftDriveCommand());
+         setDefaultCommand(new TankDriveCommand());
     }
 
     public void updateSpeeds() {
