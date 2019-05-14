@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.*;
 
@@ -25,8 +26,11 @@ public class OI {
   public static double y;
   public static double area;
 
-  public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
-  public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
+  public static double xPos, yPos;
+
+  //public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
+  //public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
+  public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
 
   //commented out testController joystick
@@ -50,8 +54,8 @@ public class OI {
   @SuppressWarnings("resource")
   public OI() {
     
-    SELECT_BUTTON.whileHeld(new VisionTrackCommand());
-    START_BUTTON.whileHeld(new ClimbCommandSafe());
+    //SELECT_BUTTON.whileHeld(new VisionTrackCommand());
+    //START_BUTTON.whileHeld(new ClimbCommandSafe());
     Y_BUTTON.whileHeld(new PIDDartMechanism(-221740));
     B_BUTTON.whileHeld(new PIDHatchMechanism(935, false)); //1020 //850
     //X_BUTTON.toggleWhenPressed(new ResetDartEncoder());
@@ -105,6 +109,9 @@ public class OI {
       OI.table.getEntry("ledMode").setDouble(1);
     }
 
+    xPos = (Robot.DRIVE_SUBSYSTEM.getCombindedEncoderPosition() * Math.sin(Math.toRadians(Robot.getNavXAngle())))/Math.sin(90);
+    yPos = (Robot.DRIVE_SUBSYSTEM.getCombindedEncoderPosition() * Math.sin(Math.toRadians(90-Robot.getNavXAngle())))/Math.sin(90);
+
     // SmartDashboard.putNumber("x value: ", Robot.x);
     // SmartDashboard.putNumber("y value: ", Robot.y);
     // SmartDashboard.putNumber("area value: ", Robot.area);
@@ -118,8 +125,16 @@ public class OI {
     // SmartDashboard.putNumber("Latch Encoder: ", Robot.climb.latch.getSelectedSensorPosition());
     // SmartDashboard.putNumber("Robot Heading", Robot.getNavXAngle());
     
-    SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
-    SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    //SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
+    //SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    SmartDashboard.putNumber("left_encoder", Robot.DRIVE_SUBSYSTEM.getLeftEncoderPosition());
+    SmartDashboard.putNumber("right_encoder", Robot.DRIVE_SUBSYSTEM.getRightEncoderPosition());
 
+    SmartDashboard.putNumber("x pos", xPos);
+    SmartDashboard.putNumber("y pos", yPos);
+
+    SmartDashboard.putNumber("heading", Robot.getNavXAngle());
+
+    SmartDashboard.putNumber("rotate stick", OI.driverController.getRawAxis(1));
   }
 }

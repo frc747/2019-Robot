@@ -207,6 +207,7 @@ public class Robot extends TimedRobot {
     operatorControl = true;
     isAutonomous = false;
     isTeleop = true;
+    DRIVE_SUBSYSTEM.resetBothEncoders();
     
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
