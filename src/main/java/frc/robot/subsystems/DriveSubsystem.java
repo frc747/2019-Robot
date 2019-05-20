@@ -11,17 +11,32 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
 
-    public TalonSRX leftDrivePrimary = new TalonSRX(1); // 10
+    public TalonSRX leftDrivePrimary = new TalonSRX(1); // 1
     
-    public TalonSRX leftDriveMid = new TalonSRX(13);
+    public TalonSRX leftDriveMid = new TalonSRX(13); // 13
 
-	public TalonSRX leftDriveBack = new TalonSRX(2); // 9
+	public TalonSRX leftDriveBack = new TalonSRX(2); // 2
 
-    public TalonSRX rightDrivePrimary = new TalonSRX(10); // 1
+    public TalonSRX rightDrivePrimary = new TalonSRX(10); // 10
     
-    public TalonSRX rightDriveMid = new TalonSRX(14);
+    public TalonSRX rightDriveMid = new TalonSRX(14); // 14
 
-    public TalonSRX rightDriveBack = new TalonSRX(9); // 2
+    public TalonSRX rightDriveBack = new TalonSRX(9); // 9
+
+    /*
+
+    public TalonSRX leftDrivePrimary = new TalonSRX(10); // 1
+    
+    public TalonSRX leftDriveMid = new TalonSRX(14); // 13
+
+	public TalonSRX leftDriveBack = new TalonSRX(9); // 2
+
+    public TalonSRX rightDrivePrimary = new TalonSRX(1); // 10
+    
+    public TalonSRX rightDriveMid = new TalonSRX(13); // 14
+
+    public TalonSRX rightDriveBack = new TalonSRX(2); // 9
+*/
 
     public TalonSRX gearShifter = new TalonSRX(12);
 
@@ -127,6 +142,7 @@ public class DriveSubsystem extends Subsystem {
 
         leftDrivePrimary.set(ControlMode.PercentOutput, left);
         rightDrivePrimary.set(ControlMode.PercentOutput, right);
+        
     }
 
     public void setPID(double leftTicks, double rightTicks) {

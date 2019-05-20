@@ -121,12 +121,15 @@ public class OI {
     SmartDashboard.putNumber("Left Encoder", Robot.DRIVE_SUBSYSTEM.getLeftEncoderPosition());
     SmartDashboard.putNumber("Right Encoder", Robot.DRIVE_SUBSYSTEM.getRightEncoderPosition());
 
-    SmartDashboard.putNumber("Left Front Output Voltage", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getMotorOutputVoltage());
-    SmartDashboard.putNumber("Left Mid Output Voltage", Robot.DRIVE_SUBSYSTEM.leftDriveMid.getMotorOutputVoltage());
-    SmartDashboard.putNumber("Left Back Output Voltage", Robot.DRIVE_SUBSYSTEM.leftDriveBack.getMotorOutputVoltage());
-    SmartDashboard.putNumber("Right Front Output Voltage", Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getMotorOutputVoltage());
-    SmartDashboard.putNumber("Right Mid Output Voltage", Robot.DRIVE_SUBSYSTEM.rightDriveMid.getMotorOutputVoltage());
-    SmartDashboard.putNumber("Right Back Output Voltage", Robot.DRIVE_SUBSYSTEM.rightDriveBack.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Left Front Output Current", Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getOutputCurrent());
+    SmartDashboard.putNumber("Left Mid Output Current", Robot.DRIVE_SUBSYSTEM.leftDriveMid.getOutputCurrent());
+    SmartDashboard.putNumber("Left Back Output Current", Robot.DRIVE_SUBSYSTEM.leftDriveBack.getOutputCurrent());
+    SmartDashboard.putNumber("Right Front Output Current", Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getOutputCurrent());
+    SmartDashboard.putNumber("Right Mid Output Current", Robot.DRIVE_SUBSYSTEM.rightDriveMid.getOutputCurrent());
+    SmartDashboard.putNumber("Right Back Output Current", Robot.DRIVE_SUBSYSTEM.rightDriveBack.getOutputCurrent());
+
+    SmartDashboard.putNumber("Left Total Output Current", (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getOutputCurrent()+Robot.DRIVE_SUBSYSTEM.leftDriveMid.getOutputCurrent()+Robot.DRIVE_SUBSYSTEM.leftDriveBack.getOutputCurrent())/3);
+    SmartDashboard.putNumber("Right Total Output Current", (Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.getOutputCurrent()+Robot.DRIVE_SUBSYSTEM.rightDriveMid.getOutputCurrent()+Robot.DRIVE_SUBSYSTEM.rightDriveBack.getOutputCurrent())/3);
 
     SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
     SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));

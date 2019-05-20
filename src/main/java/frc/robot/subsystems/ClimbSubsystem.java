@@ -21,7 +21,7 @@ public class ClimbSubsystem extends Subsystem {
 
   public ClimbSubsystem() {
 
-    leftClimbPrimary.restoreFactoryDefaults();
+    /*&leftClimbPrimary.restoreFactoryDefaults();
     leftClimbPrimary.setOpenLoopRampRate(0.0);
     leftClimbPrimary.setSmartCurrentLimit(45);
     leftClimbPrimary.setInverted(false);
@@ -40,7 +40,7 @@ public class ClimbSubsystem extends Subsystem {
     rightClimbSecondary.restoreFactoryDefaults();
     rightClimbSecondary.setOpenLoopRampRate(0.0);
     rightClimbSecondary.setSmartCurrentLimit(45);
-    rightClimbSecondary.setInverted(true);
+    rightClimbSecondary.setInverted(true);*/
 
     latch.configSelectedFeedbackSensor(com.ctre.phoenix.motorcontrol.FeedbackDevice.CTRE_MagEncoder_Relative, pidIdx, timeoutMs);
     latch.setInverted(true);
