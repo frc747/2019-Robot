@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.*;
 
@@ -109,8 +108,8 @@ public class OI {
       OI.table.getEntry("ledMode").setDouble(1);
     }
 
-    xPos = (Robot.DRIVE_SUBSYSTEM.getCombindedEncoderPosition() * Math.sin(Math.toRadians(Robot.getNavXAngle())))/Math.sin(90);
-    yPos = (Robot.DRIVE_SUBSYSTEM.getCombindedEncoderPosition() * Math.sin(Math.toRadians(90-Robot.getNavXAngle())))/Math.sin(90);
+    // xPos = (Robot.DRIVE_SUBSYSTEM.getCombindedEncoderPosition() * Math.sin(Math.toRadians(Robot.getNavXAngle())))/Math.sin(90);
+    // yPos = (Robot.DRIVE_SUBSYSTEM.getCombindedEncoderPosition() * Math.sin(Math.toRadians(90-Robot.getNavXAngle())))/Math.sin(90);
 
     // SmartDashboard.putNumber("x value: ", Robot.x);
     // SmartDashboard.putNumber("y value: ", Robot.y);
@@ -126,14 +125,14 @@ public class OI {
     // SmartDashboard.putNumber("Robot Heading", Robot.getNavXAngle());
     
     //SmartDashboard.putNumber("Joystick Left", leftStick.getRawAxis(1));
-    //SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
-    SmartDashboard.putNumber("left_encoder", Robot.DRIVE_SUBSYSTEM.getLeftEncoderPosition());
-    SmartDashboard.putNumber("right_encoder", Robot.DRIVE_SUBSYSTEM.getRightEncoderPosition());
+    // //SmartDashboard.putNumber("Joystick Right", rightStick.getRawAxis(1));
+    // SmartDashboard.putNumber("left_encoder", Robot.DRIVE_SUBSYSTEM.getLeftEncoderPosition());
+    // SmartDashboard.putNumber("right_encoder", Robot.DRIVE_SUBSYSTEM.getRightEncoderPosition());
 
-    SmartDashboard.putNumber("x pos", xPos);
-    SmartDashboard.putNumber("y pos", yPos);
+    // SmartDashboard.putNumber("x pos", xPos);
+    // SmartDashboard.putNumber("y pos", yPos);
 
-    SmartDashboard.putNumber("heading", Robot.getNavXAngle());
+    // SmartDashboard.putNumber("heading", Robot.getNavXAngle());
 
     SmartDashboard.putNumber("rotate stick", OI.driverController.getRawAxis(1));
   }

@@ -8,9 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.ActuatorSubsystem;
@@ -20,7 +18,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import edu.wpi.first.networktables.*;
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -35,7 +32,6 @@ public class Robot extends TimedRobot {
   public static DriveSubsystem DRIVE_SUBSYSTEM = new DriveSubsystem();
   public static HatchSubsystem HATCH_SUBSYSTEM = new HatchSubsystem();
   public static ActuatorSubsystem ACTUATOR_SUBSYSTEM = new ActuatorSubsystem();
-  public static ClimbSubsystem climb = new ClimbSubsystem();
   public static OI m_oi;
 
   public static boolean latchInPos = false;
@@ -57,9 +53,6 @@ public class Robot extends TimedRobot {
   // public static double y;
   // public static double area;
  
-	private Command autonomousCommand;
-  public Autonomous autonomous;
-
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -100,8 +93,6 @@ public class Robot extends TimedRobot {
     //might want to lower resolution or fps for the usbcamera to compensate for the limelight
     // ucamera.setResolution(256, 144);
     // ucamera.setFPS(15);
-    
-    this.autonomous = new Autonomous();
 
     if(m_oi == null) {
       m_oi = new OI();
@@ -133,7 +124,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(false);
     operatorControl = false;
     isAutonomous = false;
@@ -159,7 +149,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     resetNavXAngle();
-    climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
     // this is now done within the autonomous command groups (within initialize)
     // operatorControl = false;
@@ -174,10 +163,6 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-      autonomous.startMode();
-      if (autonomousCommand != null) {
-          autonomousCommand.start();
-      }
   }
 
   /**
@@ -202,7 +187,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     OI.table.getEntry("pipeline").setDouble(0.0);
     resetNavXAngle();
-    climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
     operatorControl = true;
     isAutonomous = false;
@@ -213,9 +197,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-  }
   }
 
   /**
