@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
-import frc.robot.commands.ArcadeDriveCommand;
-// import frc.robot.commands.TankDriveCommand;
+//import frc.robot.commands.ArcadeDriveCommand;
+ import frc.robot.commands.ShiftDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -108,7 +108,7 @@ public class DriveSubsystem extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDriveCommand());
+        setDefaultCommand(new ShiftDriveCommand());
         // setDefaultCommand(new TankDriveCommand());
     }
 

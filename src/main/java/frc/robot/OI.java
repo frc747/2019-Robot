@@ -27,9 +27,9 @@ public class OI {
 
   public static double xPos, yPos;
 
-  //public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
-  //public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
-  public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
+  public static Joystick leftStick = new Joystick(RobotMap.Controller.LEFT_STICK.getValue());
+  public static Joystick rightStick = new Joystick(RobotMap.Controller.RIGHT_STICK.getValue());
+  //public static Joystick driverController = new Joystick(RobotMap.Controller.DRIVER_CONTROLLER.getValue());
   public static Joystick operatorController = new Joystick(RobotMap.Controller.OPERATOR_CONTROLLER.getValue());
 
   //commented out testController joystick
@@ -134,6 +134,6 @@ public class OI {
 
     // SmartDashboard.putNumber("heading", Robot.getNavXAngle());
 
-    SmartDashboard.putNumber("rotate stick", OI.driverController.getRawAxis(1));
+    //SmartDashboard.putNumber("rotate stick", OI.driverController.getRawAxis(1));
   }
 }
