@@ -9,6 +9,8 @@
 
 //   int timeoutMs = 10;
 
+//   private double driveTicks = 830;
+
 //   double shiftCount = 0;
 
 //   double maxThreshold = 1
@@ -84,6 +86,47 @@
 //     }
 //     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.set(ControlMode.PercentOutput, leftMotorOutput);
 //     Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.set(ControlMode.PercentOutput, rightMotorOutput);
+    
+    
+
+//             // check if the robot should be considered moving towards high gear or stay in low gear
+//         if((xSpeed > .9) || (xSpeed < .9) && (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600)) {
+//             shiftCount++;
+//         } else {
+//             shiftCount = 0;
+//         }
+      
+//         if (OI.operatorController.getRawAxis(2) > 0.25) {
+//             Robot.DRIVE_SUBSYSTEM.tracking = true;
+//         } else {
+//             Robot.DRIVE_SUBSYSTEM.tracking = false;
+//         }
+
+//         // if shift count has been adding for half a second
+//         if(shiftCount > 25) {
+//             OI.shiftHigh = true;
+//         } else {
+//             OI.shiftHigh = false;
+//         }
+       
+//         if (OI.shiftHigh && !(OI.operatorController.getRawAxis(3) > .25)) {
+//             // Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, shifterValue);
+//             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > driveTicks - 10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < driveTicks + 10) {
+//                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);
+//             } else {
+//                 Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionCruiseVelocity(7500, 10); //1500
+//                 Robot.DRIVE_SUBSYSTEM.gearShifter.configMotionAcceleration(20000, 10); //2000
+//                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.MotionMagic, driveTicks);
+//             }
+
+//         } else {
+//             // Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);
+//             if (Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() > -10 && Robot.DRIVE_SUBSYSTEM.gearShifter.getSelectedSensorPosition() < 10) {
+//                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.PercentOutput, 0);
+//             } else {
+//                 Robot.DRIVE_SUBSYSTEM.gearShifter.set(ControlMode.MotionMagic, 0);
+//             }
+//         }
 //   }
 
 //   // Make this return true when this Command no longer needs to run execute()

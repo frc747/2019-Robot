@@ -75,6 +75,9 @@ public class ShiftDriveCommand extends Command {
     }
     
     protected void execute() {
+        leftValue = -OI.driverController.getRawAxis(1);
+        rightValue = -OI.driverController.getRawAxis(5);
+
         // manual application of a sloppy "deadband"
 
         // leftValue = -OI.leftStick.getRawAxis(1); // before modifying raw of axis 1: forward = negative, backward = positive
@@ -91,11 +94,11 @@ public class ShiftDriveCommand extends Command {
         
         // cleaned up version of a deadband, helper method at bottom of the class
 
-        leftValue = applyDeadband(-OI.leftStick.getRawAxis(1), 0.1); // before modifying raw of axis 1: forward = negative, backward = positive
-        rightValue = applyDeadband(-OI.rightStick.getRawAxis(1), 0.1);
-        rotateValue = applyDeadband(OI.rightStick.getRawAxis(2), 0.1); // before modifying raw of axis 3: CCW = negative, CW = positive
+        //leftValue = applyDeadband(-OI.leftStick.getRawAxis(1), 0.1); // before modifying raw of axis 1: forward = negative, backward = positive
+        //rightValue = applyDeadband(-OI.rightStick.getRawAxis(1), 0.1);
+        //rotateValue = applyDeadband(OI.rightStick.getRawAxis(2), 0.1); // before modifying raw of axis 3: CCW = negative, CW = positive
         
-        if (OI.leftStick.getRawButton(8)) {
+        /*if (OI.leftStick.getRawButton(8)) {
             // drive straight function
 
 
@@ -118,9 +121,9 @@ public class ShiftDriveCommand extends Command {
             // when counter clockwise, left goes backward and right side goes forward
             // when clockwise, left side goes forward and right side goes backward
             Robot.DRIVE_SUBSYSTEM.set(rotateDrive, -rotateDrive);            
-        } else {
+        } else {*/
             Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
-        }
+        //}
 
         // check if the robot should be considered moving towards high gear or stay in low gear
         if((leftValue > .9 && rightValue > .9) || (leftValue < -.9 && rightValue < -.9) && (Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() > 1600 || Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.getSelectedSensorVelocity() < -1600)) {
