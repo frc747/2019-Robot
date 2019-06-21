@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called once each time the robot enters Disabled mode.
    * You can use it to reset any subsystem information you want to clear when
-   * the robot is disabled.
+   * the robot is disabled.Q
    */
   @Override
   public void disabledInit() {

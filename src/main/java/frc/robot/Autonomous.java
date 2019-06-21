@@ -13,8 +13,15 @@ public class Autonomous{
         AUTOMODE_FRONT_CARGO_RIGHT,
         AUTOMODE_ROCKET_LEFT_LEVEL_TWO,
         AUTOMODE_ROCKET_RIGHT_LEVEL_TWO,
-        AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO,
-        AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO,
+        
+        AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_CLOSE,
+        AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_MID,
+        AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_FAR,
+
+        AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_CLOSE,
+        AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_MID,
+        AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_FAR,
+
         AUTOMODE_TWO_HATCH_FRONT_CARGO_LEFT,
         AUTOMODE_TWO_HATCH_FRONT_CARGO_RIGHT;
     }
@@ -31,8 +38,14 @@ public class Autonomous{
         autoChooser1.addOption("Two Hatch Front Cargoship Right", AutoMode.AUTOMODE_TWO_HATCH_FRONT_CARGO_RIGHT);
         autoChooser1.addOption("Left Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_LEFT_LEVEL_TWO);
         autoChooser1.addOption("Right Rocket, Level 2", AutoMode.AUTOMODE_ROCKET_RIGHT_LEVEL_TWO);
-        autoChooser1.addOption("Left Face Cargo, Level 2", AutoMode.AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO);
-        autoChooser1.addOption("Right Face Cargo, Level 2", AutoMode.AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO);
+        autoChooser1.addOption("Left Face Cargo, Level 2 CLOSE", AutoMode.AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_CLOSE);
+        autoChooser1.addOption("Left Face Cargo, Level 2 MID", AutoMode.AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_MID);
+        autoChooser1.addOption("Left Face Cargo, Level 2 FAR", AutoMode.AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_FAR);
+
+        autoChooser1.addOption("Right Face Cargo, Level 2 CLOSE", AutoMode.AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_CLOSE);
+        autoChooser1.addOption("Right Face Cargo, Level 2 MID", AutoMode.AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_MID);
+        autoChooser1.addOption("Right Face Cargo, Level 2 FAR", AutoMode.AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_FAR);
+
         SmartDashboard.putData("Auto mode", autoChooser1);
     }
     
@@ -72,15 +85,35 @@ public class Autonomous{
                 OI.table.getEntry("pipeline").setDouble(0.0);
             	new RightRocketLevelTwo().start();
                 break;
-            case AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO:
+            case AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_CLOSE:
                 // want to focus on the rightmost target on the side face of the cargoship
                 OI.table.getEntry("pipeline").setDouble(2.0);
-                new LeftFaceCargoShipLevelTwo().start();
+                new LeftFaceCargoShipLevelTwoClose().start();
                 break;
-            case AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO:
+            case AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_MID:
+                // want to focus on the rightmost target on the side face of the cargoship
+                OI.table.getEntry("pipeline").setDouble(2.0);
+                new LeftFaceCargoShipLevelTwoMid().start();
+                break;
+            case AUTOMODE_LEFT_FACE_CARGO_LEVEL_TWO_FAR:
+                // want to focus on the rightmost target on the side face of the cargoship
+                OI.table.getEntry("pipeline").setDouble(2.0);
+                new LeftFaceCargoShipLevelTwoFar().start();
+                break;  
+            case AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_CLOSE:
                 // want to focus on the leftmost target on the side face of the cargoship
                 OI.table.getEntry("pipeline").setDouble(1.0);
-                new RightFaceCargoShipLevelTwo().start();
+                new RightFaceCargoShipLevelTwoClose().start();
+                break;
+            case AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_MID:
+                // want to focus on the leftmost target on the side face of the cargoship
+                OI.table.getEntry("pipeline").setDouble(1.0);
+                new RightFaceCargoShipLevelTwoMid().start();
+                break;
+            case AUTOMODE_RIGHT_FACE_CARGO_LEVEL_TWO_FAR:
+                // want to focus on the leftmost target on the side face of the cargoship
+                OI.table.getEntry("pipeline").setDouble(1.0);
+                new RightFaceCargoShipLevelTwoFar().start();
                 break;
             case AUTOMODE_NONE:
                 //DO NOTHING

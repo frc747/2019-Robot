@@ -11,7 +11,7 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
 
-public class RightFaceCargoShipLevelTwo extends CommandGroup {
+public class RightFaceCargoShipLevelTwoMid extends CommandGroup {
 
   @Override
   protected void initialize() {
@@ -25,11 +25,14 @@ public class RightFaceCargoShipLevelTwo extends CommandGroup {
   }
 
   // this autonomous routine runs assuming the robot starts at the furthest to the right and forward on the right side of level two
-  public RightFaceCargoShipLevelTwo() {
+  public RightFaceCargoShipLevelTwoMid() {
     // addSequential(new PauseCommand(4));
+    //uncomment before MIDKNIGHT
     addSequential(new PIDDriveInchesHoldHatch(109.775, false), 4);
     addSequential(new PIDDriveRotateCustom(21.5, false), 4);
     addSequential(new PIDDriveInches(140.5, false), 4);
+    addSequential(new PIDDriveRotateCustom(0, false), 4);
+    addSequential(new PIDDriveInches(21.75, false), 4); //was 143 when it overdrove in practice match
     addSequential(new PIDDriveRotateCustom(-90, false), 4);
     // driver takes over now
   }
