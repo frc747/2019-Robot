@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 import frc.robot.OI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LineTrackCommand extends Command {
 
@@ -14,8 +15,11 @@ private double rampDown = 1;
 private double rate;
 private double leftValue = 0;
 private double rightValue = 0;
-private double x;
-private double X_TOLERANCE = 1;
+
+private boolean hasTarget = false;
+
+private int count = 0;
+
 private static final double MAX_PERCENT_VOLTAGE = 1.0;
 private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
@@ -26,14 +30,19 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    SmartDashboard.putBoolean("Currently Vision Tracking", true);
+
     rampDown = 1;
-    x = 30;
-    if(Robot.y == 0) {
+
+    if(OI.y == 0) {
       speed = .25;
       rate = 0;
+
+      hasTarget = false;
     } else {
-      speed = (1/Robot.y)*5;
+      speed = (1/OI.y)*5;
       rate = .009;
+      hasTarget = true;
     }
 
     if(speed > 1) {
@@ -42,7 +51,7 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
     
     System.out.println("line");
 
-    Robot.table.getEntry("pipeline").setDouble(0);
+    OI.table.getEntry("pipeline").setDouble(0);
 
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputForward(+MIN_PERCENT_VOLTAGE, timeoutMs);
     Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configNominalOutputReverse(-MIN_PERCENT_VOLTAGE, timeoutMs);
@@ -79,24 +88,22 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
       Robot.DRIVE_SUBSYSTEM.set(leftValue, rightValue);
     } else {
-      if(rampDown > .4) {
-        rampDown -= rate;
-      }
-
-      // If the absolute value of the X offset is less than the old value of X plus a tolerance and it is not equal to 0 then it will update the value
-      // otherwise it will keep the old value and assume that you picked up a red herring
-      if((Math.abs(Robot.x) < Math.abs(x) + X_TOLERANCE) && x != 0) {
-        x = Robot.x;
-      } 
-
-      
-
-
+       if(rampDown > .4) {
+         rampDown -= rate;
+       }
       //  was leftValue = ((speed) + ((.75*(Math.tanh(Robot.x/5)))/adjustMagnitiude))*rampDown;
-     leftValue = ((speed) + ((.75*(Math.tanh(x/10)))/adjustMagnitiude))*rampDown;
-     rightValue = (-((speed) - ((.75*(Math.tanh(x/10)))/adjustMagnitiude))*rampDown);
+      leftValue = ((speed) + ((.75*(Math.tanh(OI.x/10)))/adjustMagnitiude))*rampDown;
+      rightValue = (-((speed) - ((.75*(Math.tanh(OI.x/10)))/adjustMagnitiude))*rampDown);
 
-     Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
+      // if (count % 25 == 0) {
+      //   // added printouts for vision tracking logging purposes
+      //   System.out.println("Speed: " + speed + "\t Rampdown: " + rampDown + "\t Rate: " + rate + "\t Has target: " + hasTarget + "Adjust Magnitude : " + adjustMagnitiude);
+      //   System.out.println("Left Value: " + leftValue + "Right Value: " + -rightValue);
+      // }
+      // count++;
+
+
+      Robot.DRIVE_SUBSYSTEM.set(leftValue, -rightValue);
     }
   }
 
@@ -109,7 +116,8 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.table.getEntry("pipeline").setDouble(0.0);
+    SmartDashboard.putBoolean("Currently Vision Tracking", false);
+    OI.table.getEntry("pipeline").setDouble(0.0);
     Robot.DRIVE_SUBSYSTEM.stop();
   }
 
@@ -117,6 +125,6 @@ private static final double MIN_PERCENT_VOLTAGE = 0.0;
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.table.getEntry("pipeline").setDouble(0.0);
+    OI.table.getEntry("pipeline").setDouble(0.0);
   }
 }

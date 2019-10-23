@@ -101,6 +101,7 @@ public class PIDDriveInchesHoldHatch extends Command {
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(20000, timeoutMs);
         } else if (driveInches <= 30) {
             Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs); //7500, 15500, 7500, 15000
+            Robot.DRIVE_SUBSYSTEM.leftDrivePrimary.configMotionAcceleration(15000, timeoutMs);
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionCruiseVelocity(7500, timeoutMs);
             Robot.DRIVE_SUBSYSTEM.rightDrivePrimary.configMotionAcceleration(15000, timeoutMs);
         }

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.networktables.*;
 import com.kauailabs.navx.frc.AHRS;
@@ -49,10 +50,12 @@ public class Robot extends TimedRobot {
   public static boolean autoFrontFaceCargoShip = false;
   public static boolean autoRocket = false;
 
-  public static NetworkTable table;
-  public static double x;
-  public static double y;
-  public static double area;
+  public static String side = "";
+
+  // public static NetworkTable table;
+  // public static double x;
+  // public static double y;
+  // public static double area;
  
 	private Command autonomousCommand;
   public Autonomous autonomous;
@@ -91,6 +94,8 @@ public class Robot extends TimedRobot {
 
     UsbCamera ucamera = CameraServer.getInstance().startAutomaticCapture("cam1", 0);
     ucamera.setResolution(180, 240);
+
+    Robot.DRIVE_SUBSYSTEM.resetBothEncoders();
 
     // ucamera.setResolution(160, 120);
     // ucamera.setFPS(10);
@@ -182,11 +187,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (DriverStation.getInstance().getMatchTime() < 8.75 && DriverStation.getInstance().getMatchTime() > 0) {
+      if (side.compareTo("rightTwo") == 0) {
+        OI.table.getEntry("pipeline").setDouble(1.0);
+      } else if (side.compareTo("leftTwo") == 0) {
+        OI.table.getEntry("pipeline").setDouble(2.0);
+      } else if (side.compareTo("left") == 0 || side.compareTo("right") == 0) {
+        OI.table.getEntry("pipeline").setDouble(0.0);
+      }
+    }
+    
     Scheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
+    OI.table.getEntry("pipeline").setDouble(0.0);
     resetNavXAngle();
     climb.changeClimbBrakeMode(true);
     DRIVE_SUBSYSTEM.changeDriveBrakeMode(true);
@@ -219,9 +235,9 @@ public class Robot extends TimedRobot {
   }
 
   private void updateLimelightTracking() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    x = table.getEntry("tx").getDouble(0);
-    y = table.getEntry("ty").getDouble(0);
+    // table = NetworkTableInstance.getDefault().getTable("limelight");
+    // x = table.getEntry("tx").getDouble(0);
+    // y = table.getEntry("ty").getDouble(0);
     // area = table.getEntry("ta").getDouble(0);
 
     // x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);

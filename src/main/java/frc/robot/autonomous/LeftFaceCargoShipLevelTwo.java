@@ -28,10 +28,10 @@ public class LeftFaceCargoShipLevelTwo extends CommandGroup {
   // this autonomous routine runs assuming the robot starts at the furthest to the right and forward on the right side of level two
   public LeftFaceCargoShipLevelTwo() {
     
+    // addSequential(new PauseCommand(4));
     addSequential(new PIDDriveInchesHoldHatch(109.775, false), 4);
     addSequential(new PIDDriveRotateCustom(-21.5, false), 4);
-    addSequential(new PIDDriveInches(148, false), 4); //was 143 when it overdrove in practice match
-    //seen via Jon Jon's video
+    addSequential(new PIDDriveInches(140.5, false), 4); //was 143 when it overdrove in practice match
     addSequential(new PIDDriveRotateCustom(90, false), 4);
     // driver takes over now
   }

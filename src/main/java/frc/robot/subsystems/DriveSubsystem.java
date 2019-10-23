@@ -37,6 +37,16 @@ public class DriveSubsystem extends Subsystem {
     public static final double MAX_PERCENT_VOLTAGE = 1.0;
     private static final double MIN_PERCENT_VOLTAGE = 0.0;
 
+    // PATHFINDER GOODIES
+
+    
+    private double wheelDiameter = 24.5;
+    private double maxVelocity = 97.92;
+
+
+
+    public boolean tracking = false;
+
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 

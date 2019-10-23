@@ -19,8 +19,9 @@ public class RightRocketLevelTwo extends CommandGroup {
   }
 
    public RightRocketLevelTwo() {
-    addSequential(new PIDDriveInchesHoldHatch(93, false), 4);
-    addSequential(new PIDDriveRotateCustom(40, false), 4);
+    addSequential(new PIDDriveInchesHoldHatch(109.775, false), 4);
+    // addSequential(new PIDDriveInchesHoldHatch(93, false), 4);
+    addSequential(new PIDDriveRotateCustom(45, false), 4);
   }
 
   @Override

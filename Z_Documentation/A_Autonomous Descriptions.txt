@@ -1,0 +1,166 @@
+Preliminary Knowledge
+Limelight Pipeline Focus:
+Pipeline 0: closest
+Pipeline 1: leftmost
+Pipeline 2: rightmost
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"BUCKET HEAD (No autonomous)" 
+
+ROBOT STARTING POSITION:
+Anywhere
+
+FUNCTION:
+does absolutely nothing, drivers assume control immediately at the beginning of sandstorm
+
+TARGET FOCUS: starts closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Front Cargoship Left"
+
+ROBOT STARTING POSITION:
+Hab Level 1, as close to directly in front of the left cargo ship bay as possible.
+
+FUNCTION:
+Limelight will focus on the leftmost target for the first 6.25 seconds.
+Swaps Limelight pipeline from 0 to 1 for the first 6.25 seconds of sandstorm. THEN returns back to pipeline 0.
+
+FOCUS: starts leftmost --6.25 seconds--> closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Front Cargoship Right"
+
+ROBOT STARTING POSITION: 
+Hab Level 1, as close to directly in front of the right cargo ship bay as possible.
+
+FUNCTION:
+Limelight will focus on the rightmost target for the first 6.25 seconds.
+Swaps Limelight pipeline from 0 to 2 for the first 6.25 seconds of sandstorm. THEN returns back to pipeline 0.
+
+FOCUS: starts rightmost --6.25 seconds--> closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Two Hatch Front Cargoship Left"
+
+ROBOT STARTING POSITION: 
+Hab Level 1, as close to in front of the left cargo ship bay as possible.
+
+FUNCTION:
+Limelight will focus on the leftmost target for the first 6.25 seconds. THEN will swap focus to the rightmost target until sandstorm is over.
+1) STARTS on Limelight pipeline 1 for the first 6.25 seconds of sandstorm.
+2) THEN swaps to pipeline 2.
+3) AFTER sandstorm it returns back to pipeline 0.
+
+Focus: starts leftmost --6.25 seconds--> rightmost --end of sandstorm--> closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Two Hatch Front Cargoship Right"
+
+ROBOT STARTING POSITION: 
+Hab Level 1, as close to in front of the right cargo ship bay as possible.
+
+FUNCTION:
+Limelight will focus on the rightmost target for the first 6.25 seconds. THEN will swap focus to the leftmost target until sandstorm is over.
+1) STARTS on Limelight pipeline 2 for the first 6.25 seconds of sandstorm.
+2) THEN swaps to pipeline 1.
+3) AFTER sandstorm it returns back to pipeline 0.
+
+Focus: starts rightmost --6.25 seconds--> leftmost --end of sandstorm--> closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Left Rocket, Level 2"
+
+ROBOT STARTING POSITION: 
+Left hab level 2, against the driverstation wall and as far away from hab level 3 such that the outer bumper face is planar to the outer edge of hab level 2.
+
+FUNCTION:
+Robot will drive straight until it is clear of the hab zone, rotate left towards the rocket. THEN driver control resumes.
+
+
+1) Drive straight until clear of hab zone.
+2) Rotate towards the left rocket.
+3) Driver control resumes.
+
+Focus: starts closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Right Rocket, Level 2"
+
+ROBOT STARTING POSITION: 
+Right hab level 2, against the driverstation wall and as far away from hab level 3 such that the outer bumper face is planar to the outer edge of hab level 2.
+
+FUNCTION:
+Robot will drive straight until it is clear of the hab zone, rotate right towards the rocket. THEN driver control resumes.
+
+1) Drive straight until clear of hab zone.
+2) Rotate towards the right rocket.
+3) Driver control resumes.
+
+Focus: starts closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Left Face Cargo, Level 2"
+
+ROBOT STARTING POSITION: 
+Left hab level 2, against the driverstation wall and as far away from hab level 3 such that the outer bumper face is planar to the outer edge of hab level 2.
+
+FUNCTION:
+Limelight will focus on the rightmost target for the duration of sandstorm. Robot will drive and rotate until it is in front of the cargo ship bay on the left face of the cargo ship that is closest to the driverstation. THEN driver control resumes.
+ 
+1.A) STARTS on limelight pipeline 2 for the duration of the sandstorm.
+1.B) Drive straight until clear of hab zone.
+2) Rotate towards the left.
+3) Drive straight.
+4) Rotate towards the left face of the cargo ship.
+5) Driver control resumes.
+
+Focus: starts rightmost --end of sandstorm--> closest
+
+-----------------------------
+-----------------------------
+-----------------------------
+
+"Right Face Cargo, Level 2"
+
+ROBOT STARTING POSITION: 
+Right hab level 2, against the driverstation wall and as far away from hab level 3 such that the outer bumper face is planar to the outer edge of hab level 2.
+
+FUNCTION:
+Limelight will focus on the leftmost target for the duration of sandstorm. Robot will drive and rotate until it is in front of the cargo ship bay on the right face of the cargo ship that is closest to the driverstation. THEN driver control resumes.
+
+1.A) STARTS on limelight pipeline 1 for the duration of the sandstorm.
+1.B) Drive straight until clear of hab zone.
+2) Rotate towards the right (clockwise).
+3) Drive straight.
+4) Rotate towards the right face of the cargo ship.
+5) Driver control resumes.
+
+Focus: starts leftmost --end of sandstorm--> closest
+
+-----------------------------
+-----------------------------
+-----------------------------
